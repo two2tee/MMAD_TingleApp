@@ -21,7 +21,6 @@ public class TingleActivity extends AppCompatActivity {
     private List<Thing> thingsDB;
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
