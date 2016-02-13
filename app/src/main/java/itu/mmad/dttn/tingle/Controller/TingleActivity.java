@@ -1,17 +1,16 @@
-package itu.mmad.dttn.tingle;
+package itu.mmad.dttn.tingle.Controller;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Iterator;
 
+import itu.mmad.dttn.tingle.Model.InMemoryRepository;
+import itu.mmad.dttn.tingle.Model.Interfaces.IRepository;
 import itu.mmad.dttn.tingle.Model.Thing;
 
 public class TingleActivity extends AppCompatActivity {
@@ -22,14 +21,14 @@ public class TingleActivity extends AppCompatActivity {
     private TextView whatField, whereField;
 
     //fake database
-    private List<Thing> thingsDB;
+    private IRepository<Thing> repository;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tingle);
-        thingsDB = new ArrayList<>();
+        repository = InMemoryRepository.getInMemoryRepository();
         fillThingsDB();
 
         //Accessing GUI elements
@@ -51,7 +50,7 @@ public class TingleActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if ((whatField.getText().length() > 0) && (whereField.getText().length() > 0)) {
-                    thingsDB.add(makeThing());
+                    repository.put(makeThing());
                     whatField.setText("");
                     whereField.setText("");
                     updateUI();
@@ -82,19 +81,23 @@ public class TingleActivity extends AppCompatActivity {
         Toast.makeText(TingleActivity.this, string, Toast.LENGTH_SHORT).show();
     }
 
+    private void setTextFields() {
+        whatField = (TextView) findViewById(R.id.what_text);
+        whereField = (TextView) findViewById(R.id.where_text);
+    }
+
     private String SearchThing(String item) {
         String searchItem = item.toLowerCase().trim();
-        for (Thing thing : thingsDB) {
+        Thing thing;
+        Iterator<Thing> items = repository.getAll();
+        while (items.hasNext())
+        {
+            thing = items.next();
             if (thing.getWhat().equals(searchItem)) {
                 return thing.getWhere();
             }
         }
         return null;
-    }
-
-    private void setTextFields() {
-        whatField = (TextView) findViewById(R.id.what_text);
-        whereField = (TextView) findViewById(R.id.where_text);
     }
 
     private Thing makeThing() {
@@ -103,17 +106,17 @@ public class TingleActivity extends AppCompatActivity {
     }
 
     private void updateUI() {
-        int size = thingsDB.size();
-        if (size > 0) {
-            lastAdded.setText(thingsDB.get(size - 1).toString());
+        int lastAdded = repository.returnSize();
+        if (lastAdded > 0) {
+            this.lastAdded.setText(repository.get(lastAdded).toString());
         }
     }
 
     private void fillThingsDB() {
-        thingsDB.add(new Thing("Android Pnone", "Desk"));
-        thingsDB.add(new Thing("Big Nerd book", "Desk"));
-        thingsDB.add(new Thing("Big Nerd book2", "Work"));
-        thingsDB.add(new Thing("Big Nerd book3", "Car"));
+        repository.put(new Thing("Android Pnone", "Desk"));
+        repository.put(new Thing("Big Nerd book", "Desk"));
+        repository.put(new Thing("Big Nerd book2", "Work"));
+        repository.put(new Thing("Big Nerd book3", "Car"));
 
     }
 }

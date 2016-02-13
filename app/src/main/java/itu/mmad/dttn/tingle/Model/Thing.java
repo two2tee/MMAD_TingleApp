@@ -15,7 +15,7 @@ public class Thing {
 
     @Override
     public String toString() {
-        return oneLine("Item: ", "is here: ");
+        return oneLine("Item: ", "\nLocated: ");
     }
 
     public String getWhat() {
