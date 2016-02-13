@@ -12,6 +12,7 @@ import java.util.Iterator;
 import itu.mmad.dttn.tingle.Model.InMemoryRepository;
 import itu.mmad.dttn.tingle.Model.Interfaces.IRepository;
 import itu.mmad.dttn.tingle.Model.Thing;
+import itu.mmad.dttn.tingle.R;
 
 public class TingleActivity extends AppCompatActivity {
     // GUI variables
