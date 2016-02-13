@@ -7,5 +7,9 @@
     <string name="heading_lookUp">Look Up</string>
     <string name="item_found_toast">Last known location: </string>
     <string name="item_NotFound_toast">Not found.</string>
+    <string name="heading_showAll">Show all</string>
+    <string name="item_selected">You have selected:</string>
+    <string name="no_item_selected">No item selected</string>
+    <string name="no_what_specified">Please specify what item.</string>
 
 </resources>

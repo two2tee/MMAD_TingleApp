@@ -4,28 +4,20 @@
     android:layout_height="match_parent"
     android:layout_width="match_parent"
     android:orientation="vertical"
-    android:padding="10dp">
+    android:padding="@dimen/main">
 
     <!-- Item display -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:layout_weight="0.7">
+        android:layout_weight="1">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/headline"
             android:textSize="18dp"
             android:gravity="top"/>
-
-        <TextView
-            android:id="@+id/last_thing"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="12dp"
-            android:layout_marginBottom="20dp"/>
-
 
         <!-- bar -->
         <View
@@ -34,14 +26,22 @@
             android:background="@color/colorLine">
         </View>
 
-        <!-- item list -->
-        <ListView
-            android:id="@+id/item_list"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingTop="2dp">
-        </ListView>
+            android:orientation="vertical"
+            android:gravity="center">
 
+            <TextView
+                android:id="@+id/last_thing"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="25dp"
+                android:layout_marginBottom="20dp"
+                android:gravity="center_horizontal"/>
+
+
+        </LinearLayout>
 
 
 
@@ -110,6 +110,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/heading_lookUp"/>
+
+        <Button
+            android:id="@+id/goTOList_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/heading_showAll"/>
 
     </LinearLayout>
 
