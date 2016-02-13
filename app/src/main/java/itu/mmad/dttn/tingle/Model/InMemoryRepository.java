@@ -1,5 +1,6 @@
 package itu.mmad.dttn.tingle.Model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -9,7 +10,7 @@ import itu.mmad.dttn.tingle.Model.Interfaces.IRepository;
 /**
  * Created by new on 12-Feb-16.
  */
-public class InMemoryRepository implements IRepository<Thing> {
+public class InMemoryRepository implements IRepository<Thing>, Serializable {
 
     private static InMemoryRepository inMemoryRepository;
     private final List<Thing> thingsDB;

@@ -1,9 +1,11 @@
 package itu.mmad.dttn.tingle.Model;
 
+import java.io.Serializable;
+
 /**
  * This class represents a thing to be added
  */
-public class Thing {
+public class Thing implements Serializable{
     private String mWhat;
     private String mWhere;
 
@@ -15,7 +17,7 @@ public class Thing {
 
     @Override
     public String toString() {
-        return oneLine("Item: ", "\nLocated: ");
+        return oneLine("Item: ", "\nLocation: ");
     }
 
     public String getWhat() {
