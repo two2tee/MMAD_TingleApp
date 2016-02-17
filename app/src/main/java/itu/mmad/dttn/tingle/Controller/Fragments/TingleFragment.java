@@ -162,6 +162,11 @@ public class TingleFragment extends Fragment {
         }
     }
 
+    /**
+     * This is only used during development
+     * Todo Remember to remove it when done
+     * todo also remember to remove TingleFragment.isFilled field
+     */
     private void fillThingsDB() {
         if (!TingleFragment.isFilled) {
             repository.put(new Thing("Android Phone", "Desk"));
