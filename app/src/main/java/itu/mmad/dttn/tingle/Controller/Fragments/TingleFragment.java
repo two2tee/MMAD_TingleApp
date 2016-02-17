@@ -23,6 +23,13 @@ import itu.mmad.dttn.tingle.R;
  */
 public class TingleFragment extends Fragment {
 
+    //EventHandler
+    OnShowAllPressedListener mCallBack;
+
+    public interface OnShowAllPressedListener{
+        public void onShowAllPressed();
+    }
+
     // GUI variables
     private Button addThing;
     private Button lookUpThing;
@@ -39,7 +46,6 @@ public class TingleFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        repository = InMemoryRepository.getInMemoryRepository();
         fillThingsDB();
     }
 
@@ -51,6 +57,23 @@ public class TingleFragment extends Fragment {
         setTextFields(v);
         updateUI();
         return v;
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+
+        //Checks if parent activity has implemented the
+        //callback interface
+        try
+        {
+            mCallBack = (OnShowAllPressedListener) context;
+            repository = InMemoryRepository.getInMemoryRepository();
+        }
+        catch (ClassCastException e)
+        {
+            throw new ClassCastException(context.toString()+" must implement OnBackPressedListener");
+        }
     }
 
     private void setButtons(View v) {
@@ -89,8 +112,7 @@ public class TingleFragment extends Fragment {
         showAll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               // Intent i = new Intent(TingleFragment.this, ListActivity.class);
-               //startActivity(i);
+               mCallBack.onShowAllPressed();
             }
         });
 
