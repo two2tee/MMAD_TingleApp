@@ -3,6 +3,7 @@ package itu.mmad.dttn.tingle.Controller;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 
 import itu.mmad.dttn.tingle.Controller.Fragments.ListFragment;
 import itu.mmad.dttn.tingle.Controller.Fragments.TingleFragment;
@@ -36,6 +37,11 @@ implements ListFragment.OnBackPressedListener, TingleFragment.OnShowAllPressedLi
 
     }
 
+    /**
+     * Sets the current fragment with a given fragment.
+     * NOTE: Support library of fragments are used.
+     * @param fragment Fragment
+     */
     private void changeFragment(Fragment fragment){
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment_container, fragment)
