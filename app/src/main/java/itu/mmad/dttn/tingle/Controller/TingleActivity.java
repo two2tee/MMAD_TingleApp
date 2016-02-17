@@ -3,7 +3,6 @@ package itu.mmad.dttn.tingle.Controller;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
 
 import itu.mmad.dttn.tingle.Controller.Fragments.ListFragment;
 import itu.mmad.dttn.tingle.Controller.Fragments.TingleFragment;
