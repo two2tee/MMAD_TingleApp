@@ -3,7 +3,7 @@ package itu.mmad.dttn.tingle.Model;
 import java.io.Serializable;
 
 /**
- * This class represents a thing to be added
+ * This class represents a physical thing and its location
  */
 public class Thing implements Serializable{
     private String mWhat;
@@ -15,28 +15,48 @@ public class Thing implements Serializable{
     }
 
 
+    /**
+     * Returns a text of the item and its location
+     * @return String
+     */
     @Override
     public String toString() {
         return oneLine("Item: ", "\nLocation: ");
     }
 
+    /**
+     * returns the name of the item
+     * @return String
+     */
     public String getWhat() {
         return mWhat;
     }
 
+    /**
+     * sets the name of the item
+     * @param what string
+     */
     public void setWhat(String what) {
         mWhat = what;
     }
 
+    /**
+     * returns the location of the item
+     * @return string
+     */
     public String getWhere() {
         return mWhere;
     }
 
+    /**
+     * sets the location of the item
+     * @param where string
+     */
     public void setWhere(String where) {
         mWhere = where;
     }
 
-    public String oneLine(String pre, String post) {
+    private String oneLine(String pre, String post) {
         return pre + mWhat + " " + post + mWhere;
 
     }
