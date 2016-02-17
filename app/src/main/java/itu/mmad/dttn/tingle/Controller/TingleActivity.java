@@ -1,22 +1,11 @@
 package itu.mmad.dttn.tingle.Controller;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
-import android.support.v7.app.AppCompatActivity;
-import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
-import android.widget.Toast;
-
-import java.util.Iterator;
 
 import itu.mmad.dttn.tingle.Controller.Fragments.TingleFragment;
-import itu.mmad.dttn.tingle.Model.InMemoryRepository;
-import itu.mmad.dttn.tingle.Model.Interfaces.IRepository;
-import itu.mmad.dttn.tingle.Model.Thing;
 import itu.mmad.dttn.tingle.R;
 
 /**
@@ -39,7 +28,11 @@ public class TingleActivity extends FragmentActivity {
 
     }
 
-
+    /**
+     * Sets the current fragment with a given fragment.
+     * NOTE: Support library of fragments are used.
+     * @param fragment Fragment
+     */
     public void setFragment(Fragment fragment) {
         if (fragment == null || mFragment == null)
         {

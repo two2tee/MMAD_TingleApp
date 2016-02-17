@@ -20,6 +20,8 @@ import itu.mmad.dttn.tingle.R;
 
 /**
  * Fragment of main page.
+ * NOTE: Support library of fragments are used
+ * android.support.v4.app...
  */
 public class TingleFragment extends Fragment {
 

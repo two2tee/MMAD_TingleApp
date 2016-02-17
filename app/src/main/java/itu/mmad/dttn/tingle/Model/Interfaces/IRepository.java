@@ -3,7 +3,7 @@ package itu.mmad.dttn.tingle.Model.Interfaces;
 import java.util.Iterator;
 
 /**
- * Created by new on 12-Feb-16.
+ * Interface used to create repositories for the app
  */
 public interface IRepository<E>{
     E get(int id);
