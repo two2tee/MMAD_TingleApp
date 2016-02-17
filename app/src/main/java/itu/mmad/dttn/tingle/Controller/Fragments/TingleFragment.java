@@ -1,5 +1,6 @@
 package itu.mmad.dttn.tingle.Controller.Fragments;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -8,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.Iterator;
 
@@ -96,7 +98,8 @@ public class TingleFragment extends Fragment {
     }
 
     private void makeToast(String string) {
-        //Toast.makeText(TingleActivity.class, string, Toast.LENGTH_SHORT).show();
+        Context context = getActivity().getApplicationContext();
+        Toast.makeText(context, string, Toast.LENGTH_SHORT).show();
     }
 
     private void setTextFields(View v) {
