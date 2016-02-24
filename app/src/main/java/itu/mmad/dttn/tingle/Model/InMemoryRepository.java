@@ -13,22 +13,11 @@ import itu.mmad.dttn.tingle.Model.Interfaces.IRepository;
  */
 public class InMemoryRepository implements IRepository<Thing>, Serializable {
 
-    //private static InMemoryRepository inMemoryRepository;
     private final List<Thing> thingsDB;
 
     public InMemoryRepository() {
         thingsDB = new ArrayList<>();
     }
-
-    /*public static InMemoryRepository getInMemoryRepository() {
-        if (inMemoryRepository != null)
-            return inMemoryRepository;
-        else {
-            inMemoryRepository = new InMemoryRepository();
-            return inMemoryRepository;
-        }
-    }*/
-
 
     /**
      * Returns a given item in the repository
