@@ -11,7 +11,7 @@ import itu.mmad.dttn.tingle.Model.Interfaces.IRepository;
  * This class represents a singleton of a repository.
  * This repository will only store the items in memory and not as persistent data
  */
-public class InMemoryRepository implements IRepository<Thing>, Serializable{
+public class InMemoryRepository implements IRepository<Thing>, Serializable {
 
     //private static InMemoryRepository inMemoryRepository;
     private final List<Thing> thingsDB;
@@ -32,6 +32,7 @@ public class InMemoryRepository implements IRepository<Thing>, Serializable{
 
     /**
      * Returns a given item in the repository
+     *
      * @param id int
      * @return Thing
      */
@@ -42,6 +43,7 @@ public class InMemoryRepository implements IRepository<Thing>, Serializable{
 
     /**
      * Returns an iterator of the repository
+     *
      * @return Iterator
      */
     @Override
@@ -51,6 +53,7 @@ public class InMemoryRepository implements IRepository<Thing>, Serializable{
 
     /**
      * Adds a given item in the repository
+     *
      * @param entity Thing
      */
     @Override
@@ -68,6 +71,7 @@ public class InMemoryRepository implements IRepository<Thing>, Serializable{
 
     /**
      * Deletes a given item in the repository
+     *
      * @param id int
      */
     @Override
@@ -81,18 +85,14 @@ public class InMemoryRepository implements IRepository<Thing>, Serializable{
         return true;
     }
 
-    private Thing searchById(int id)
-    {
-        for (Thing t : thingsDB)
-        {
-            if(t.hashCode() == id){
+    private Thing searchById(int id) {
+        for (Thing t : thingsDB) {
+            if (t.hashCode() == id) {
                 return t;
             }
         }
         return null;
     }
-
-
 
 
 }

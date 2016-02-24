@@ -40,18 +40,37 @@ public class ThingsDatabase {
     }
 
     public void put(Thing entity) {
+        if (entity == null) return;
         repository.put(entity);
     }
 
+    /**
+     * Updates existing thing
+     *
+     * @param entity thing
+     *               <p/>
+     *               not implemented yet
+     */
     public void update(Thing entity) {
+        //Not implemented yet
     }
 
-    public void delete(int id)throws OperationCanceledException
-    {
+    /**
+     * Deletes a thing from database
+     *
+     * @param id of thing
+     * @throws OperationCanceledException if item can not be found
+     */
+    public void delete(int id) throws OperationCanceledException {
         boolean isSuccess = repository.delete(id);
-        if(!isSuccess) throw new OperationCanceledException("Deletion failed.");
+        if (!isSuccess) throw new OperationCanceledException("Deletion failed.");
     }
 
+    /**
+     * Returns the total numbers of things
+     *
+     * @return int
+     */
     public int getTotalSize() {
 
         int size = 0;

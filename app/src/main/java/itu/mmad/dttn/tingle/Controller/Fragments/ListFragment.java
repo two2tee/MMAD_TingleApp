@@ -97,15 +97,13 @@ public class ListFragment extends Fragment {
                 try {
                     if (selectedItemId == -1) {
                         makeToast(getString(R.string.no_item_selected));
-                    }
-                    else {
+                    } else {
                         repository.delete(selectedItemId);
                         setItemList();
                         selectedItemId = -1;
                     }
-                }
-                catch (OperationCanceledException e){
-                   makeToast(getString(R.string.something_Went_Wrong));
+                } catch (OperationCanceledException e) {
+                    makeToast(getString(R.string.something_Went_Wrong));
                 }
             }
         });
@@ -126,7 +124,7 @@ public class ListFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Thing selectedItem = (Thing) adapter.getItem(position);
-                selectedItemId = selectedItem.hashCode();
+                selectedItemId = selectedItem.getId().hashCode();
                 makeToast(getString(R.string.item_selected) + " " + selectedItem.getWhat());
             }
         });
