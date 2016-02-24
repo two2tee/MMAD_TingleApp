@@ -11,5 +11,5 @@
     <string name="item_selected">You have selected:</string>
     <string name="no_item_selected">No item selected</string>
     <string name="no_what_specified">Please specify what item.</string>
-
+    <string name="something_Went_Wrong">Something went wrong</string>
 </resources>

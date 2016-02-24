@@ -11,11 +11,12 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.Iterator;
+import java.util.List;
 
+import itu.mmad.dttn.tingle.Controller.TingleActivity;
 import itu.mmad.dttn.tingle.Model.InMemoryRepository;
-import itu.mmad.dttn.tingle.Model.Interfaces.IRepository;
 import itu.mmad.dttn.tingle.Model.Thing;
+import itu.mmad.dttn.tingle.Model.ThingsDatabase;
 import itu.mmad.dttn.tingle.R;
 
 /**
@@ -40,7 +41,7 @@ public class TingleFragment extends Fragment {
     private EditText whatField, whereField;
 
     //database
-    private IRepository<Thing> repository;
+    private ThingsDatabase repository;
 
     //Other
     private static boolean isFilled = false;
@@ -48,12 +49,12 @@ public class TingleFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        fillThingsDB();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_tingle,container,false);
+        repository = ((TingleActivity) getActivity()).getDatabase();
 
         setButtons(v);
         setTextFields(v);
@@ -70,13 +71,14 @@ public class TingleFragment extends Fragment {
         try
         {
             mCallBack = (OnShowAllPressedListener) context;
-            repository = InMemoryRepository.getInMemoryRepository();
+            repository = ((TingleActivity) getActivity()).getDatabase();
         }
         catch (ClassCastException e)
         {
             throw new ClassCastException(context.toString()+" must implement OnBackPressedListener");
         }
     }
+
 
     private void setButtons(View v) {
         addThing = (Button) v.findViewById(R.id.add_button);
@@ -114,7 +116,7 @@ public class TingleFragment extends Fragment {
         showAll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               mCallBack.onShowAllPressed();
+                mCallBack.onShowAllPressed();
             }
         });
 
@@ -134,14 +136,15 @@ public class TingleFragment extends Fragment {
 
     private String SearchThing(String item) {
         String searchItem = item.toLowerCase().trim();
-        Thing thing;
-        Iterator<Thing> items = repository.getAll();
-        while (items.hasNext()) {
-            thing = items.next();
-            if (thing.getWhat().equals(searchItem)) {
-                return thing.getWhere();
+        List<Thing> things = repository.getAll();
+
+        for(Thing t : things)
+        {
+            if (t.getWhat().equals(searchItem)) {
+                return t.getWhere();
             }
         }
+
         return null;
     }
 
@@ -151,7 +154,7 @@ public class TingleFragment extends Fragment {
     }
 
     private void updateUI() {
-        int lastAdded = repository.returnSize();
+        int lastAdded = repository.getTotalSize()-1;
         if (lastAdded > 0) {
             this.lastAdded.setText(repository.get(lastAdded).toString());
         } else {

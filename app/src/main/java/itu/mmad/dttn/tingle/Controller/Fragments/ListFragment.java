@@ -3,6 +3,7 @@ package itu.mmad.dttn.tingle.Controller.Fragments;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.os.OperationCanceledException;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,11 +13,11 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import java.util.Iterator;
+import java.util.List;
 
-import itu.mmad.dttn.tingle.Model.InMemoryRepository;
-import itu.mmad.dttn.tingle.Model.Interfaces.IRepository;
+import itu.mmad.dttn.tingle.Controller.TingleActivity;
 import itu.mmad.dttn.tingle.Model.Thing;
+import itu.mmad.dttn.tingle.Model.ThingsDatabase;
 import itu.mmad.dttn.tingle.R;
 
 /**
@@ -32,7 +33,7 @@ public class ListFragment extends Fragment {
 
 
     //Database
-    private IRepository<Thing> repository;
+    private ThingsDatabase repository;
 
     //GUI
     private View view;
@@ -40,16 +41,13 @@ public class ListFragment extends Fragment {
     private Button delete;
     private ListView itemList;
 
-    private int selectedItemPos;
+    private int selectedItemId;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        repository = InMemoryRepository.getInMemoryRepository();
-        selectedItemPos = -1;
-
-
+        repository = ((TingleActivity) getActivity()).getDatabase();
     }
 
     @Override
@@ -69,7 +67,7 @@ public class ListFragment extends Fragment {
         //callback interface
         try {
             mCallBack = (OnBackPressedListener) context;
-            repository = InMemoryRepository.getInMemoryRepository();
+            repository = ((TingleActivity) getActivity()).getDatabase();
 
         } catch (ClassCastException e) {
             throw new ClassCastException(context.toString() + " must implement OnBackPressedListener");
@@ -96,12 +94,16 @@ public class ListFragment extends Fragment {
         delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (selectedItemPos == -1) {
-                    makeToast(getString(R.string.no_item_selected));
-                } else {
-                    repository.delete(selectedItemPos);
-                    setItemList();
-                    selectedItemPos = -1;
+                try {
+                    if (selectedItemId == -1) {
+                        makeToast(getString(R.string.no_item_selected));
+                    } else {
+                        repository.delete(selectedItemId);
+                        setItemList();
+                        selectedItemId = -1;
+                    }
+                } catch (OperationCanceledException e) {
+                    makeToast(getString(R.string.something_Went_Wrong));
                 }
             }
         });
@@ -110,13 +112,9 @@ public class ListFragment extends Fragment {
 
 
     private void setItemList() {
-        Thing[] things = new Thing[repository.returnSize() + 1];
-        Iterator<Thing> items = repository.getAll();
-        int count = 0;
-        while (items.hasNext()) {
-            things[count] = items.next();
-            count++;
-        }
+
+        List<Thing> things = repository.getAll();
+
 
         final ArrayAdapter adapter = new ArrayAdapter(getActivity().getApplicationContext(), R.layout.list_view_row_item, R.id.list_item_text, things);
         itemList = (ListView) view.findViewById(R.id.item_list);
@@ -125,8 +123,8 @@ public class ListFragment extends Fragment {
         itemList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                selectedItemPos = position;
                 Thing selectedItem = (Thing) adapter.getItem(position);
+                selectedItemId = selectedItem.getId().hashCode();
                 makeToast(getString(R.string.item_selected) + " " + selectedItem.getWhat());
             }
         });

@@ -13,27 +13,26 @@ import itu.mmad.dttn.tingle.Model.Interfaces.IRepository;
  */
 public class InMemoryRepository implements IRepository<Thing>, Serializable {
 
-    private static InMemoryRepository inMemoryRepository;
+    //private static InMemoryRepository inMemoryRepository;
     private final List<Thing> thingsDB;
 
-    private InMemoryRepository() {
+    public InMemoryRepository() {
         thingsDB = new ArrayList<>();
     }
 
-    public static InMemoryRepository getInMemoryRepository()
-    {
-        if(inMemoryRepository != null)
+    /*public static InMemoryRepository getInMemoryRepository() {
+        if (inMemoryRepository != null)
             return inMemoryRepository;
-        else
-        {
+        else {
             inMemoryRepository = new InMemoryRepository();
-            return  inMemoryRepository;
+            return inMemoryRepository;
         }
-    }
+    }*/
 
 
     /**
      * Returns a given item in the repository
+     *
      * @param id int
      * @return Thing
      */
@@ -44,6 +43,7 @@ public class InMemoryRepository implements IRepository<Thing>, Serializable {
 
     /**
      * Returns an iterator of the repository
+     *
      * @return Iterator
      */
     @Override
@@ -53,6 +53,7 @@ public class InMemoryRepository implements IRepository<Thing>, Serializable {
 
     /**
      * Adds a given item in the repository
+     *
      * @param entity Thing
      */
     @Override
@@ -62,30 +63,35 @@ public class InMemoryRepository implements IRepository<Thing>, Serializable {
 
     /**
      * Used to modify existing items
-     * NOT IMPLEMENTED YET
-     * @param entity Thing
      */
     @Override
-    public void update(Thing entity) {
+    public void update(int id, String what, String where) {
         //no implemented
     }
 
     /**
      * Deletes a given item in the repository
+     *
      * @param id int
      */
     @Override
-    public void delete(int id) {
-        thingsDB.remove(id);
+    public boolean delete(int id) {
+
+        Thing toRemove = searchById(id);
+        if (toRemove == null)
+            return false;
+
+        thingsDB.remove(toRemove);
+        return true;
     }
 
-    /**
-     * returns the size of the repository
-     * @return int
-     */
-    @Override
-    public int returnSize() {
-        return thingsDB.size()-1;
+    private Thing searchById(int id) {
+        for (Thing t : thingsDB) {
+            if (t.hashCode() == id) {
+                return t;
+            }
+        }
+        return null;
     }
 
 
