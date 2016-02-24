@@ -4,15 +4,19 @@ import java.io.Serializable;
 
 /**
  * This class represents a physical thing and its location
+ * It contains information and location of the item + a unique ID
  */
-public class Thing implements Serializable{
+public class Thing extends Entity implements Serializable{
+
     private String mWhat;
     private String mWhere;
 
     public Thing(String what, String where) {
+        super();
         mWhat = what;
         mWhere = where;
     }
+
 
 
     /**

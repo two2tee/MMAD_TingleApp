@@ -6,6 +6,10 @@ import android.support.v4.app.FragmentActivity;
 
 import itu.mmad.dttn.tingle.Controller.Fragments.ListFragment;
 import itu.mmad.dttn.tingle.Controller.Fragments.TingleFragment;
+import itu.mmad.dttn.tingle.Model.Dagger2_DependencyInjection.Components.DaggerRepositoryComponent;
+import itu.mmad.dttn.tingle.Model.Dagger2_DependencyInjection.Components.RepositoryComponent;
+import itu.mmad.dttn.tingle.Model.Dagger2_DependencyInjection.Modules.RepositoryModule;
+import itu.mmad.dttn.tingle.Model.ThingsDatabase;
 import itu.mmad.dttn.tingle.R;
 
 /**
@@ -15,6 +19,8 @@ public class TingleActivity extends FragmentActivity
 implements ListFragment.OnBackPressedListener, TingleFragment.OnShowAllPressedListener{
 
 
+    ThingsDatabase database;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -23,6 +29,12 @@ implements ListFragment.OnBackPressedListener, TingleFragment.OnShowAllPressedLi
         if(savedInstanceState == null) {
             setFragment();
         }
+
+        //Setting dependency injection for database and apply
+        RepositoryComponent component = DaggerRepositoryComponent.builder()
+                .repositoryModule(new RepositoryModule()).build();
+
+        database = component.provideDatabase();
 
     }
 
@@ -59,5 +71,9 @@ implements ListFragment.OnBackPressedListener, TingleFragment.OnShowAllPressedLi
      */
     public void onShowAllPressed() {
         changeFragment(new ListFragment());
+    }
+
+    public ThingsDatabase getDatabase(){
+        return database;
     }
 }
