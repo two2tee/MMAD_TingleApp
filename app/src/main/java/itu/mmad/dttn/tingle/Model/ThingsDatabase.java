@@ -18,10 +18,12 @@ import itu.mmad.dttn.tingle.Model.Interfaces.IRepository;
 public class ThingsDatabase {
 
     IRepository<Thing> repository;
+    private static boolean isFilled = false;
 
     @Inject //annotation to request dependencies in constructor,
     public ThingsDatabase(IRepository repository) {
         this.repository = repository;
+        fillThingsDB(); //TODO remember to remove
     }
 
     public Thing get(int id) {
@@ -82,5 +84,40 @@ public class ThingsDatabase {
         }
 
         return size;
+    }
+
+    /**
+     * This is only used during development
+     * Todo Remember to remove it when done
+     * todo also remember to remove TingleFragment.isFilled field
+     */
+    private void fillThingsDB() {
+        if (!ThingsDatabase.isFilled) {
+            repository.put(new Thing("Android Phone", "Desk"));
+            repository.put(new Thing("Keys", "Desk"));
+            repository.put(new Thing("Child", "Kindergarten"));
+            repository.put(new Thing("Groceries", "Car"));
+            repository.put(new Thing("Android Phone", "Desk"));
+            repository.put(new Thing("Keys", "Desk"));
+            repository.put(new Thing("Child", "Kindergarten"));
+            repository.put(new Thing("Groceries", "Car"));
+            repository.put(new Thing("Android Phone", "Desk"));
+            repository.put(new Thing("Keys", "Desk"));
+            repository.put(new Thing("Child", "Kindergarten"));
+            repository.put(new Thing("Groceries", "Car"));
+            repository.put(new Thing("Android Phone", "Desk"));
+            repository.put(new Thing("Keys", "Desk"));
+            repository.put(new Thing("Child", "Kindergarten"));
+            repository.put(new Thing("Groceries", "Car"));
+            repository.put(new Thing("Android Phone", "Desk"));
+            repository.put(new Thing("Keys", "Desk"));
+            repository.put(new Thing("Child", "Kindergarten"));
+            repository.put(new Thing("Groceries", "Car"));
+            repository.put(new Thing("Android Phone", "Desk"));
+            repository.put(new Thing("Keys", "Desk"));
+            repository.put(new Thing("Child", "Kindergarten"));
+            repository.put(new Thing("Groceries", "Car"));
+            ThingsDatabase.isFilled = true;
+        }
     }
 }

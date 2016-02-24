@@ -15,7 +15,6 @@ import android.widget.Toast;
 import java.util.List;
 
 import itu.mmad.dttn.tingle.Controller.TingleActivity;
-import itu.mmad.dttn.tingle.Model.InMemoryRepository;
 import itu.mmad.dttn.tingle.Model.Thing;
 import itu.mmad.dttn.tingle.Model.ThingsDatabase;
 import itu.mmad.dttn.tingle.R;
@@ -44,8 +43,7 @@ public class TingleFragment extends Fragment {
     //database
     private ThingsDatabase repository;
 
-    //Other
-    private static boolean isFilled = false;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -165,40 +163,6 @@ public class TingleFragment extends Fragment {
         }
     }
 
-    /**
-     * This is only used during development
-     * Todo Remember to remove it when done
-     * todo also remember to remove TingleFragment.isFilled field
-     */
-    private void fillThingsDB() {
-        if (!TingleFragment.isFilled) {
-            repository.put(new Thing("Android Phone", "Desk"));
-            repository.put(new Thing("Keys", "Desk"));
-            repository.put(new Thing("Child", "Kindergarten"));
-            repository.put(new Thing("Groceries", "Car"));
-            repository.put(new Thing("Android Phone", "Desk"));
-            repository.put(new Thing("Keys", "Desk"));
-            repository.put(new Thing("Child", "Kindergarten"));
-            repository.put(new Thing("Groceries", "Car"));
-            repository.put(new Thing("Android Phone", "Desk"));
-            repository.put(new Thing("Keys", "Desk"));
-            repository.put(new Thing("Child", "Kindergarten"));
-            repository.put(new Thing("Groceries", "Car"));
-            repository.put(new Thing("Android Phone", "Desk"));
-            repository.put(new Thing("Keys", "Desk"));
-            repository.put(new Thing("Child", "Kindergarten"));
-            repository.put(new Thing("Groceries", "Car"));
-            repository.put(new Thing("Android Phone", "Desk"));
-            repository.put(new Thing("Keys", "Desk"));
-            repository.put(new Thing("Child", "Kindergarten"));
-            repository.put(new Thing("Groceries", "Car"));
-            repository.put(new Thing("Android Phone", "Desk"));
-            repository.put(new Thing("Keys", "Desk"));
-            repository.put(new Thing("Child", "Kindergarten"));
-            repository.put(new Thing("Groceries", "Car"));
-            TingleFragment.isFilled = true;
-        }
-    }
 }
 
 

@@ -48,12 +48,12 @@ public class ListFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        repository = ((TingleActivity) getActivity()).getDatabase();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_list, container, false);
+        repository = ((TingleActivity) getActivity()).getDatabase();
 
         setButtons();
         setItemList();

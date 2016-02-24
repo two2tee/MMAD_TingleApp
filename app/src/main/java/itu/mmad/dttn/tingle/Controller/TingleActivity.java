@@ -20,7 +20,7 @@ public class TingleActivity extends FragmentActivity
 implements ListFragment.OnBackPressedListener, TingleFragment.OnShowAllPressedListener{
 
 
-    ThingsDatabase database;
+    private static ThingsDatabase database;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,15 +28,19 @@ implements ListFragment.OnBackPressedListener, TingleFragment.OnShowAllPressedLi
         setContentView(R.layout.activity_tingle);
 
         setFragment();
-
-        //Setting dependency injection for database and apply
-        RepositoryComponent component = DaggerRepositoryComponent.builder()
-                .repositoryModule(new RepositoryModule()).build();
-
-        database = component.provideDatabase();
+        setDatabase();
 
     }
 
+    private void setDatabase(){
+        if (database == null) {
+            //Setting dependency injection for database and apply
+            RepositoryComponent component = DaggerRepositoryComponent.builder()
+                    .repositoryModule(new RepositoryModule()).build();
+
+            database = component.provideDatabase();
+        }
+    }
 
     private void setFragment() {
 
@@ -89,6 +93,6 @@ implements ListFragment.OnBackPressedListener, TingleFragment.OnShowAllPressedLi
     }
 
     public ThingsDatabase getDatabase(){
-        return database;
+        return TingleActivity.database;
     }
 }
