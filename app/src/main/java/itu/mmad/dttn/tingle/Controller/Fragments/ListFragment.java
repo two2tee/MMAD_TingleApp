@@ -1,6 +1,7 @@
 package itu.mmad.dttn.tingle.Controller.Fragments;
 
 import android.content.Context;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -83,13 +84,16 @@ public class ListFragment extends Fragment {
 
     private void setButtons() {
 
-        back = (Button) view.findViewById(R.id.back_button);
-        back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mCallBack.onBackPressed();
-            }
-        });
+        //Portrait mode show go to list button
+        if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
+            back = (Button) view.findViewById(R.id.back_button);
+            back.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mCallBack.onBackPressed();
+                }
+            });
+        }
 
 
         delete = (Button) view.findViewById(R.id.delete_Button);
