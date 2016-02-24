@@ -1,6 +1,7 @@
 package itu.mmad.dttn.tingle.Controller.Fragments;
 
 import android.content.Context;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -110,14 +111,16 @@ public class TingleFragment extends Fragment {
             }
         });
 
-        showAll = (Button) v.findViewById(R.id.goTOList_button);
-        showAll.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-               mCallBack.onShowAllPressed();
-            }
-        });
-
+        //Portrait mode show go to list button
+        if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
+            showAll = (Button) v.findViewById(R.id.goTOList_button);
+            showAll.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mCallBack.onShowAllPressed();
+                }
+            });
+        }
 
     }
 
@@ -159,8 +162,33 @@ public class TingleFragment extends Fragment {
         }
     }
 
+    /**
+     * This is only used during development
+     * Todo Remember to remove it when done
+     * todo also remember to remove TingleFragment.isFilled field
+     */
     private void fillThingsDB() {
         if (!TingleFragment.isFilled) {
+            repository.put(new Thing("Android Phone", "Desk"));
+            repository.put(new Thing("Keys", "Desk"));
+            repository.put(new Thing("Child", "Kindergarten"));
+            repository.put(new Thing("Groceries", "Car"));
+            repository.put(new Thing("Android Phone", "Desk"));
+            repository.put(new Thing("Keys", "Desk"));
+            repository.put(new Thing("Child", "Kindergarten"));
+            repository.put(new Thing("Groceries", "Car"));
+            repository.put(new Thing("Android Phone", "Desk"));
+            repository.put(new Thing("Keys", "Desk"));
+            repository.put(new Thing("Child", "Kindergarten"));
+            repository.put(new Thing("Groceries", "Car"));
+            repository.put(new Thing("Android Phone", "Desk"));
+            repository.put(new Thing("Keys", "Desk"));
+            repository.put(new Thing("Child", "Kindergarten"));
+            repository.put(new Thing("Groceries", "Car"));
+            repository.put(new Thing("Android Phone", "Desk"));
+            repository.put(new Thing("Keys", "Desk"));
+            repository.put(new Thing("Child", "Kindergarten"));
+            repository.put(new Thing("Groceries", "Car"));
             repository.put(new Thing("Android Phone", "Desk"));
             repository.put(new Thing("Keys", "Desk"));
             repository.put(new Thing("Child", "Kindergarten"));
