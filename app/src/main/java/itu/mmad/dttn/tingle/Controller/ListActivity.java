@@ -84,7 +84,7 @@ public class ListActivity extends AppCompatActivity {
 //
 //
 //    private void setItemList() {
-//        Thing[] things = new Thing[repository.returnSize() + 1];
+//        Thing[] things = new Thing[repository.getTotalSize() + 1];
 //        Iterator<Thing> items = repository.getAll();
 //        int count = 0;
 //        while (items.hasNext()) {
