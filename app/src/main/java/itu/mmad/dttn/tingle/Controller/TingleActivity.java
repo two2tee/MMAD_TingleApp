@@ -1,6 +1,5 @@
 package itu.mmad.dttn.tingle.Controller;
 
-import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -21,34 +20,20 @@ implements ListFragment.OnBackPressedListener, TingleFragment.OnShowAllPressedLi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tingle);
 
-        setFragment();
+        if(savedInstanceState == null) {
+            setFragment();
+        }
 
     }
 
 
     private void setFragment() {
+        Fragment fragment = new TingleFragment();
 
+        getSupportFragmentManager().beginTransaction()
+                .add(R.id.fragment_container, fragment)
+                .commit();
 
-        //Landscape mode
-        if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){
-            Fragment fragmentLeft = new TingleFragment();
-            Fragment fragmentRight = new ListFragment();
-
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.fragment_container_left, fragmentLeft)
-                    .replace(R.id.fragment_container_right,fragmentRight)
-                    .commit();
-        }
-
-        //Portrait mode
-        else if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
-            Fragment fragment = new TingleFragment();
-
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.fragment_container, fragment)
-                    .commit();
-
-        }
     }
 
     /**
