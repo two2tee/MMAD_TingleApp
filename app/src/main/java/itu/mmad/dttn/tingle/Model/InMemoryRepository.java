@@ -46,8 +46,10 @@ public class InMemoryRepository implements IRepository<Thing>, Serializable {
      * @param entity Thing
      */
     @Override
-    public void put(Thing entity) {
+    public boolean put(Thing entity) {
+        if(entity == null) return false;
         thingsDB.add(entity);
+        return true;
     }
 
     /**

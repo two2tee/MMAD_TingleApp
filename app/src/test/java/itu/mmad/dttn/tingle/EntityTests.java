@@ -5,8 +5,7 @@ import junit.framework.Assert;
 import org.junit.Test;
 
 import itu.mmad.dttn.tingle.Model.Entity;
-
-import static org.junit.Assert.*;
+import itu.mmad.dttn.tingle.Stubs.EntityStub;
 
 /**
  * To work on unit tests, switch the Test Artifact in the Build Variants view.
@@ -53,11 +52,5 @@ public class EntityTests {
     }
 
 
-    //Stub for entity
-    private class EntityStub extends Entity{
-        public EntityStub(){
-            super();
-        }
 
-    }
 }

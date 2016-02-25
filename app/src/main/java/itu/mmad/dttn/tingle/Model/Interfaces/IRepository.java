@@ -13,7 +13,7 @@ public interface IRepository<E extends Entity>{
 
     Iterator<E> getAll ();
 
-    void put(E entity);
+    boolean put(E entity);
 
     void update (int id, String what, String where);
 
