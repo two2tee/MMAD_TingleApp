@@ -7,7 +7,6 @@ import org.junit.Test;
 
 import itu.mmad.dttn.tingle.Model.InMemoryRepository;
 import itu.mmad.dttn.tingle.Model.Thing;
-import itu.mmad.dttn.tingle.Stubs.EntityStub;
 
 /**
  * UNIT test of inMemoryRepo
@@ -30,15 +29,15 @@ public class InMemoryRepositoryTest
 
     @Test
     public void put_ValidItem_notNull(){
-        Thing throwAway = new Thing("x","y");
-        SUT.put(throwAway);
+        Thing dummy = new Thing("x","y");
+        SUT.put(dummy);
         Assert.assertNotNull("Valid item was not added", SUT.get(0));
     }
 
     @Test
     public void put_ValidItem_True(){
-        Thing throwAway = new Thing("x","y");
-        boolean result = SUT.put(throwAway);
+        Thing dummy = new Thing("x","y");
+        boolean result = SUT.put(dummy);
         Assert.assertTrue("put did not return true on valid argument", result);
     }
 
@@ -51,9 +50,9 @@ public class InMemoryRepositoryTest
 
     @Test
     public void delete_existingItem_True(){
-        Thing toDelete = new Thing("x","y");
-        SUT.put(toDelete);
-        boolean result = SUT.delete(toDelete.getId().hashCode());
+        Thing dummy = new Thing("x","y");
+        SUT.put(dummy);
+        boolean result = SUT.delete(dummy.getId().hashCode());
         Assert.assertTrue("Did not delete item", result);
     }
 
