@@ -11,7 +11,8 @@ import javax.inject.Inject;
 import itu.mmad.dttn.tingle.Model.Interfaces.IRepository;
 
 /**
- * Created by new on 24-Feb-16.
+ * Represents a database that contains a repository.
+ * This class is used to separate the repository of application logic
  */
 
 

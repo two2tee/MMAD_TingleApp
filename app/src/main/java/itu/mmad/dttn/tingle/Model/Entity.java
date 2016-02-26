@@ -49,7 +49,7 @@ public abstract class Entity {
     @TargetApi(Build.VERSION_CODES.KITKAT)
     @Override
     public int hashCode() {
-        return Objects.hash(id);
+        return Objects.hashCode(id);
     }
 
 }
