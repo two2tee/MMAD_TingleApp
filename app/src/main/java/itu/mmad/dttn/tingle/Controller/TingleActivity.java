@@ -17,7 +17,7 @@ import itu.mmad.dttn.tingle.R;
  * This class represents the launcher activity for tingle
  */
 public class TingleActivity extends FragmentActivity
-implements ListFragment.OnBackPressedListener, TingleFragment.OnShowAllPressedListener{
+implements ListFragment.ListFragmentListener, TingleFragment.TingleFragmentEventListener {
 
 
     private static ThingsDatabase database;
@@ -68,7 +68,7 @@ implements ListFragment.OnBackPressedListener, TingleFragment.OnShowAllPressedLi
     }
 
     /**
-     * Sets the current fragment with a given fragment.
+     * Sets the current fragment for portrait mode with a given fragment.
      * NOTE: Support library of fragments are used.
      * @param fragment Fragment
      */
@@ -90,6 +90,18 @@ implements ListFragment.OnBackPressedListener, TingleFragment.OnShowAllPressedLi
      */
     public void onShowAllPressed() {
         changeFragment(new ListFragment());
+    }
+
+    /**
+     * When add is pressed update list
+     */
+    @Override
+    public void onAddPressed() {
+        //To update list when landscape mode
+        if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){
+            setFragment();
+        }
+
     }
 
     public ThingsDatabase getDatabase(){

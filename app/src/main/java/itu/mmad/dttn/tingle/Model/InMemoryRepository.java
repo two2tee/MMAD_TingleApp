@@ -78,7 +78,7 @@ public class InMemoryRepository implements IRepository<Thing>, Serializable {
 
     private Thing searchById(int id) {
         for (Thing t : thingsDB) {
-            if (t.hashCode() == id) {
+            if (t.getId().hashCode() == id) {
                 return t;
             }
         }

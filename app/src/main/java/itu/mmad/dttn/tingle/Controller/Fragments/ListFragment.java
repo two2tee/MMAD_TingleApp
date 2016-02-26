@@ -26,9 +26,9 @@ import itu.mmad.dttn.tingle.R;
  */
 public class ListFragment extends Fragment {
 
-    OnBackPressedListener mCallBack;
+    ListFragmentListener mCallBack;
 
-    public interface OnBackPressedListener {
+    public interface ListFragmentListener {
         public void onBackPressed();
     }
 
@@ -67,11 +67,11 @@ public class ListFragment extends Fragment {
         //Checks if parent activity has implemented the
         //callback interface
         try {
-            mCallBack = (OnBackPressedListener) context;
+            mCallBack = (ListFragmentListener) context;
             repository = ((TingleActivity) getActivity()).getDatabase();
 
         } catch (ClassCastException e) {
-            throw new ClassCastException(context.toString() + " must implement OnBackPressedListener");
+            throw new ClassCastException(context.toString() + " must implement ListFragmentListener");
         }
     }
 
@@ -105,6 +105,8 @@ public class ListFragment extends Fragment {
                         repository.delete(selectedItemId);
                         setItemList();
                         selectedItemId = -1;
+
+
                     }
                 } catch (OperationCanceledException e) {
                     makeToast(getString(R.string.something_Went_Wrong));

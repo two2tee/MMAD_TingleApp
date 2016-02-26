@@ -27,10 +27,11 @@ import itu.mmad.dttn.tingle.R;
 public class TingleFragment extends Fragment {
 
     //EventHandler
-    OnShowAllPressedListener mCallBack;
+    TingleFragmentEventListener mCallBack;
 
-    public interface OnShowAllPressedListener{
+    public interface TingleFragmentEventListener {
         public void onShowAllPressed();
+        public void onAddPressed();
     }
 
     // GUI variables
@@ -69,12 +70,12 @@ public class TingleFragment extends Fragment {
         //callback interface
         try
         {
-            mCallBack = (OnShowAllPressedListener) context;
+            mCallBack = (TingleFragmentEventListener) context;
             repository = ((TingleActivity) getActivity()).getDatabase();
         }
         catch (ClassCastException e)
         {
-            throw new ClassCastException(context.toString()+" must implement OnBackPressedListener");
+            throw new ClassCastException(context.toString()+" must implement ListFragmentListener");
         }
     }
 
@@ -89,6 +90,12 @@ public class TingleFragment extends Fragment {
                     whatField.setText("");
                     whereField.setText("");
                     updateUI();
+
+                    mCallBack.onAddPressed();
+
+
+
+
                 }
             }
         });
