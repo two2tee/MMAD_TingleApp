@@ -18,9 +18,9 @@ public abstract class Entity {
     }
 
     /**
-     * Returns unqiue id of item
+     * Returns unique id of item
      *
-     * @return
+     * @return it of a thing
      */
     public String getId() {
         return id;
@@ -38,7 +38,7 @@ public abstract class Entity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Entity entity = (Entity) o;
-        return Objects.equals(id, ((Entity) o).getId());
+        return Objects.equals(id, entity.getId());
     }
 
     /**

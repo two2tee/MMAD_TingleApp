@@ -12,4 +12,8 @@
     <string name="no_item_selected">No item selected</string>
     <string name="no_what_specified">Please specify what item.</string>
     <string name="something_Went_Wrong">Something went wrong</string>
+    <string name="delete">Delete</string>
+    <string name="back">Back</string>
+    <string name="what_hint">Enter name of item.</string>
+    <string name="where_hint">Enter location of item</string>
 </resources>

@@ -29,7 +29,7 @@ public class ListFragment extends Fragment {
     ListFragmentListener mCallBack;
 
     public interface ListFragmentListener {
-        public void onBackPressed();
+        void onBackPressed();
     }
 
 

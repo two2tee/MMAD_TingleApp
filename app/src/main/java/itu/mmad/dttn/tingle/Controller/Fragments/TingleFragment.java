@@ -30,8 +30,9 @@ public class TingleFragment extends Fragment {
     TingleFragmentEventListener mCallBack;
 
     public interface TingleFragmentEventListener {
-        public void onShowAllPressed();
-        public void onAddPressed();
+        void onShowAllPressed();
+
+        void onAddPressed();
     }
 
     // GUI variables
@@ -45,7 +46,6 @@ public class TingleFragment extends Fragment {
     private ThingsDatabase repository;
 
 
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,7 +53,7 @@ public class TingleFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_tingle,container,false);
+        View v = inflater.inflate(R.layout.fragment_tingle, container, false);
         repository = ((TingleActivity) getActivity()).getDatabase();
 
         setButtons(v);
@@ -68,14 +68,11 @@ public class TingleFragment extends Fragment {
 
         //Checks if parent activity has implemented the
         //callback interface
-        try
-        {
+        try {
             mCallBack = (TingleFragmentEventListener) context;
             repository = ((TingleActivity) getActivity()).getDatabase();
-        }
-        catch (ClassCastException e)
-        {
-            throw new ClassCastException(context.toString()+" must implement ListFragmentListener");
+        } catch (ClassCastException e) {
+            throw new ClassCastException(context.toString() + " must implement ListFragmentListener");
         }
     }
 
@@ -92,8 +89,6 @@ public class TingleFragment extends Fragment {
                     updateUI();
 
                     mCallBack.onAddPressed();
-
-
 
 
                 }
@@ -119,7 +114,7 @@ public class TingleFragment extends Fragment {
         });
 
         //Portrait mode show go to list button
-        if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
             showAll = (Button) v.findViewById(R.id.goTOList_button);
             showAll.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -146,8 +141,7 @@ public class TingleFragment extends Fragment {
         String searchItem = item.toLowerCase().trim();
         List<Thing> things = repository.getAll();
 
-        for(Thing t : things)
-        {
+        for (Thing t : things) {
             if (t.getWhat().equals(searchItem)) {
                 return t.getWhere();
             }
@@ -162,7 +156,7 @@ public class TingleFragment extends Fragment {
     }
 
     private void updateUI() {
-        int lastAdded = repository.getTotalSize()-1;
+        int lastAdded = repository.getTotalSize() - 1;
         if (lastAdded > 0) {
             this.lastAdded.setText(repository.get(lastAdded).toString());
         } else {

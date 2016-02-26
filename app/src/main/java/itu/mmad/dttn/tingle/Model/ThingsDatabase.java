@@ -11,13 +11,14 @@ import javax.inject.Inject;
 import itu.mmad.dttn.tingle.Model.Interfaces.IRepository;
 
 /**
- * Created by new on 24-Feb-16.
+ * This class is responsible for containing a repository and perform actions related to
+ * the database
  */
 
 
 public class ThingsDatabase {
 
-    IRepository<Thing> repository;
+    final IRepository<Thing> repository;
     private static boolean isFilled = false;
 
     @Inject //annotation to request dependencies in constructor,
