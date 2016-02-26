@@ -15,6 +15,7 @@ public class InMemoryRepository implements IRepository<Thing>, Serializable {
 
     private final List<Thing> thingsDB;
 
+    //Singleton pattern has been replaced by dagger2 singleton
     public InMemoryRepository() {
         thingsDB = new ArrayList<>();
     }

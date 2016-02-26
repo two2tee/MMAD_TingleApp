@@ -18,7 +18,7 @@ import itu.mmad.dttn.tingle.Model.Interfaces.IRepository;
 
 public class ThingsDatabase {
 
-    IRepository<Thing> repository;
+    final IRepository<Thing> repository;
     private static boolean isFilled = false;
 
     @Inject //annotation to request dependencies in constructor,

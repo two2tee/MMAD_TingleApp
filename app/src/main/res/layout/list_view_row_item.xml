@@ -9,6 +9,6 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:textColor="@color/colorBlack"
-        android:textSize="15dp"/>
+        android:textSize="15sp"/>
 
 </RelativeLayout>

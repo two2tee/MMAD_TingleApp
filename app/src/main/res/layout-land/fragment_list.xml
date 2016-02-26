@@ -11,7 +11,7 @@
     <ListView
         android:id="@+id/item_list"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
         android:layout_weight="1">
     </ListView>
 
@@ -25,7 +25,7 @@
             android:id="@+id/delete_Button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Delete"/>
+            android:text="@string/delete"/>
 
 
     </LinearLayout>
