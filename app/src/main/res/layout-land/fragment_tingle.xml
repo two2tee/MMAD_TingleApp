@@ -11,13 +11,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:layout_weight="1.3">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/headline"
-            android:textSize="18sp"
-            android:gravity="top"/>
+        android:layout_weight="3.5">
+
 
         <!-- bar -->
         <View
@@ -33,10 +28,17 @@
             android:gravity="center">
 
             <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/headline"
+                android:textSize="12sp"
+                android:gravity="top"/>
+
+            <TextView
                 android:id="@+id/last_thing"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="25sp"
+                android:textSize="10sp"
                 android:layout_marginBottom="20dp"
                 android:gravity="center_horizontal"/>
 
@@ -113,11 +115,6 @@
             android:layout_height="wrap_content"
             android:text="@string/heading_lookUp"/>
 
-        <Button
-            android:id="@+id/goTOList_button"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/heading_showAll"/>
 
     </LinearLayout>
 

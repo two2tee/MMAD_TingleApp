@@ -1,21 +1,6 @@
 package itu.mmad.dttn.tingle.Controller;
 
-import android.content.Intent;
-import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.ListView;
-import android.widget.Toast;
-
-import java.util.Iterator;
-
-import itu.mmad.dttn.tingle.Model.InMemoryRepository;
-import itu.mmad.dttn.tingle.Model.Interfaces.IRepository;
-import itu.mmad.dttn.tingle.Model.Thing;
-import itu.mmad.dttn.tingle.R;
 
 /**
  * This class represents an activity to display all items created.
@@ -84,7 +69,7 @@ public class ListActivity extends AppCompatActivity {
 //
 //
 //    private void setItemList() {
-//        Thing[] things = new Thing[repository.returnSize() + 1];
+//        Thing[] things = new Thing[repository.getTotalSize() + 1];
 //        Iterator<Thing> items = repository.getAll();
 //        int count = 0;
 //        while (items.hasNext()) {

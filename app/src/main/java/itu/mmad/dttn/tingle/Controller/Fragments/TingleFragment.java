@@ -1,6 +1,7 @@
 package itu.mmad.dttn.tingle.Controller.Fragments;
 
 import android.content.Context;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -11,11 +12,11 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.Iterator;
+import java.util.List;
 
-import itu.mmad.dttn.tingle.Model.InMemoryRepository;
-import itu.mmad.dttn.tingle.Model.Interfaces.IRepository;
+import itu.mmad.dttn.tingle.Controller.TingleActivity;
 import itu.mmad.dttn.tingle.Model.Thing;
+import itu.mmad.dttn.tingle.Model.ThingsDatabase;
 import itu.mmad.dttn.tingle.R;
 
 /**
@@ -26,10 +27,12 @@ import itu.mmad.dttn.tingle.R;
 public class TingleFragment extends Fragment {
 
     //EventHandler
-    OnShowAllPressedListener mCallBack;
+    TingleFragmentEventListener mCallBack;
 
-    public interface OnShowAllPressedListener{
-        public void onShowAllPressed();
+    public interface TingleFragmentEventListener {
+        void onShowAllPressed();
+
+        void onAddPressed();
     }
 
     // GUI variables
@@ -40,20 +43,18 @@ public class TingleFragment extends Fragment {
     private EditText whatField, whereField;
 
     //database
-    private IRepository<Thing> repository;
+    private ThingsDatabase repository;
 
-    //Other
-    private static boolean isFilled = false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        fillThingsDB();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_tingle,container,false);
+        View v = inflater.inflate(R.layout.fragment_tingle, container, false);
+        repository = ((TingleActivity) getActivity()).getDatabase();
 
         setButtons(v);
         setTextFields(v);
@@ -67,16 +68,14 @@ public class TingleFragment extends Fragment {
 
         //Checks if parent activity has implemented the
         //callback interface
-        try
-        {
-            mCallBack = (OnShowAllPressedListener) context;
-            repository = InMemoryRepository.getInMemoryRepository();
-        }
-        catch (ClassCastException e)
-        {
-            throw new ClassCastException(context.toString()+" must implement OnBackPressedListener");
+        try {
+            mCallBack = (TingleFragmentEventListener) context;
+            repository = ((TingleActivity) getActivity()).getDatabase();
+        } catch (ClassCastException e) {
+            throw new ClassCastException(context.toString() + " must implement ListFragmentEventListener");
         }
     }
+
 
     private void setButtons(View v) {
         addThing = (Button) v.findViewById(R.id.add_button);
@@ -88,6 +87,10 @@ public class TingleFragment extends Fragment {
                     whatField.setText("");
                     whereField.setText("");
                     updateUI();
+
+                    mCallBack.onAddPressed();
+
+
                 }
             }
         });
@@ -110,14 +113,16 @@ public class TingleFragment extends Fragment {
             }
         });
 
-        showAll = (Button) v.findViewById(R.id.goTOList_button);
-        showAll.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-               mCallBack.onShowAllPressed();
-            }
-        });
-
+        //Portrait mode show go to list button
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+            showAll = (Button) v.findViewById(R.id.goTOList_button);
+            showAll.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mCallBack.onShowAllPressed();
+                }
+            });
+        }
 
     }
 
@@ -134,14 +139,14 @@ public class TingleFragment extends Fragment {
 
     private String SearchThing(String item) {
         String searchItem = item.toLowerCase().trim();
-        Thing thing;
-        Iterator<Thing> items = repository.getAll();
-        while (items.hasNext()) {
-            thing = items.next();
-            if (thing.getWhat().equals(searchItem)) {
-                return thing.getWhere();
+        List<Thing> things = repository.getAll();
+
+        for (Thing t : things) {
+            if (t.getWhat().equals(searchItem)) {
+                return t.getWhere();
             }
         }
+
         return null;
     }
 
@@ -151,7 +156,7 @@ public class TingleFragment extends Fragment {
     }
 
     private void updateUI() {
-        int lastAdded = repository.returnSize();
+        int lastAdded = repository.getTotalSize() - 1;
         if (lastAdded > 0) {
             this.lastAdded.setText(repository.get(lastAdded).toString());
         } else {
@@ -159,15 +164,6 @@ public class TingleFragment extends Fragment {
         }
     }
 
-    private void fillThingsDB() {
-        if (!TingleFragment.isFilled) {
-            repository.put(new Thing("Android Phone", "Desk"));
-            repository.put(new Thing("Keys", "Desk"));
-            repository.put(new Thing("Child", "Kindergarten"));
-            repository.put(new Thing("Groceries", "Car"));
-            TingleFragment.isFilled = true;
-        }
-    }
 }
 
 

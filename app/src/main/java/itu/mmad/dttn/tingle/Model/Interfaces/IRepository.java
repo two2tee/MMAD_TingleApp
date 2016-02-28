@@ -2,15 +2,20 @@ package itu.mmad.dttn.tingle.Model.Interfaces;
 
 import java.util.Iterator;
 
+import itu.mmad.dttn.tingle.Model.Entity;
+
 /**
  * Interface used to create repositories for the app
  */
-public interface IRepository<E>{
+public interface IRepository<E extends Entity>{
     E get(int id);
+
     Iterator<E> getAll ();
-    void put(E entity);
-    void update (E entity);
-    void delete(int id);
-    int returnSize();
+
+    boolean put(E entity);
+
+    void update (int id, String what, String where);
+
+    boolean delete(int id);
 
 }
