@@ -11,9 +11,9 @@ import itu.mmad.dttn.tingle.Model.Interfaces.IRepository;
  * This class represents a singleton of a repository.
  * This repository will only store the items in memory and not as persistent data
  */
-public class InMemoryRepository implements IRepository<Thing>, Serializable {
+public class InMemoryRepository implements IRepository, Serializable {
 
-    private final List<Thing> thingsDB;
+    private final List<Entity> thingsDB;
 
     //Singleton pattern has been replaced by dagger2 singleton
     public InMemoryRepository() {
@@ -27,7 +27,7 @@ public class InMemoryRepository implements IRepository<Thing>, Serializable {
      * @return Thing
      */
     @Override
-    public Thing get(int id) {
+    public Entity get(int id) {
         return thingsDB.get(id);
     }
 
@@ -37,17 +37,17 @@ public class InMemoryRepository implements IRepository<Thing>, Serializable {
      * @return Iterator
      */
     @Override
-    public Iterator<Thing> getAll() {
+    public Iterator<Entity> getAll() {
         return thingsDB.iterator();
     }
 
     /**
      * Adds a given item in the repository
      *
-     * @param entity Thing
+     * @param entity
      */
     @Override
-    public boolean put(Thing entity) {
+    public boolean put(Entity entity) {
         if(entity == null) return false;
         thingsDB.add(entity);
         return true;
@@ -69,7 +69,7 @@ public class InMemoryRepository implements IRepository<Thing>, Serializable {
     @Override
     public boolean delete(int id) {
 
-        Thing toRemove = searchById(id);
+        Entity toRemove = searchById(id);
         if (toRemove == null)
             return false;
 
@@ -77,8 +77,8 @@ public class InMemoryRepository implements IRepository<Thing>, Serializable {
         return true;
     }
 
-    private Thing searchById(int id) {
-        for (Thing t : thingsDB) {
+    private Entity searchById(int id) {
+        for (Entity t : thingsDB) {
             if (t.getId().hashCode() == id) {
                 return t;
             }

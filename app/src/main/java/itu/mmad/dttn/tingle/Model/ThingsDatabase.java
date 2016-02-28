@@ -95,29 +95,29 @@ public class ThingsDatabase {
     private void fillThingsDB() {
         if (!ThingsDatabase.isFilled) {
             repository.put(new Thing("Android Phone", "Desk"));
-            repository.put(new Thing("Keys", "Desk"));
-            repository.put(new Thing("Child", "Kindergarten"));
-            repository.put(new Thing("Groceries", "Car"));
-            repository.put(new Thing("Android Phone", "Desk"));
-            repository.put(new Thing("Keys", "Desk"));
-            repository.put(new Thing("Child", "Kindergarten"));
-            repository.put(new Thing("Groceries", "Car"));
-            repository.put(new Thing("Android Phone", "Desk"));
-            repository.put(new Thing("Keys", "Desk"));
-            repository.put(new Thing("Child", "Kindergarten"));
-            repository.put(new Thing("Groceries", "Car"));
-            repository.put(new Thing("Android Phone", "Desk"));
-            repository.put(new Thing("Keys", "Desk"));
-            repository.put(new Thing("Child", "Kindergarten"));
-            repository.put(new Thing("Groceries", "Car"));
-            repository.put(new Thing("Android Phone", "Desk"));
-            repository.put(new Thing("Keys", "Desk"));
-            repository.put(new Thing("Child", "Kindergarten"));
-            repository.put(new Thing("Groceries", "Car"));
-            repository.put(new Thing("Android Phone", "Desk"));
-            repository.put(new Thing("Keys", "Desk"));
-            repository.put(new Thing("Child", "Kindergarten"));
-            repository.put(new Thing("Groceries", "Car"));
+            repository.put(new Thing("keys", "Desk"));
+            repository.put(new Thing("child", "Kindergarten"));
+            repository.put(new Thing("groceries", "Car"));
+            repository.put(new Thing("android Phone", "Desk"));
+            repository.put(new Thing("keys", "Desk"));
+            repository.put(new Thing("child", "Kindergarten"));
+            repository.put(new Thing("groceries", "Car"));
+            repository.put(new Thing("android Phone", "Desk"));
+            repository.put(new Thing("keys", "Desk"));
+            repository.put(new Thing("child", "Kindergarten"));
+            repository.put(new Thing("groceries", "Car"));
+            repository.put(new Thing("android Phone", "Desk"));
+            repository.put(new Thing("keys", "Desk"));
+            repository.put(new Thing("child", "Kindergarten"));
+            repository.put(new Thing("groceries", "Car"));
+            repository.put(new Thing("android Phone", "Desk"));
+            repository.put(new Thing("keys", "Desk"));
+            repository.put(new Thing("child", "Kindergarten"));
+            repository.put(new Thing("groceries", "Car"));
+            repository.put(new Thing("android Phone", "Desk"));
+            repository.put(new Thing("keys", "Desk"));
+            repository.put(new Thing("child", "Kindergarten"));
+            repository.put(new Thing("groceries", "Car"));
             ThingsDatabase.isFilled = true;
         }
     }

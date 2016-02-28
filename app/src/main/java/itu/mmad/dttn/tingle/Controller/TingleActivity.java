@@ -17,7 +17,7 @@ import itu.mmad.dttn.tingle.R;
  * This class represents the launcher activity for tingle
  */
 public class TingleActivity extends FragmentActivity
-implements ListFragment.ListFragmentListener, TingleFragment.TingleFragmentEventListener {
+implements ListFragment.ListFragmentEventListener, TingleFragment.TingleFragmentEventListener {
 
 
     private static ThingsDatabase database;
@@ -63,7 +63,6 @@ implements ListFragment.ListFragmentListener, TingleFragment.TingleFragmentEvent
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.fragment_container, fragment)
                     .commit();
-
         }
     }
 
