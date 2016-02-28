@@ -3,13 +3,15 @@ package itu.mmad.dttn.tingle.Model;
 import android.annotation.TargetApi;
 import android.os.Build;
 
+import java.io.Serializable;
 import java.util.Objects;
 import java.util.UUID;
 
 /**
  * Abstract entity class that represents some given item in a database.
  */
-public abstract class Entity {
+public abstract class Entity implements Serializable
+{
 
     private final String id;
 

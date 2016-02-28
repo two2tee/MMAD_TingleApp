@@ -72,7 +72,7 @@ public class TingleFragment extends Fragment {
             mCallBack = (TingleFragmentEventListener) context;
             repository = ((TingleActivity) getActivity()).getDatabase();
         } catch (ClassCastException e) {
-            throw new ClassCastException(context.toString() + " must implement ListFragmentListener");
+            throw new ClassCastException(context.toString() + " must implement ListFragmentEventListener");
         }
     }
 
