@@ -1,19 +1,27 @@
 package itu.mmad.dttn.tingle.Controller.Fragments;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.os.OperationCanceledException;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import itu.mmad.dttn.tingle.Controller.TingleActivity;
@@ -40,9 +48,10 @@ public class ListFragment extends Fragment {
     private View view;
     private Button back;
     private Button delete;
-    private ListView itemList;
+    private RecyclerView itemList;
+    private ThingAdapter mAdapter;
 
-    private int selectedItemId;
+    private List<Thing> selectedItems;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -54,10 +63,21 @@ public class ListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_list, container, false);
         repository = ((TingleActivity) getActivity()).getDatabase();
+        selectedItems = new ArrayList<>();
 
         setButtons();
         setItemList();
+
+        updateList();
+
         return view;
+    }
+
+    private void updateList()
+    {
+        List<Thing> things = repository.getAll();
+        mAdapter = new ThingAdapter(things);
+        itemList.setAdapter(mAdapter);
     }
 
     @Override
@@ -98,42 +118,126 @@ public class ListFragment extends Fragment {
         delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                try {
-                    if (selectedItemId == -1) {
-                        makeToast(getString(R.string.no_item_selected));
-                    } else {
-                        repository.delete(selectedItemId);
-                        setItemList();
-                        selectedItemId = -1;
 
+                if (selectedItems.isEmpty()) {
+                    makeToast(getString(R.string.no_item_selected));
+                }
+                else
+                {
 
-                    }
-                } catch (OperationCanceledException e) {
-                    makeToast(getString(R.string.something_Went_Wrong));
+                    new AlertDialog.Builder(getActivity())
+                            .setIcon(android.R.drawable.ic_dialog_alert)
+                            .setTitle(R.string.warning)
+                            .setMessage(R.string.delete_question)
+                            .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener()
+                            {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which)
+                                {
+                                    try
+                                    {
+                                        for (Thing thing : selectedItems)
+                                        {
+                                            repository.delete(thing.getId().hashCode());
+                                        }
+                                        selectedItems.clear();
+                                        updateList();
+
+                                    } catch (OperationCanceledException e)
+                                    {
+                                        makeToast(getString(R.string.something_Went_Wrong));
+                                    }
+
+                                }
+
+                            })
+                            .setNegativeButton(R.string.no, null)
+                            .show();
                 }
             }
         });
 
     }
 
-
     private void setItemList() {
-
-        List<Thing> things = repository.getAll();
-
-
-        final ArrayAdapter adapter = new ArrayAdapter(getActivity().getApplicationContext(), R.layout.list_view_row_item, R.id.list_item_text, things);
-        itemList = (ListView) view.findViewById(R.id.item_list);
-        itemList.setAdapter(adapter);
-
-        itemList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Thing selectedItem = (Thing) adapter.getItem(position);
-                selectedItemId = selectedItem.getId().hashCode();
-                makeToast(getString(R.string.item_selected) + " " + selectedItem.getWhat());
-            }
-        });
+        itemList = (RecyclerView) view.findViewById(R.id.item_list);
+        itemList.setLayoutManager(new LinearLayoutManager(getActivity()));
     }
+
+
+    //ViewHolder for list
+
+    private class ThingHolder extends RecyclerView.ViewHolder
+    {
+        private TextView mThingLabel;
+        private CheckBox mSelectedCheckBox;
+        private Thing mThing;
+
+        public ThingHolder(View itemView)
+        {
+            super(itemView);
+            mThingLabel = (TextView) itemView.findViewById(R.id.list_item_text);
+            mSelectedCheckBox = (CheckBox) itemView.findViewById(R.id.list_checkbox);
+            setCheckboxes();
+
+        }
+
+        public void BindThing(Thing thing){
+            mThingLabel.setText(thing.toString());
+            mSelectedCheckBox.setChecked(false);
+            mThing = thing;
+        }
+
+        private void setCheckboxes(){
+            mSelectedCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener()
+            {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
+                {
+                    if(isChecked)
+                    {
+                        selectedItems.add(mThing);
+                    }
+                    else
+                    {
+                        selectedItems.remove(mThing);
+                    }
+                }
+            });
+        }
+
+    }
+
+      //Adapter for list
+    private class ThingAdapter extends RecyclerView.Adapter<ThingHolder>{
+        private List<Thing> mThings;
+
+        public ThingAdapter(List<Thing> things)
+        {
+            mThings = things;
+        }
+
+        @Override
+        public ThingHolder onCreateViewHolder(ViewGroup parent, int viewType)
+        {
+            LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
+            View view = layoutInflater.inflate(R.layout.list_view_row_item,parent,false);
+            return new ThingHolder(view);
+        }
+
+        @Override
+        public void onBindViewHolder(ThingHolder holder, int position)
+        {
+            Thing thing = mThings.get(position);
+            holder.BindThing(thing);
+        }
+
+        @Override
+        public int getItemCount()
+        {
+            return mThings.size();
+        }
+    }
+
 
 }

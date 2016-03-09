@@ -16,4 +16,8 @@
     <string name="back">Back</string>
     <string name="what_hint">Enter name of item.</string>
     <string name="where_hint">Enter location of item</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="delete_question">Are you sure you want to delete selected elements?</string>
+    <string name="warning">Warning</string>
 </resources>
