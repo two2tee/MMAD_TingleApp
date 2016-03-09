@@ -78,7 +78,9 @@
                 android:id="@+id/what_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/what_hint"/>
+                android:hint="@string/what_hint"
+                android:inputType="text"
+                android:imeOptions="actionNext"/>
         </LinearLayout>
 
 
@@ -92,12 +94,16 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:text="@string/where"
+                android:paddingRight="27dp"
                 android:paddingEnd="27dp"/>
+
             <EditText
                 android:id="@+id/where_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/where_hint"/>
+                android:hint="@string/where_hint"
+                android:inputType="text"
+                android:imeOptions="actionDone"/>
         </LinearLayout>
 
 
