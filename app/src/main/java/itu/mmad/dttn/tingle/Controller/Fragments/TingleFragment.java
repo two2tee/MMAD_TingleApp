@@ -4,9 +4,11 @@ import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -32,7 +34,7 @@ public class TingleFragment extends Fragment {
     public interface TingleFragmentEventListener {
         void onShowAllPressed();
 
-        void onAddPressed();
+        void onItemAdded();
     }
 
     // GUI variables
@@ -82,32 +84,27 @@ public class TingleFragment extends Fragment {
         addThing.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if ((whatField.getText().length() > 0) && (whereField.getText().length() > 0)) {
-                    repository.put(makeThing());
-                    whatField.setText("");
-                    whereField.setText("");
-                    updateUI();
-
-                    mCallBack.onAddPressed();
-
-
-                }
+                addItem();
             }
+
         });
 
 
         lookUpThing = (Button) v.findViewById(R.id.lookUp_button);
-        lookUpThing.setOnClickListener(new View.OnClickListener() {
+        lookUpThing.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View v) {
-                if (whatField.getText().length() > 0) {
+            public void onClick(View v)
+            {
+                if (whatField.getText().length() > 0)
+                {
                     String result = SearchThing(whatField.getText().toString());
 
                     if (result != null)
                         makeToast(getString(R.string.item_found_toast) + " " + result);
-                    else
-                        makeToast(getString(R.string.item_NotFound_toast));
-                } else {
+                    else makeToast(getString(R.string.item_NotFound_toast));
+                } else
+                {
                     makeToast(getString(R.string.no_what_specified));
                 }
             }
@@ -126,6 +123,22 @@ public class TingleFragment extends Fragment {
 
     }
 
+
+    /**
+     * Adds a given item
+     */
+    private void addItem()
+    {
+        if ((whatField.getText().length() > 0) && (whereField.getText().length() > 0)) {
+            repository.put(makeThing());
+            whatField.setText("");
+            whereField.setText("");
+            updateUI();
+
+            mCallBack.onItemAdded();
+        }
+    }
+
     private void makeToast(String string) {
         Context context = getActivity().getApplicationContext();
         Toast.makeText(context, string, Toast.LENGTH_SHORT).show();
@@ -135,6 +148,21 @@ public class TingleFragment extends Fragment {
         lastAdded = (TextView) v.findViewById(R.id.last_thing);
         whatField = (EditText) v.findViewById(R.id.what_text);
         whereField = (EditText) v.findViewById(R.id.where_text);
+        whereField.setOnEditorActionListener(new TextView.OnEditorActionListener()
+        {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event)
+            {
+               boolean handled = false;
+                if(actionId == EditorInfo.IME_ACTION_DONE){
+                    addItem();
+                    handled = true;
+                }
+
+                return handled;
+            }
+        });
+
     }
 
     private String SearchThing(String item) {

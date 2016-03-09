@@ -95,7 +95,7 @@ implements ListFragment.ListFragmentEventListener, TingleFragment.TingleFragment
      * When add is pressed update list
      */
     @Override
-    public void onAddPressed() {
+    public void onItemAdded() {
         //To update list when landscape mode
         if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){
             setFragment();
