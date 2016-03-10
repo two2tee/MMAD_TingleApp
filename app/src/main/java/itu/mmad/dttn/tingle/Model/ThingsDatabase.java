@@ -5,6 +5,7 @@ import android.support.v4.os.OperationCanceledException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Random;
 
 import javax.inject.Inject;
 
@@ -94,30 +95,57 @@ public class ThingsDatabase {
      */
     private void fillThingsDB() {
         if (!ThingsDatabase.isFilled) {
-            repository.put(new Thing("Android Phone", "Desk"));
-            repository.put(new Thing("keys", "Desk"));
-            repository.put(new Thing("child", "Kindergarten"));
-            repository.put(new Thing("groceries", "Car"));
-            repository.put(new Thing("android Phone", "Desk"));
-            repository.put(new Thing("keys", "Desk"));
-            repository.put(new Thing("child", "Kindergarten"));
-            repository.put(new Thing("groceries", "Car"));
-            repository.put(new Thing("android Phone", "Desk"));
-            repository.put(new Thing("keys", "Desk"));
-            repository.put(new Thing("child", "Kindergarten"));
-            repository.put(new Thing("groceries", "Car"));
-            repository.put(new Thing("android Phone", "Desk"));
-            repository.put(new Thing("keys", "Desk"));
-            repository.put(new Thing("child", "Kindergarten"));
-            repository.put(new Thing("groceries", "Car"));
-            repository.put(new Thing("android Phone", "Desk"));
-            repository.put(new Thing("keys", "Desk"));
-            repository.put(new Thing("child", "Kindergarten"));
-            repository.put(new Thing("groceries", "Car"));
-            repository.put(new Thing("android Phone", "Desk"));
-            repository.put(new Thing("keys", "Desk"));
-            repository.put(new Thing("child", "Kindergarten"));
-            repository.put(new Thing("groceries", "Car"));
+            Random random = new Random();
+
+            String[] locations = new String[]{
+                    "Desk",
+                    "Carport",
+                    "Car",
+                    "Washing machine",
+                    "Uncle johns house",
+                    "Kindergarten",
+                    "Kitchen",
+                    "Bedroom desk",
+                    "Garden",
+                    "Office",
+                    "Bag",
+                    "Grocery store",
+                    "Back pocket",
+                    "Shelves",
+                    "Living room table",
+                    "Vietnam diner",
+                    "Gym changing room"
+
+
+
+            };
+            String[] items = new String[]{
+                    "car keys",
+                    "phone",
+                    "Kids",
+                    "Wallet",
+                    "Laptop",
+                    "Passport",
+                    "Train tickets",
+                    "Milk",
+                    "Shoes",
+                    "Eye liner",
+                    "white out",
+                    "newspaper",
+                    "USB stick",
+                    "charger",
+                    "boombox",
+                    "toys",
+                    "Credit card",
+                    "shovel",
+                    "Pencil",
+                    "Bucket",
+                    "Calculator"
+            };
+
+            for(int x =  0; x < 10;x++){
+                repository.put(new Thing(items[random.nextInt(items.length)],locations[random.nextInt(locations.length)]));
+            }
             ThingsDatabase.isFilled = true;
         }
     }
