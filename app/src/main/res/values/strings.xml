@@ -20,4 +20,7 @@
     <string name="no">No</string>
     <string name="delete_question">Are you sure you want to delete selected elements?</string>
     <string name="warning">Warning</string>
+    <string name="details_label">Details</string>
+    <string name="basic_info_label">Basic information</string>
+    <string name="description_hint">Enter description</string>
 </resources>
