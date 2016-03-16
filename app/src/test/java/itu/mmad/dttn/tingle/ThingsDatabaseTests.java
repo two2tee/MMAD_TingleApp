@@ -10,10 +10,11 @@ import org.mockito.Mockito;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
-import itu.mmad.dttn.tingle.Model.Interfaces.IRepository;
-import itu.mmad.dttn.tingle.Model.Thing;
-import itu.mmad.dttn.tingle.Model.ThingsDatabase;
+import itu.mmad.dttn.tingle.model.Interfaces.IRepository;
+import itu.mmad.dttn.tingle.model.Thing;
+import itu.mmad.dttn.tingle.model.ThingsDatabase;
 
 /**
  * Tests for thingsdatabase
@@ -51,9 +52,9 @@ public class ThingsDatabaseTests
     @Test
     public void get_NotNull_True(){
         Thing toReturn = new Thing("a", "b");
-        int dummyId = toReturn.hashCode();
+        UUID dummyId = toReturn.getId();
 
-        Mockito.when(mockRepository.get(dummyId)).thenReturn(toReturn);
+        Mockito.when(mockRepository.get(dummyId.hashCode())).thenReturn(toReturn);
 
         SUT = new ThingsDatabase(mockRepository);
         Thing actual = SUT.get(dummyId);
@@ -93,8 +94,8 @@ public class ThingsDatabaseTests
 
     @Test
     public void delete_ExistingITem_NoException(){
-        int dummyId = 1234;
-        Mockito.when(mockRepository.delete(dummyId)).thenReturn(true);
+        UUID dummyId = UUID.randomUUID();
+        Mockito.when(mockRepository.delete(dummyId.hashCode())).thenReturn(true);
         boolean exceptionThrown = false;
 
         SUT = new ThingsDatabase(mockRepository);
@@ -114,8 +115,8 @@ public class ThingsDatabaseTests
 
     @Test
     public void delete_NonExistingITem_ExceptionThrown(){
-        int dummyId = 1234;
-        Mockito.when(mockRepository.delete(dummyId)).thenReturn(false);
+        UUID dummyId = UUID.randomUUID();
+        Mockito.when(mockRepository.delete(dummyId.hashCode())).thenReturn(false);
         boolean exceptionThrown = false;
 
         SUT = new ThingsDatabase(mockRepository);
