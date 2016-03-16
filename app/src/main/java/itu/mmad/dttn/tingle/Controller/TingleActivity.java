@@ -16,20 +16,40 @@ import itu.mmad.dttn.tingle.R;
 /**
  * This class represents the launcher activity for tingle
  */
-public class TingleActivity extends FragmentActivity
+public class TingleActivity extends GenericFragmentActivity
 implements ListFragment.ListFragmentEventListener, TingleFragment.TingleFragmentEventListener {
 
 
     private static ThingsDatabase database;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tingle);
 
-        setFragment();
         setDatabase();
 
+    }
+
+    @Override
+    protected Fragment createPortraitFragment() {
+        return new TingleFragment();
+    }
+
+    @Override
+    protected Fragment createLeftFragment() {
+        return new TingleFragment();
+    }
+
+    @Override
+    protected Fragment createRightFragment() {
+        return new ListFragment();
+    }
+
+
+    public ThingsDatabase getDatabase(){
+        return TingleActivity.database;
     }
 
     private void setDatabase(){
@@ -42,40 +62,7 @@ implements ListFragment.ListFragmentEventListener, TingleFragment.TingleFragment
         }
     }
 
-    private void setFragment() {
 
-
-        //Landscape mode
-        if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){
-            Fragment fragmentLeft = new TingleFragment();
-            Fragment fragmentRight = new ListFragment();
-
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.fragment_container_left, fragmentLeft)
-                    .replace(R.id.fragment_container_right,fragmentRight)
-                    .commit();
-        }
-
-        //Portrait mode
-        else if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
-            Fragment fragment = new TingleFragment();
-
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.fragment_container, fragment)
-                    .commit();
-        }
-    }
-
-    /**
-     * Sets the current fragment for portrait mode with a given fragment.
-     * NOTE: Support library of fragments are used.
-     * @param fragment Fragment
-     */
-    private void changeFragment(Fragment fragment){
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fragment_container, fragment)
-                .commit();
-    }
 
     /**
      * Returns to tingle main page.
@@ -103,7 +90,5 @@ implements ListFragment.ListFragmentEventListener, TingleFragment.TingleFragment
 
     }
 
-    public ThingsDatabase getDatabase(){
-        return TingleActivity.database;
-    }
+
 }
