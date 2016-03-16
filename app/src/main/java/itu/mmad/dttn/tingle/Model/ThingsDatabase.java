@@ -9,6 +9,9 @@ import java.util.Random;
 
 import javax.inject.Inject;
 
+import itu.mmad.dttn.tingle.Model.Dagger2_DependencyInjection.Components.DaggerRepositoryComponent;
+import itu.mmad.dttn.tingle.Model.Dagger2_DependencyInjection.Components.RepositoryComponent;
+import itu.mmad.dttn.tingle.Model.Dagger2_DependencyInjection.Modules.RepositoryModule;
 import itu.mmad.dttn.tingle.Model.Interfaces.IRepository;
 
 /**
@@ -18,6 +21,19 @@ import itu.mmad.dttn.tingle.Model.Interfaces.IRepository;
 
 
 public class ThingsDatabase {
+
+    //Setup database with injection
+    private static ThingsDatabase DATABASE;
+    public static ThingsDatabase getDatabase(){
+        if (DATABASE == null) {
+            //Setting dependency injection for database and apply
+            RepositoryComponent component = DaggerRepositoryComponent.builder()
+                    .repositoryModule(new RepositoryModule()).build();
+
+            DATABASE = component.provideDatabase();
+        }
+        return DATABASE;
+    }
 
     final IRepository<Thing> repository;
     private static boolean isFilled = false;

@@ -3,6 +3,7 @@ package itu.mmad.dttn.tingle.Controller.Fragments;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -167,7 +168,7 @@ public class ListFragment extends Fragment {
 
     //ViewHolder for list
 
-    private class ThingHolder extends RecyclerView.ViewHolder
+    private class ThingHolder extends RecyclerView.ViewHolder implements View.OnClickListener
     {
         private TextView mThingLabel;
         private CheckBox mSelectedCheckBox;
@@ -179,6 +180,8 @@ public class ListFragment extends Fragment {
             mThingLabel = (TextView) itemView.findViewById(R.id.list_item_text);
             mSelectedCheckBox = (CheckBox) itemView.findViewById(R.id.list_checkbox);
             setCheckboxes();
+            itemView.setOnClickListener(this);
+
 
         }
 
@@ -205,6 +208,13 @@ public class ListFragment extends Fragment {
                 }
             });
         }
+
+        @Override
+        public void onClick(View v) {
+            Intent intent = new Intent(getActivity(),TingleActivity.class);
+
+        }
+
 
     }
 

@@ -3,13 +3,9 @@ package itu.mmad.dttn.tingle.Controller;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 
 import itu.mmad.dttn.tingle.Controller.Fragments.ListFragment;
 import itu.mmad.dttn.tingle.Controller.Fragments.TingleFragment;
-import itu.mmad.dttn.tingle.Model.Dagger2_DependencyInjection.Components.DaggerRepositoryComponent;
-import itu.mmad.dttn.tingle.Model.Dagger2_DependencyInjection.Components.RepositoryComponent;
-import itu.mmad.dttn.tingle.Model.Dagger2_DependencyInjection.Modules.RepositoryModule;
 import itu.mmad.dttn.tingle.Model.ThingsDatabase;
 import itu.mmad.dttn.tingle.R;
 
@@ -20,16 +16,10 @@ public class TingleActivity extends GenericFragmentActivity
 implements ListFragment.ListFragmentEventListener, TingleFragment.TingleFragmentEventListener {
 
 
-    private static ThingsDatabase database;
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tingle);
-
-        setDatabase();
-
     }
 
     @Override
@@ -48,21 +38,13 @@ implements ListFragment.ListFragmentEventListener, TingleFragment.TingleFragment
     }
 
 
+    /**
+     * Gets the database
+     * @return database
+     */
     public ThingsDatabase getDatabase(){
-        return TingleActivity.database;
+        return ThingsDatabase.getDatabase();
     }
-
-    private void setDatabase(){
-        if (database == null) {
-            //Setting dependency injection for database and apply
-            RepositoryComponent component = DaggerRepositoryComponent.builder()
-                    .repositoryModule(new RepositoryModule()).build();
-
-            database = component.provideDatabase();
-        }
-    }
-
-
 
     /**
      * Returns to tingle main page.
