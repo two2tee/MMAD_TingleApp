@@ -12,9 +12,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import itu.mmad.dttn.tingle.Model.Interfaces.IRepository;
-import itu.mmad.dttn.tingle.Model.Thing;
-import itu.mmad.dttn.tingle.Model.ThingsDatabase;
+import itu.mmad.dttn.tingle.model.Interfaces.IRepository;
+import itu.mmad.dttn.tingle.model.Thing;
+import itu.mmad.dttn.tingle.model.ThingsDatabase;
 
 /**
  * Tests for thingsdatabase

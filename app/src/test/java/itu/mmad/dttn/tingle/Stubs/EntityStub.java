@@ -1,6 +1,6 @@
 package itu.mmad.dttn.tingle.Stubs;
 
-import itu.mmad.dttn.tingle.Model.Entity;
+import itu.mmad.dttn.tingle.model.Entity;
 
 /**
  * CStub representing item in a database
