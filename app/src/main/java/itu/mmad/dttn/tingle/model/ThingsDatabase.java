@@ -1,4 +1,4 @@
-package itu.mmad.dttn.tingle.Model;
+package itu.mmad.dttn.tingle.model;
 
 import android.support.v4.os.OperationCanceledException;
 
@@ -10,10 +10,10 @@ import java.util.UUID;
 
 import javax.inject.Inject;
 
-import itu.mmad.dttn.tingle.Model.Dagger2_DependencyInjection.Components.DaggerRepositoryComponent;
-import itu.mmad.dttn.tingle.Model.Dagger2_DependencyInjection.Components.RepositoryComponent;
-import itu.mmad.dttn.tingle.Model.Dagger2_DependencyInjection.Modules.RepositoryModule;
-import itu.mmad.dttn.tingle.Model.Interfaces.IRepository;
+import itu.mmad.dttn.tingle.model.Dagger2_DependencyInjection.Components.DaggerRepositoryComponent;
+import itu.mmad.dttn.tingle.model.Dagger2_DependencyInjection.Components.RepositoryComponent;
+import itu.mmad.dttn.tingle.model.Dagger2_DependencyInjection.Modules.RepositoryModule;
+import itu.mmad.dttn.tingle.model.Interfaces.IRepository;
 
 /**
  * Represents a database that contains a repository.

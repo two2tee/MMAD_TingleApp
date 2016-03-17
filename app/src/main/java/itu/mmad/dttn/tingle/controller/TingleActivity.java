@@ -1,11 +1,11 @@
-package itu.mmad.dttn.tingle.Controller;
+package itu.mmad.dttn.tingle.controller;
 
 import android.content.res.Configuration;
 import android.support.v4.app.Fragment;
 
-import itu.mmad.dttn.tingle.Controller.Fragments.ListFragment;
-import itu.mmad.dttn.tingle.Controller.Fragments.TingleFragment;
-import itu.mmad.dttn.tingle.Model.ThingsDatabase;
+import itu.mmad.dttn.tingle.controller.Fragments.ListFragment;
+import itu.mmad.dttn.tingle.controller.Fragments.TingleFragment;
+import itu.mmad.dttn.tingle.model.ThingsDatabase;
 
 /**
  * This class represents the launcher activity for tingle

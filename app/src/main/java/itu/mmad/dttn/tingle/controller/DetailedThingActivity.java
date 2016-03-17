@@ -1,4 +1,4 @@
-package itu.mmad.dttn.tingle.Controller;
+package itu.mmad.dttn.tingle.controller;
 
 import android.content.Context;
 import android.content.Intent;
@@ -6,8 +6,8 @@ import android.support.v4.app.Fragment;
 
 import java.util.UUID;
 
-import itu.mmad.dttn.tingle.Controller.Fragments.SimpleListFragment_Landscape;
-import itu.mmad.dttn.tingle.Controller.Fragments.ThingFragment;
+import itu.mmad.dttn.tingle.controller.Fragments.SimpleListFragment_Landscape;
+import itu.mmad.dttn.tingle.controller.Fragments.ThingFragment;
 
 /**
  * Activity to display detailed things and list

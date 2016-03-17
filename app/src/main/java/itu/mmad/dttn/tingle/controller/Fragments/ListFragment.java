@@ -1,4 +1,4 @@
-package itu.mmad.dttn.tingle.Controller.Fragments;
+package itu.mmad.dttn.tingle.controller.Fragments;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -22,10 +22,10 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
-import itu.mmad.dttn.tingle.Controller.DetailedThingActivity;
-import itu.mmad.dttn.tingle.Controller.GenericFragmentActivity;
-import itu.mmad.dttn.tingle.Model.Thing;
-import itu.mmad.dttn.tingle.Model.ThingsDatabase;
+import itu.mmad.dttn.tingle.controller.DetailedThingActivity;
+import itu.mmad.dttn.tingle.controller.GenericFragmentActivity;
+import itu.mmad.dttn.tingle.model.Thing;
+import itu.mmad.dttn.tingle.model.ThingsDatabase;
 import itu.mmad.dttn.tingle.R;
 
 /**

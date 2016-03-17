@@ -1,11 +1,11 @@
-package itu.mmad.dttn.tingle.Model;
+package itu.mmad.dttn.tingle.model;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import itu.mmad.dttn.tingle.Model.Interfaces.IRepository;
+import itu.mmad.dttn.tingle.model.Interfaces.IRepository;
 
 /**
  * This class represents a singleton of a repository.

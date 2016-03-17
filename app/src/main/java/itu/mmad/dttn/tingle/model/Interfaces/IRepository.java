@@ -1,8 +1,8 @@
-package itu.mmad.dttn.tingle.Model.Interfaces;
+package itu.mmad.dttn.tingle.model.Interfaces;
 
 import java.util.Iterator;
 
-import itu.mmad.dttn.tingle.Model.Entity;
+import itu.mmad.dttn.tingle.model.Entity;
 
 /**
  * Interface used to create repositories for the app

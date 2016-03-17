@@ -1,10 +1,10 @@
-package itu.mmad.dttn.tingle.Model.Dagger2_DependencyInjection.Components;
+package itu.mmad.dttn.tingle.model.Dagger2_DependencyInjection.Components;
 
 import javax.inject.Singleton;
 
 import dagger.Component;
-import itu.mmad.dttn.tingle.Model.Dagger2_DependencyInjection.Modules.RepositoryModule;
-import itu.mmad.dttn.tingle.Model.ThingsDatabase;
+import itu.mmad.dttn.tingle.model.Dagger2_DependencyInjection.Modules.RepositoryModule;
+import itu.mmad.dttn.tingle.model.ThingsDatabase;
 
 /**
  * This interface is a component in Dagger2 dependency injection framework

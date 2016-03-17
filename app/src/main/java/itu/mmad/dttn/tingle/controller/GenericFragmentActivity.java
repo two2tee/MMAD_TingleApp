@@ -1,11 +1,11 @@
-package itu.mmad.dttn.tingle.Controller;
+package itu.mmad.dttn.tingle.controller;
 
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 
-import itu.mmad.dttn.tingle.Model.ThingsDatabase;
+import itu.mmad.dttn.tingle.model.ThingsDatabase;
 import itu.mmad.dttn.tingle.R;
 
 /**
