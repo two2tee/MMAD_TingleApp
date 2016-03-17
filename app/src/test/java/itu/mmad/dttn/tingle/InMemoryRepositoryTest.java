@@ -5,8 +5,8 @@ import junit.framework.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import itu.mmad.dttn.tingle.Model.InMemoryRepository;
-import itu.mmad.dttn.tingle.Model.Thing;
+import itu.mmad.dttn.tingle.model.InMemoryRepository;
+import itu.mmad.dttn.tingle.model.Thing;
 
 /**
  * UNIT test of inMemoryRepo
