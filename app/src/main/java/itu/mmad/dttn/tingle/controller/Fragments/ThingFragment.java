@@ -1,7 +1,6 @@
-package itu.mmad.dttn.tingle.Controller.Fragments;
+package itu.mmad.dttn.tingle.controller.Fragments;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -11,19 +10,41 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
-import itu.mmad.dttn.tingle.Model.Thing;
+import java.util.UUID;
+
+import itu.mmad.dttn.tingle.controller.GenericFragmentActivity;
+import itu.mmad.dttn.tingle.model.Thing;
 import itu.mmad.dttn.tingle.R;
+import itu.mmad.dttn.tingle.model.ThingsDatabase;
 
 /**
  * Represents a detailed view of thing
  */
 public class ThingFragment extends Fragment{
+
+    private static final String ARG_THING_ID = "thing_id";
+
     private Thing mThing;
     private EditText mWhatField;
     private EditText mWhereField;
     private EditText mDescriptionField;
     private Button mDateButton;
 
+    public static ThingFragment newInstance(UUID thingId){
+        Bundle args = new Bundle();
+        args.putSerializable(ARG_THING_ID, thingId);
+        ThingFragment fragment = new ThingFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        UUID thingId = (UUID) getArguments().getSerializable(ARG_THING_ID);
+        ThingsDatabase database = ((GenericFragmentActivity) getActivity()).getDatabase();
+        mThing = database.get(thingId);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {

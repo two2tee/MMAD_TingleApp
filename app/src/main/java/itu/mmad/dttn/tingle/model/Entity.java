@@ -1,4 +1,4 @@
-package itu.mmad.dttn.tingle.Model;
+package itu.mmad.dttn.tingle.model;
 
 import android.annotation.TargetApi;
 import android.os.Build;

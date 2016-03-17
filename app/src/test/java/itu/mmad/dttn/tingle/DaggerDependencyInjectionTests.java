@@ -4,10 +4,10 @@ import junit.framework.Assert;
 
 import org.junit.Test;
 
-import itu.mmad.dttn.tingle.model.Dagger2_DependencyInjection.Components.DaggerRepositoryComponent;
-import itu.mmad.dttn.tingle.model.Dagger2_DependencyInjection.Components.RepositoryComponent;
-import itu.mmad.dttn.tingle.model.Dagger2_DependencyInjection.Modules.RepositoryModule;
-import itu.mmad.dttn.tingle.model.ThingsDatabase;
+import itu.mmad.dttn.tingle.Model.Dagger2_DependencyInjection.Components.DaggerRepositoryComponent;
+import itu.mmad.dttn.tingle.Model.Dagger2_DependencyInjection.Components.RepositoryComponent;
+import itu.mmad.dttn.tingle.Model.Dagger2_DependencyInjection.Modules.RepositoryModule;
+import itu.mmad.dttn.tingle.Model.ThingsDatabase;
 
 /**
  * Tests for dagger dependency injection

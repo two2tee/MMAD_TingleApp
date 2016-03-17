@@ -1,4 +1,4 @@
-package itu.mmad.dttn.tingle.Model;
+package itu.mmad.dttn.tingle.model;
 
 import java.io.Serializable;
 import java.util.Date;

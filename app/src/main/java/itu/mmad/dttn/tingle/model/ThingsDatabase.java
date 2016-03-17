@@ -1,4 +1,4 @@
-package itu.mmad.dttn.tingle.Model;
+package itu.mmad.dttn.tingle.model;
 
 import android.support.v4.os.OperationCanceledException;
 
@@ -6,13 +6,14 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
+import java.util.UUID;
 
 import javax.inject.Inject;
 
-import itu.mmad.dttn.tingle.Model.Dagger2_DependencyInjection.Components.DaggerRepositoryComponent;
-import itu.mmad.dttn.tingle.Model.Dagger2_DependencyInjection.Components.RepositoryComponent;
-import itu.mmad.dttn.tingle.Model.Dagger2_DependencyInjection.Modules.RepositoryModule;
-import itu.mmad.dttn.tingle.Model.Interfaces.IRepository;
+import itu.mmad.dttn.tingle.model.Dagger2_DependencyInjection.Components.DaggerRepositoryComponent;
+import itu.mmad.dttn.tingle.model.Dagger2_DependencyInjection.Components.RepositoryComponent;
+import itu.mmad.dttn.tingle.model.Dagger2_DependencyInjection.Modules.RepositoryModule;
+import itu.mmad.dttn.tingle.model.Interfaces.IRepository;
 
 /**
  * Represents a database that contains a repository.
@@ -44,8 +45,8 @@ public class ThingsDatabase {
         fillThingsDB(); //TODO remember to remove
     }
 
-    public Thing get(int id) {
-        return repository.get(id);
+    public Thing get(UUID id) {
+        return repository.get(id.hashCode());
     }
 
     public List<Thing> getAll() {
@@ -81,8 +82,8 @@ public class ThingsDatabase {
      * @param id of thing
      * @throws OperationCanceledException if item can not be found
      */
-    public void delete(int id) throws OperationCanceledException {
-        boolean isSuccess = repository.delete(id);
+    public void delete(UUID id) throws OperationCanceledException {
+        boolean isSuccess = repository.delete(id.hashCode());
         if (!isSuccess) throw new OperationCanceledException("Deletion failed.");
     }
 
