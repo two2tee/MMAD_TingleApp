@@ -14,7 +14,8 @@
         android:textColor="@color/colorBlack"
         android:textSize="15sp"
         android:layout_toLeftOf="@id/list_checkbox"
-        android:text="Test\nTest"/>
+        android:text="Test\nTest"
+        android:background="@drawable/selected_item_drawable"/>
 
 
 
