@@ -4,7 +4,6 @@ import junit.framework.Assert;
 
 import org.junit.Test;
 
-import itu.mmad.dttn.tingle.Model.Entity;
 import itu.mmad.dttn.tingle.Stubs.EntityStub;
 
 /**

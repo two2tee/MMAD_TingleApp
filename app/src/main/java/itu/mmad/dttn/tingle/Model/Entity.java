@@ -13,10 +13,10 @@ import java.util.UUID;
 public abstract class Entity implements Serializable
 {
 
-    private final String id;
+    private final UUID id;
 
     public Entity() {
-        id = UUID.randomUUID().toString();
+        id = UUID.randomUUID();
     }
 
     /**
@@ -24,7 +24,7 @@ public abstract class Entity implements Serializable
      *
      * @return it of a thing
      */
-    public String getId() {
+    public UUID getId() {
         return id;
     }
 
