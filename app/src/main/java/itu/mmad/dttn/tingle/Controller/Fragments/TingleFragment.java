@@ -16,7 +16,7 @@ import android.widget.Toast;
 
 import java.util.List;
 
-import itu.mmad.dttn.tingle.Controller.TingleActivity;
+import itu.mmad.dttn.tingle.Controller.GenericFragmentActivity;
 import itu.mmad.dttn.tingle.Model.Thing;
 import itu.mmad.dttn.tingle.Model.ThingsDatabase;
 import itu.mmad.dttn.tingle.R;
@@ -56,7 +56,7 @@ public class TingleFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_tingle, container, false);
-        repository = ((TingleActivity) getActivity()).getDatabase();
+        repository = ((GenericFragmentActivity) getActivity()).getDatabase();
 
         setButtons(v);
         setTextFields(v);
@@ -72,7 +72,7 @@ public class TingleFragment extends Fragment {
         //callback interface
         try {
             mCallBack = (TingleFragmentEventListener) context;
-            repository = ((TingleActivity) getActivity()).getDatabase();
+            repository = ((GenericFragmentActivity) getActivity()).getDatabase();
         } catch (ClassCastException e) {
             throw new ClassCastException(context.toString() + " must implement ListFragmentEventListener");
         }
@@ -184,9 +184,9 @@ public class TingleFragment extends Fragment {
     }
 
     private void updateUI() {
-        int lastAdded = repository.getTotalSize() - 1;
-        if (lastAdded > 0) {
-            this.lastAdded.setText(repository.get(lastAdded).toString());
+        List<Thing> Things = repository.getAll();
+        if (Things.size() > 0) {
+            this.lastAdded.setText(Things.get(Things.size() - 1).toString());
         } else {
             this.lastAdded.setText(getString(R.string.item_NotFound_toast));
         }

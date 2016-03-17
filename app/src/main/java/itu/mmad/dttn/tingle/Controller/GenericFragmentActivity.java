@@ -5,8 +5,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 
-import itu.mmad.dttn.tingle.Controller.Fragments.ListFragment;
-import itu.mmad.dttn.tingle.Controller.Fragments.TingleFragment;
+import itu.mmad.dttn.tingle.Model.ThingsDatabase;
 import itu.mmad.dttn.tingle.R;
 
 /**
@@ -33,12 +32,27 @@ public abstract class GenericFragmentActivity extends FragmentActivity {
      * NOTE: Support library of fragments are used.
      * @param fragment Fragment
      */
-    protected void changeFragment(Fragment fragment){
+    protected void replacePortraitFragment(Fragment fragment){
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment_container, fragment)
                 .commit();
     }
 
+    protected void replaceLeftFragmentLandscape(Fragment fragment){
+        if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.fragment_container_left, fragment)
+                    .commit();
+        }
+    }
+
+    protected void replaceRightFragmentLandscape(Fragment fragment){
+        if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.fragment_container_right, fragment)
+                    .commit();
+        }
+    }
 
     protected void setFragment() {
 
@@ -62,5 +76,13 @@ public abstract class GenericFragmentActivity extends FragmentActivity {
                     .replace(R.id.fragment_container, fragment)
                     .commit();
         }
+    }
+
+    /**
+     * Gets the database
+     * @return database
+     */
+    public ThingsDatabase getDatabase(){
+        return ThingsDatabase.getDatabase();
     }
 }

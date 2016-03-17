@@ -28,7 +28,14 @@ public class InMemoryRepository implements IRepository, Serializable {
      */
     @Override
     public Entity get(int id) {
-        return thingsDB.get(id);
+        for (Entity entity: thingsDB)
+        {
+            if(entity.getId().hashCode() == id){
+                return entity;
+            }
+
+        }
+        return null;
     }
 
     /**

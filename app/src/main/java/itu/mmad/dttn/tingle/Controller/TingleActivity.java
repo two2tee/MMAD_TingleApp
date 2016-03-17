@@ -1,26 +1,17 @@
 package itu.mmad.dttn.tingle.Controller;
 
 import android.content.res.Configuration;
-import android.os.Bundle;
 import android.support.v4.app.Fragment;
 
 import itu.mmad.dttn.tingle.Controller.Fragments.ListFragment;
 import itu.mmad.dttn.tingle.Controller.Fragments.TingleFragment;
 import itu.mmad.dttn.tingle.Model.ThingsDatabase;
-import itu.mmad.dttn.tingle.R;
 
 /**
  * This class represents the launcher activity for tingle
  */
 public class TingleActivity extends GenericFragmentActivity
 implements ListFragment.ListFragmentEventListener, TingleFragment.TingleFragmentEventListener {
-
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_tingle);
-    }
 
     @Override
     protected Fragment createPortraitFragment() {
@@ -50,14 +41,14 @@ implements ListFragment.ListFragmentEventListener, TingleFragment.TingleFragment
      * Returns to tingle main page.
      */
     public void onBackPressed() {
-        changeFragment(new TingleFragment());
+        replacePortraitFragment(new TingleFragment());
     }
 
     /**
      * Goes to list page
      */
     public void onShowAllPressed() {
-        changeFragment(new ListFragment());
+        replacePortraitFragment(new ListFragment());
     }
 
     /**

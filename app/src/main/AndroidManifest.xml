@@ -8,13 +8,13 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".controller.TingleActivity">
+        <activity android:name=".Controller.TingleActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".controller.DetailedThingActivity"></activity>
+        <activity android:name=".Controller.DetailedThingActivity"></activity>
 
     </application>
 
