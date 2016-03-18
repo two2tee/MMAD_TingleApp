@@ -11,9 +11,11 @@ import android.support.v4.os.OperationCanceledException;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.TextView;
@@ -22,11 +24,11 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
+import itu.mmad.dttn.tingle.R;
 import itu.mmad.dttn.tingle.controller.DetailedThingActivity;
 import itu.mmad.dttn.tingle.controller.GenericFragmentActivity;
 import itu.mmad.dttn.tingle.model.Thing;
 import itu.mmad.dttn.tingle.model.ThingsDatabase;
-import itu.mmad.dttn.tingle.R;
 
 /**
  * Fragment for the list page
@@ -34,27 +36,18 @@ import itu.mmad.dttn.tingle.R;
 public class ListFragment extends Fragment {
 
     ListFragmentEventListener mCallBack;
-
-    public interface ListFragmentEventListener {
-        void onBackPressed();
-    }
-
-
     //Database
     private ThingsDatabase repository;
-
     //GUI
     private View view;
-    private Button back;
-    private Button delete;
     private RecyclerView itemList;
     private ThingAdapter mAdapter;
-
     private List<Thing> selectedItems;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
 
     }
 
@@ -64,9 +57,7 @@ public class ListFragment extends Fragment {
         repository = ((GenericFragmentActivity) getActivity()).getDatabase();
         selectedItems = new ArrayList<>();
 
-        setButtons();
         setItemList();
-
         updateList();
 
         return view;
@@ -84,8 +75,7 @@ public class ListFragment extends Fragment {
         if(mAdapter == null){
             mAdapter = new ThingAdapter(things);
             itemList.setAdapter(mAdapter);
-        }
-        else
+        } else
             mAdapter.notifyDataSetChanged();
     }
 
@@ -104,73 +94,86 @@ public class ListFragment extends Fragment {
         }
     }
 
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.fragment_list, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.delete_Button:
+                deleteItem();
+                return true;
+            case R.id.back_button:
+                goBack();
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+
+    }
+
     private void makeToast(String string) {
         Context context = getActivity().getApplicationContext();
         Toast.makeText(context, string, Toast.LENGTH_SHORT).show();
     }
 
-    private void setButtons() {
-
+    private void goBack(){
         //Portrait mode show go to list button
         if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
-            back = (Button) view.findViewById(R.id.back_button);
-            back.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
                     mCallBack.onBackPressed();
-                }
-            });
         }
+    }
 
+    private void deleteItem(){
+        if (selectedItems.isEmpty()) {
+            makeToast(getString(R.string.no_item_selected));
+        }
+        else
+        {
 
-        delete = (Button) view.findViewById(R.id.delete_Button);
-        delete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                if (selectedItems.isEmpty()) {
-                    makeToast(getString(R.string.no_item_selected));
-                }
-                else
-                {
-
-                    new AlertDialog.Builder(getActivity())
-                            .setIcon(android.R.drawable.ic_dialog_alert)
-                            .setTitle(R.string.warning)
-                            .setMessage(R.string.delete_question)
-                            .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener()
+            new AlertDialog.Builder(getActivity())
+                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .setTitle(R.string.warning)
+                    .setMessage(R.string.delete_question)
+                    .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener()
+                    {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which)
+                        {
+                            try
                             {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which)
+                                for (Thing thing : selectedItems)
                                 {
-                                    try
-                                    {
-                                        for (Thing thing : selectedItems)
-                                        {
-                                            repository.delete(thing.getId());
-                                        }
-                                        selectedItems.clear();
-                                        updateList();
-
-                                    } catch (OperationCanceledException e)
-                                    {
-                                        makeToast(getString(R.string.something_Went_Wrong));
-                                    }
-
+                                    repository.delete(thing.getId());
+                                    mAdapter.mThings.remove(thing);
                                 }
+                                selectedItems.clear();
+                                updateList();
 
-                            })
-                            .setNegativeButton(R.string.no, null)
-                            .show();
-                }
-            }
-        });
+                            } catch (OperationCanceledException e)
+                            {
+                                makeToast(getString(R.string.something_Went_Wrong));
+                            }
 
+                        }
+
+                    })
+                    .setNegativeButton(R.string.no, null)
+                    .show();
+        }
     }
 
     private void setItemList() {
         itemList = (RecyclerView) view.findViewById(R.id.item_list);
         itemList.setLayoutManager(new LinearLayoutManager(getActivity()));
+    }
+
+    public interface ListFragmentEventListener {
+        void onBackPressed();
     }
 
 

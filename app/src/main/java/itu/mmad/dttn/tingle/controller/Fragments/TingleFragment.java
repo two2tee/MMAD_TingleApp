@@ -16,10 +16,10 @@ import android.widget.Toast;
 
 import java.util.List;
 
+import itu.mmad.dttn.tingle.R;
 import itu.mmad.dttn.tingle.controller.GenericFragmentActivity;
 import itu.mmad.dttn.tingle.model.Thing;
 import itu.mmad.dttn.tingle.model.ThingsDatabase;
-import itu.mmad.dttn.tingle.R;
 
 /**
  * Fragment of main page.
@@ -30,27 +30,19 @@ public class TingleFragment extends Fragment {
 
     //EventHandler
     TingleFragmentEventListener mCallBack;
-
-    public interface TingleFragmentEventListener {
-        void onShowAllPressed();
-
-        void onItemAdded();
-    }
-
     // GUI variables
     private Button addThing;
     private Button lookUpThing;
     private Button showAll;
     private TextView lastAdded;
     private EditText whatField, whereField;
-
     //database
     private ThingsDatabase repository;
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(false);
     }
 
     @Override
@@ -77,7 +69,6 @@ public class TingleFragment extends Fragment {
             throw new ClassCastException(context.toString() + " must implement ListFragmentEventListener");
         }
     }
-
 
     private void setButtons(View v) {
         addThing = (Button) v.findViewById(R.id.add_button);
@@ -122,7 +113,6 @@ public class TingleFragment extends Fragment {
         }
 
     }
-
 
     /**
      * Adds a given item
@@ -190,6 +180,12 @@ public class TingleFragment extends Fragment {
         } else {
             this.lastAdded.setText(getString(R.string.item_NotFound_toast));
         }
+    }
+
+    public interface TingleFragmentEventListener {
+        void onShowAllPressed();
+
+        void onItemAdded();
     }
 
 }

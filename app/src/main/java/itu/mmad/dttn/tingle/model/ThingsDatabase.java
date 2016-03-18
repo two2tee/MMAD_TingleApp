@@ -25,7 +25,15 @@ public class ThingsDatabase {
 
     //Setup database with injection
     private static ThingsDatabase DATABASE;
-    public static ThingsDatabase getDatabase(){
+    private static boolean isFilled = false;
+    final IRepository<Thing> repository;
+    @Inject //annotation to request dependencies in constructor,
+    public ThingsDatabase(IRepository repository) {
+        this.repository = repository;
+        fillThingsDB(); //TODO remember to remove
+    }
+
+    public static ThingsDatabase getDatabase() {
         if (DATABASE == null) {
             //Setting dependency injection for database and apply
             RepositoryComponent component = DaggerRepositoryComponent.builder()
@@ -34,15 +42,6 @@ public class ThingsDatabase {
             DATABASE = component.provideDatabase();
         }
         return DATABASE;
-    }
-
-    final IRepository<Thing> repository;
-    private static boolean isFilled = false;
-
-    @Inject //annotation to request dependencies in constructor,
-    public ThingsDatabase(IRepository repository) {
-        this.repository = repository;
-        fillThingsDB(); //TODO remember to remove
     }
 
     public Thing get(UUID id) {
@@ -72,8 +71,9 @@ public class ThingsDatabase {
      *               <p/>
      *               not implemented yet
      */
-    public void update(Thing entity) {
-        //Not implemented yet
+    public boolean update(Thing entity) {
+        boolean result = repository.update(entity);
+        return result;
     }
 
     /**

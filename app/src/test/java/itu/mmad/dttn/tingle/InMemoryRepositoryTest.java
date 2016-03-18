@@ -65,18 +65,20 @@ public class InMemoryRepositoryTest
 
     @Test
     public void update_ExistingItem_ValidArgument_True(){
-        //Not implemented
+        Thing dummy = new Thing("x","y");
+        SUT.put(dummy);
+
+        boolean expected = SUT.update(dummy);
+
+        Assert.assertTrue(expected);
     }
 
 
-    @Test
-    public void update_ExistingItem_InvalidArgument_False(){
-        //Not implemented
-    }
-
-    @Test
+     @Test
     public void update_NonExistingItem_False(){
-        //Not implemented
+         Thing dummy = new Thing("x","y");
+         boolean expected = SUT.update(dummy);
+         Assert.assertFalse(expected);
     }
 
 

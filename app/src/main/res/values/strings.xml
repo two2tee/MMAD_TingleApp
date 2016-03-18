@@ -25,4 +25,7 @@
     <string name="description_hint">Enter description</string>
     <string name="date_picker_title">Last seen date</string>
     <string name="ok">Ok</string>
+    <string name="no_changes">No changes were made.</string>
+    <string name="saved">Saved!</string>
+    <string name="save">Save</string>
 </resources>
