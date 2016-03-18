@@ -124,7 +124,7 @@ public class ListFragment extends Fragment {
     private void goBack(){
         //Portrait mode show go to list button
         if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
-                    mCallBack.onBackPressed();
+            mCallBack.onBackPressed();
         }
     }
 
@@ -230,7 +230,7 @@ public class ListFragment extends Fragment {
 
     }
 
-      //Adapter for list
+    //Adapter for list
     private class ThingAdapter extends RecyclerView.Adapter<ThingHolder>{
         private List<Thing> mThings;
 
