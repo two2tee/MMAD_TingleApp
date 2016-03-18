@@ -23,4 +23,6 @@
     <string name="details_label">Details</string>
     <string name="basic_info_label">Basic information</string>
     <string name="description_hint">Enter description</string>
+    <string name="date_picker_title">Last seen date</string>
+    <string name="ok">Ok</string>
 </resources>

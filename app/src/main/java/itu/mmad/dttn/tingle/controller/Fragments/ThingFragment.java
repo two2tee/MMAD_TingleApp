@@ -1,7 +1,10 @@
 package itu.mmad.dttn.tingle.controller.Fragments;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -10,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
+import java.util.Date;
 import java.util.UUID;
 
 import itu.mmad.dttn.tingle.controller.GenericFragmentActivity;
@@ -23,12 +27,15 @@ import itu.mmad.dttn.tingle.model.ThingsDatabase;
 public class ThingFragment extends Fragment{
 
     private static final String ARG_THING_ID = "thing_id";
+    private static final String DIALOG_DATE = "DialogDate";
+    private static final int REQUEST_DATE = -1;
 
     private Thing mThing;
     private EditText mWhatField;
     private EditText mWhereField;
     private EditText mDescriptionField;
     private Button mDateButton;
+
 
     public static ThingFragment newInstance(UUID thingId){
         Bundle args = new Bundle();
@@ -48,7 +55,7 @@ public class ThingFragment extends Fragment{
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_thing,parent, false);
+        View v = inflater.inflate(R.layout.fragment_thing, parent, false);
         setTextFields(v);
         setButtons(v);
         return v;
@@ -115,10 +122,35 @@ public class ThingFragment extends Fragment{
         });
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode != Activity.RESULT_OK) {
+            return;
+        }
+        if(requestCode == REQUEST_DATE){
+            Date date = (Date) data.getSerializableExtra(DatePickerFragment.EXTRA_DATE);
+            mThing.setDate(date);
+            updateDate();
+        }
+    }
+
+
+
     private void setButtons(View v){
         mDateButton = (Button) v.findViewById(R.id.thing_date_button);
-        mDateButton.setText(mThing.getDate().toString());
-        mDateButton.setEnabled(false);
+        updateDate();
+        mDateButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentManager manager = getFragmentManager();
+                DatePickerFragment dialog = DatePickerFragment.newInstance(mThing.getDate());
+                dialog.setTargetFragment(ThingFragment.this,REQUEST_DATE);
+                dialog.show(manager,DIALOG_DATE);
+            }
+        });
+    }
 
+    private void updateDate() {
+        mDateButton.setText(mThing.getDate().toString());
     }
 }
