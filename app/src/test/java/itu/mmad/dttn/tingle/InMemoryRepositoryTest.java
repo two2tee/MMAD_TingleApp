@@ -5,8 +5,8 @@ import junit.framework.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import itu.mmad.dttn.tingle.Model.InMemoryRepository;
-import itu.mmad.dttn.tingle.Model.Thing;
+import itu.mmad.dttn.tingle.model.InMemoryRepository;
+import itu.mmad.dttn.tingle.model.Thing;
 
 /**
  * UNIT test of inMemoryRepo
@@ -31,7 +31,7 @@ public class InMemoryRepositoryTest
     public void put_ValidItem_notNull(){
         Thing dummy = new Thing("x","y");
         SUT.put(dummy);
-        Assert.assertNotNull("Valid item was not added", SUT.get(0));
+        Assert.assertNotNull("Valid item was not added", SUT.get(dummy.getId().hashCode()));
     }
 
     @Test
@@ -65,18 +65,20 @@ public class InMemoryRepositoryTest
 
     @Test
     public void update_ExistingItem_ValidArgument_True(){
-        //Not implemented
+        Thing dummy = new Thing("x","y");
+        SUT.put(dummy);
+
+        boolean expected = SUT.update(dummy);
+
+        Assert.assertTrue(expected);
     }
 
 
-    @Test
-    public void update_ExistingItem_InvalidArgument_False(){
-        //Not implemented
-    }
-
-    @Test
+     @Test
     public void update_NonExistingItem_False(){
-        //Not implemented
+         Thing dummy = new Thing("x","y");
+         boolean expected = SUT.update(dummy);
+         Assert.assertFalse(expected);
     }
 
 

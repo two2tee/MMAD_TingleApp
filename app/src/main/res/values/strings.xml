@@ -16,4 +16,16 @@
     <string name="back">Back</string>
     <string name="what_hint">Enter name of item.</string>
     <string name="where_hint">Enter location of item</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="delete_question">Are you sure you want to delete selected elements?</string>
+    <string name="warning">Warning</string>
+    <string name="details_label">Details</string>
+    <string name="basic_info_label">Basic information</string>
+    <string name="description_hint">Enter description</string>
+    <string name="date_picker_title">Last seen date</string>
+    <string name="ok">Ok</string>
+    <string name="no_changes">No changes were made.</string>
+    <string name="saved">Saved!</string>
+    <string name="save">Save</string>
 </resources>
