@@ -134,5 +134,26 @@ public class ThingsDatabaseTests
         Assert.assertTrue("Should have thrown an exception", exceptionThrown);
     }
 
+    @Test
+    public void update_ExistingItem_true(){
+        Thing toUpdateDummy = new Thing("","");
+        Mockito.when(mockRepository.update(toUpdateDummy)).thenReturn(true);
+
+        SUT = new ThingsDatabase(mockRepository);
+        boolean expected = SUT.update(toUpdateDummy);
+
+        Assert.assertTrue(expected);
+    }
+
+    @Test
+    public void update_NonExistingItem_false(){
+        Thing toUpdateDummy = new Thing("","");
+        Mockito.when(mockRepository.update(toUpdateDummy)).thenReturn(false);
+
+        SUT = new ThingsDatabase(mockRepository);
+        boolean expected = SUT.update(toUpdateDummy);
+
+        Assert.assertFalse(expected);
+    }
 
 }

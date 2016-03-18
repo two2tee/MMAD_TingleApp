@@ -14,7 +14,7 @@ public interface IRepository<E extends Entity>{
 
     boolean put(E entity);
 
-    void update (int id, String what, String where);
+    boolean update(E toStore);
 
     boolean delete(int id);
 

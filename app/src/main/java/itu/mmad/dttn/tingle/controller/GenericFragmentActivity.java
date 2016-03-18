@@ -3,15 +3,15 @@ package itu.mmad.dttn.tingle.controller;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.AppCompatActivity;
 
-import itu.mmad.dttn.tingle.model.ThingsDatabase;
 import itu.mmad.dttn.tingle.R;
+import itu.mmad.dttn.tingle.model.ThingsDatabase;
 
 /**
  * Generic fragment activity used to reduce code redundancy
  */
-public abstract class GenericFragmentActivity extends FragmentActivity {
+public abstract class GenericFragmentActivity extends AppCompatActivity {
     //Portrait mode
     protected abstract Fragment createPortraitFragment();
 

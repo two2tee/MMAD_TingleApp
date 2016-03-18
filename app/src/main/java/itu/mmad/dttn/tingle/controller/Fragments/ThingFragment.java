@@ -8,17 +8,22 @@ import android.support.v4.app.FragmentManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import java.util.Date;
 import java.util.UUID;
 
-import itu.mmad.dttn.tingle.controller.GenericFragmentActivity;
-import itu.mmad.dttn.tingle.model.Thing;
 import itu.mmad.dttn.tingle.R;
+import itu.mmad.dttn.tingle.controller.GenericFragmentActivity;
+import itu.mmad.dttn.tingle.model.TempThingToStore;
+import itu.mmad.dttn.tingle.model.Thing;
 import itu.mmad.dttn.tingle.model.ThingsDatabase;
 
 /**
@@ -31,6 +36,7 @@ public class ThingFragment extends Fragment{
     private static final int REQUEST_DATE = -1;
 
     private Thing mThing;
+    private TempThingToStore mTempThing;
     private EditText mWhatField;
     private EditText mWhereField;
     private EditText mDescriptionField;
@@ -48,9 +54,11 @@ public class ThingFragment extends Fragment{
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
         UUID thingId = (UUID) getArguments().getSerializable(ARG_THING_ID);
         ThingsDatabase database = ((GenericFragmentActivity) getActivity()).getDatabase();
         mThing = database.get(thingId);
+        mTempThing = new TempThingToStore();
     }
 
     @Override
@@ -73,7 +81,7 @@ public class ThingFragment extends Fragment{
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                mThing.setWhat(s.toString());
+                mTempThing.setWhat(s.toString());
             }
 
             @Override
@@ -92,7 +100,7 @@ public class ThingFragment extends Fragment{
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                mThing.setWhere(s.toString());
+                mTempThing.setWhere(s.toString());
             }
 
             @Override
@@ -103,7 +111,7 @@ public class ThingFragment extends Fragment{
 
 
         mDescriptionField = (EditText) v.findViewById(R.id.description_EditBox);
-        mDescriptionField.setText(mThing.getDescription()); //todo check for null pointer exception
+        mDescriptionField.setText(mThing.getDescription());
         mDescriptionField.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -112,7 +120,7 @@ public class ThingFragment extends Fragment{
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                mThing.setDescription(s.toString());
+                mTempThing.setDescription(s.toString());
             }
 
             @Override
@@ -134,7 +142,66 @@ public class ThingFragment extends Fragment{
         }
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId())
+        {
+            case R.id.back_button:
+                goBack();
+                return true;
+            case R.id.save_button:
+                saveChanges();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
 
+    private void saveChanges() {
+        if(mTempThing.isHasChanged()) {
+
+            //Override items
+            if (mTempThing.getWhat() != null)
+                mThing.setWhat(mTempThing.getWhat());
+
+            else if (mTempThing.getWhere() != null)
+                mThing.setWhere(mTempThing.getWhere());
+
+            else if (mTempThing.getDate() != null)
+                mThing.setDate(mTempThing.getDate());
+
+            else if (mTempThing.getDescription() != null)
+                mThing.setDescription(mTempThing.getDescription());
+
+            //save changes
+            boolean isSaved = ThingsDatabase.getDatabase().update(mThing);
+
+            //Validate
+            if(isSaved){
+                makeToast(R.string.saved);
+            }
+            else
+                makeToast(R.string.something_Went_Wrong);
+        }
+        else
+            makeToast(R.string.no_changes);
+
+
+    }
+
+    private void makeToast(int s){
+        Toast.makeText(getActivity().getApplicationContext(),s,Toast.LENGTH_SHORT).show();
+    }
+
+    private void goBack() {
+        getActivity().finish();
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.fragment_thing,menu);
+    }
 
     private void setButtons(View v){
         mDateButton = (Button) v.findViewById(R.id.thing_date_button);

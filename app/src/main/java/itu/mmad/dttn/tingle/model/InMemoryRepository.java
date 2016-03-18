@@ -64,8 +64,13 @@ public class InMemoryRepository implements IRepository, Serializable {
      * Used to modify existing items
      */
     @Override
-    public void update(int id, String what, String where) {
-        //no implemented
+    public boolean update(Entity toStore) {
+        Entity thing = get(toStore.getId().hashCode());
+        if(thing == null) return false;
+        delete(thing.getId().hashCode());
+        put(toStore);
+
+        return true;
     }
 
     /**
