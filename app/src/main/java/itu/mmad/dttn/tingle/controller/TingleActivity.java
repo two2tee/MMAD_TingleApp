@@ -5,12 +5,12 @@ import android.support.v4.app.Fragment;
 
 import itu.mmad.dttn.tingle.controller.Fragments.ListFragment;
 import itu.mmad.dttn.tingle.controller.Fragments.TingleFragment;
-import itu.mmad.dttn.tingle.model.ThingsDatabase;
+import itu.mmad.dttn.tingle.model.database.ThingsDatabase;
 
 /**
  * This class represents the launcher activity for tingle
  */
-public class TingleActivity extends GenericFragmentActivity
+public class TingleActivity extends BaseActivity
 implements ListFragment.ListFragmentEventListener, TingleFragment.TingleFragmentEventListener {
 
     @Override
@@ -28,14 +28,6 @@ implements ListFragment.ListFragmentEventListener, TingleFragment.TingleFragment
         return new ListFragment();
     }
 
-
-    /**
-     * Gets the database
-     * @return database
-     */
-    public ThingsDatabase getDatabase(){
-        return ThingsDatabase.getDatabase();
-    }
 
     /**
      * Returns to tingle main page.

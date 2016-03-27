@@ -15,11 +15,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.List;
+import java.util.UUID;
 
 import itu.mmad.dttn.tingle.R;
-import itu.mmad.dttn.tingle.controller.GenericFragmentActivity;
+import itu.mmad.dttn.tingle.controller.BaseActivity;
 import itu.mmad.dttn.tingle.model.Thing;
-import itu.mmad.dttn.tingle.model.ThingsDatabase;
+import itu.mmad.dttn.tingle.model.database.ThingsDatabase;
 
 /**
  * Fragment of main page.
@@ -48,7 +49,7 @@ public class TingleFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_tingle, container, false);
-        repository = ((GenericFragmentActivity) getActivity()).getDatabase();
+        repository = ((BaseActivity) getActivity()).getDatabase();
 
         setButtons(v);
         setTextFields(v);
@@ -64,7 +65,7 @@ public class TingleFragment extends Fragment {
         //callback interface
         try {
             mCallBack = (TingleFragmentEventListener) context;
-            repository = ((GenericFragmentActivity) getActivity()).getDatabase();
+            repository = ((BaseActivity) getActivity()).getDatabase();
         } catch (ClassCastException e) {
             throw new ClassCastException(context.toString() + " must implement ListFragmentEventListener");
         }
@@ -170,7 +171,7 @@ public class TingleFragment extends Fragment {
 
     private Thing makeThing() {
         return new Thing(whatField.getText().toString().toLowerCase().trim(),
-                whereField.getText().toString().toLowerCase().trim());
+                whereField.getText().toString().toLowerCase().trim(), UUID.randomUUID());
     }
 
     private void updateUI() {

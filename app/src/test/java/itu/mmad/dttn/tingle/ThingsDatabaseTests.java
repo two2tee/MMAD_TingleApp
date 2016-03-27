@@ -14,7 +14,7 @@ import java.util.UUID;
 
 import itu.mmad.dttn.tingle.model.Interfaces.IRepository;
 import itu.mmad.dttn.tingle.model.Thing;
-import itu.mmad.dttn.tingle.model.ThingsDatabase;
+import itu.mmad.dttn.tingle.model.database.ThingsDatabase;
 
 /**
  * Tests for thingsdatabase

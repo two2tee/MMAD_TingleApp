@@ -26,9 +26,9 @@ import java.util.List;
 
 import itu.mmad.dttn.tingle.R;
 import itu.mmad.dttn.tingle.controller.DetailedThingActivity;
-import itu.mmad.dttn.tingle.controller.GenericFragmentActivity;
+import itu.mmad.dttn.tingle.controller.BaseActivity;
 import itu.mmad.dttn.tingle.model.Thing;
-import itu.mmad.dttn.tingle.model.ThingsDatabase;
+import itu.mmad.dttn.tingle.model.database.ThingsDatabase;
 
 /**
  * Fragment for the list page
@@ -54,7 +54,7 @@ public class ListFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_list, container, false);
-        repository = ((GenericFragmentActivity) getActivity()).getDatabase();
+        repository = ((BaseActivity) getActivity()).getDatabase();
         selectedItems = new ArrayList<>();
 
         setItemList();
@@ -69,14 +69,17 @@ public class ListFragment extends Fragment {
         updateList();
     }
 
+
     private void updateList()
     {
         List<Thing> things = repository.getAll();
         if(mAdapter == null){
             mAdapter = new ThingAdapter(things);
             itemList.setAdapter(mAdapter);
-        } else
+        } else{
+            mAdapter.setThings(things);
             mAdapter.notifyDataSetChanged();
+        }
     }
 
     @Override
@@ -87,7 +90,7 @@ public class ListFragment extends Fragment {
         //callback interface
         try {
             mCallBack = (ListFragmentEventListener) context;
-            repository = ((GenericFragmentActivity) getActivity()).getDatabase();
+            repository = ((BaseActivity) getActivity()).getDatabase();
 
         } catch (ClassCastException e) {
             throw new ClassCastException(context.toString() + " must implement ListFragmentEventListener");
@@ -258,6 +261,11 @@ public class ListFragment extends Fragment {
         public int getItemCount()
         {
             return mThings.size();
+        }
+
+        public void setThings(List<Thing> things)
+        {
+            mThings = things;
         }
     }
 

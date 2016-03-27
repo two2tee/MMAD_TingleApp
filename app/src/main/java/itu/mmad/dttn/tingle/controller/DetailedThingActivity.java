@@ -6,13 +6,15 @@ import android.support.v4.app.Fragment;
 
 import java.util.UUID;
 
+import itu.mmad.dttn.tingle.TingleApplication;
 import itu.mmad.dttn.tingle.controller.Fragments.SimpleListFragment_Landscape;
 import itu.mmad.dttn.tingle.controller.Fragments.ThingFragment;
+import itu.mmad.dttn.tingle.model.database.ThingsDatabase;
 
 /**
  * Activity to display detailed things and list
  */
-public class DetailedThingActivity extends GenericFragmentActivity{
+public class DetailedThingActivity extends BaseActivity {
 
     public static final String EXTRA_THING_ID =
             "itu.mmad.dttn.tingle.thing_id";
@@ -37,6 +39,8 @@ public class DetailedThingActivity extends GenericFragmentActivity{
     protected Fragment createRightFragment() {
         return new SimpleListFragment_Landscape();
     }
+
+
 
     private ThingFragment createThingFragment(){
         UUID thingId = (UUID) getIntent().getSerializableExtra(EXTRA_THING_ID);
