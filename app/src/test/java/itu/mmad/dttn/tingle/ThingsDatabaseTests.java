@@ -32,8 +32,8 @@ public class ThingsDatabaseTests
     @Test
     public void getall_Collection_NotEmpty(){
         List<Thing> toReturn = new ArrayList<>();
-        toReturn.add(new Thing("w","x"));
-        toReturn.add(new Thing("k", "y"));
+        toReturn.add(new Thing("w","x",UUID.randomUUID()));
+        toReturn.add(new Thing("k", "y",UUID.randomUUID()));
 
         Mockito.when(mockRepository.getAll()).thenReturn(toReturn.iterator());
 
@@ -51,10 +51,10 @@ public class ThingsDatabaseTests
 
     @Test
     public void get_NotNull_True(){
-        Thing toReturn = new Thing("a", "b");
+        Thing toReturn = new Thing("a", "b",UUID.randomUUID());
         UUID dummyId = toReturn.getId();
 
-        Mockito.when(mockRepository.get(dummyId.hashCode())).thenReturn(toReturn);
+        Mockito.when(mockRepository.get(dummyId)).thenReturn(toReturn);
 
         SUT = new ThingsDatabase(mockRepository);
         Thing actual = SUT.get(dummyId);
@@ -65,8 +65,8 @@ public class ThingsDatabaseTests
     @Test
     public void getTotalSize_moreThanZero_True(){
         List<Thing> toReturn = new ArrayList<>();
-        toReturn.add(new Thing("w","x"));
-        toReturn.add(new Thing("k", "y"));
+        toReturn.add(new Thing("w","x",UUID.randomUUID()));
+        toReturn.add(new Thing("k", "y",UUID.randomUUID()));
 
         Mockito.when(mockRepository.getAll()).thenReturn(toReturn.iterator());
 
@@ -95,7 +95,7 @@ public class ThingsDatabaseTests
     @Test
     public void delete_ExistingITem_NoException(){
         UUID dummyId = UUID.randomUUID();
-        Mockito.when(mockRepository.delete(dummyId.hashCode())).thenReturn(true);
+        Mockito.when(mockRepository.delete(dummyId)).thenReturn(true);
         boolean exceptionThrown = false;
 
         SUT = new ThingsDatabase(mockRepository);
@@ -116,7 +116,7 @@ public class ThingsDatabaseTests
     @Test
     public void delete_NonExistingITem_ExceptionThrown(){
         UUID dummyId = UUID.randomUUID();
-        Mockito.when(mockRepository.delete(dummyId.hashCode())).thenReturn(false);
+        Mockito.when(mockRepository.delete(dummyId)).thenReturn(false);
         boolean exceptionThrown = false;
 
         SUT = new ThingsDatabase(mockRepository);
@@ -136,7 +136,7 @@ public class ThingsDatabaseTests
 
     @Test
     public void update_ExistingItem_true(){
-        Thing toUpdateDummy = new Thing("","");
+        Thing toUpdateDummy = new Thing("","",UUID.randomUUID());
         Mockito.when(mockRepository.update(toUpdateDummy)).thenReturn(true);
 
         SUT = new ThingsDatabase(mockRepository);
@@ -147,7 +147,7 @@ public class ThingsDatabaseTests
 
     @Test
     public void update_NonExistingItem_false(){
-        Thing toUpdateDummy = new Thing("","");
+        Thing toUpdateDummy = new Thing("","",UUID.randomUUID());
         Mockito.when(mockRepository.update(toUpdateDummy)).thenReturn(false);
 
         SUT = new ThingsDatabase(mockRepository);

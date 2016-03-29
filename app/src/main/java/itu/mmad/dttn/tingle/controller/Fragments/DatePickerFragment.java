@@ -22,7 +22,7 @@ import itu.mmad.dttn.tingle.R;
 /**
  * This fragments represents a dialog.
  */
-public class DatePickerFragment extends DialogFragment{
+public class DatePickerFragment extends DialogFragment {
 
     private static final String ARG_DATE = "date";
     public static final String EXTRA_DATE = "itu.mmad.dttn.tingle.date";
@@ -30,7 +30,7 @@ public class DatePickerFragment extends DialogFragment{
 
     private DatePicker mDatePicker;
 
-    public static DatePickerFragment newInstance(Date date){
+    public static DatePickerFragment newInstance(Date date) {
         Bundle args = new Bundle();
         args.putSerializable(ARG_DATE, date);
 
@@ -56,7 +56,7 @@ public class DatePickerFragment extends DialogFragment{
         int day = calender.get(Calendar.DAY_OF_MONTH);
 
         View v = LayoutInflater.from(getActivity())
-                .inflate(R.layout.dialog_date,null);
+                .inflate(R.layout.dialog_date, null);
 
         mDatePicker = (DatePicker) v.findViewById(R.id.dialog_date_picker);
         mDatePicker.init(year, month, day, null);
@@ -70,20 +70,20 @@ public class DatePickerFragment extends DialogFragment{
                         int year = mDatePicker.getYear();
                         int month = mDatePicker.getMonth();
                         int day = mDatePicker.getDayOfMonth();
-                        Date date = new GregorianCalendar(year,month,day).getTime();
-                        sendResult(Activity.RESULT_OK,date);
+                        Date date = new GregorianCalendar(year, month, day).getTime();
+                        sendResult(Activity.RESULT_OK, date);
                     }
                 })
                 .create();
     }
 
-    private void sendResult(int resultCode, Date date){
-        if(getTargetFragment() == null){
+    private void sendResult(int resultCode, Date date) {
+        if (getTargetFragment() == null) {
             return;
         }
         Intent intent = new Intent();
         intent.putExtra(EXTRA_DATE, date);
 
-        getTargetFragment().onActivityResult(getTargetRequestCode(),resultCode,intent);
+        getTargetFragment().onActivityResult(getTargetRequestCode(), resultCode, intent);
     }
 }

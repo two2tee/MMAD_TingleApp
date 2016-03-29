@@ -85,6 +85,6 @@ public abstract class BaseActivity extends AppCompatActivity {
      * @return database
      */
     public ThingsDatabase getDatabase() {
-        return ThingsDatabase.getDatabase(getApplicationContext());
+        return TingleApplication.getDatabase();
     }
 }

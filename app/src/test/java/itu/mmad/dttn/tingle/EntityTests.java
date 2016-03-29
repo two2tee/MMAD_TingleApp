@@ -4,6 +4,8 @@ import junit.framework.Assert;
 
 import org.junit.Test;
 
+import java.util.UUID;
+
 import itu.mmad.dttn.tingle.Stubs.EntityStub;
 
 /**
@@ -11,45 +13,19 @@ import itu.mmad.dttn.tingle.Stubs.EntityStub;
  */
 public class EntityTests {
     @Test
-    public void Id_NotNull_true()
-    {
-        EntityStub SUT = new EntityStub();
-        Assert.assertNotNull("No id created",SUT.getId());
+    public void Id_NotNull_true() {
+        EntityStub SUT = new EntityStub(UUID.randomUUID());
+        Assert.assertNotNull("No id created", SUT.getId());
     }
 
     @Test
-    public void Id_Unique_true()
-    {
-        EntityStub SUT = new EntityStub();
-        EntityStub toCompare = new EntityStub();
-        Assert.assertFalse("Id is not unique", SUT.getId().equals(toCompare.getId()));
+    public void Id_get_correctId_true() {
+        UUID expected = UUID.randomUUID();
+        EntityStub SUT = new EntityStub(expected);
+
+        UUID actual = SUT.getId();
+        Assert.assertEquals("Returned id is not equal to inserted id", expected, actual);
     }
-
-    @Test
-    public void equals_IsEqual_true()
-    {
-        EntityStub SUT = new EntityStub();
-        Assert.assertTrue("overrided equals should return true here", SUT.equals(SUT));
-    }
-
-    @Test
-    public void equals_IsEqual_false()
-    {
-        EntityStub SUT = new EntityStub();
-        EntityStub toCompare = new EntityStub();
-
-        Assert.assertFalse("overrided equals should return true here",SUT.equals(toCompare));
-    }
-
-    @Test
-    public void hashcode_fromIdOnly_true()
-    {
-        EntityStub SUT = new EntityStub();
-        int expected  = SUT.getId().hashCode();
-        int actual = SUT.hashCode();
-        Assert.assertTrue("overrided equals should return true here",expected==actual);
-    }
-
 
 
 }

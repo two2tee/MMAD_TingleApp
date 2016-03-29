@@ -1,18 +1,16 @@
 package itu.mmad.dttn.tingle.model.Dagger2_DependencyInjection.Components;
 
-import android.app.Application;
 import android.content.Context;
 
 import javax.inject.Singleton;
-import javax.*;
 
 import dagger.Component;
+import dagger.Subcomponent;
 import itu.mmad.dttn.tingle.TingleApplication;
-import itu.mmad.dttn.tingle.controller.BaseActivity;
-import itu.mmad.dttn.tingle.controller.DetailedThingActivity;
-import itu.mmad.dttn.tingle.controller.TingleActivity;
 import itu.mmad.dttn.tingle.model.Dagger2_DependencyInjection.Modules.ApplicationModule;
 import itu.mmad.dttn.tingle.model.Dagger2_DependencyInjection.Modules.RepositoryModule;
+import itu.mmad.dttn.tingle.model.Dagger2_DependencyInjection.Qualifiers.QSQLRepository;
+import itu.mmad.dttn.tingle.model.database.ThingsDatabase;
 
 /**
  * This interface is a component in Dagger2 dependency injection framework
@@ -23,12 +21,21 @@ import itu.mmad.dttn.tingle.model.Dagger2_DependencyInjection.Modules.Repository
 @Singleton
 @Component(modules = {ApplicationModule.class, RepositoryModule.class})
 public interface ApplicationComponent {
+    DataComponent DataComponent(RepositoryModule repositoryModule);
+    Context getContext();
 
-//    void inject(TingleApplication application);
-//    void inject(BaseActivity baseActivity);
-//    void inject(DetailedThingActivity detailedThingActivity);
-//    void inject(TingleActivity tingleActivity);
-
+    void inject(TingleApplication application);
 
 
+}
+
+/**
+ * Subcomponent that handles repository module
+ * Since it is a sub-component of ApplicationComponent it will automatically
+ * inherent methods from ApplicationComponent. Thus context can be provided to database
+ */
+@Singleton
+@Subcomponent(modules = {RepositoryModule.class})
+interface DataComponent {
+    ThingsDatabase getDatabase();
 }
