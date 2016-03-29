@@ -21,15 +21,15 @@ import java.util.Date;
 import java.util.UUID;
 
 import itu.mmad.dttn.tingle.R;
-import itu.mmad.dttn.tingle.controller.GenericFragmentActivity;
+import itu.mmad.dttn.tingle.controller.BaseActivity;
 import itu.mmad.dttn.tingle.model.TempThingToStore;
 import itu.mmad.dttn.tingle.model.Thing;
-import itu.mmad.dttn.tingle.model.ThingsDatabase;
+import itu.mmad.dttn.tingle.model.database.ThingsDatabase;
 
 /**
  * Represents a detailed view of thing
  */
-public class ThingFragment extends Fragment{
+public class ThingFragment extends Fragment {
 
     private static final String ARG_THING_ID = "thing_id";
     private static final String DIALOG_DATE = "DialogDate";
@@ -43,7 +43,7 @@ public class ThingFragment extends Fragment{
     private Button mDateButton;
 
 
-    public static ThingFragment newInstance(UUID thingId){
+    public static ThingFragment newInstance(UUID thingId) {
         Bundle args = new Bundle();
         args.putSerializable(ARG_THING_ID, thingId);
         ThingFragment fragment = new ThingFragment();
@@ -56,7 +56,7 @@ public class ThingFragment extends Fragment{
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
         UUID thingId = (UUID) getArguments().getSerializable(ARG_THING_ID);
-        ThingsDatabase database = ((GenericFragmentActivity) getActivity()).getDatabase();
+        ThingsDatabase database = ((BaseActivity) getActivity()).getDatabase();
         mThing = database.get(thingId);
         mTempThing = new TempThingToStore();
     }
@@ -70,7 +70,7 @@ public class ThingFragment extends Fragment{
 
     }
 
-    private void setTextFields(View v){
+    private void setTextFields(View v) {
         mWhatField = (EditText) v.findViewById(R.id.what_text);
         mWhatField.setText(mThing.getWhat());
         mWhatField.addTextChangedListener(new TextWatcher() {
@@ -135,7 +135,7 @@ public class ThingFragment extends Fragment{
         if (requestCode != Activity.RESULT_OK) {
             return;
         }
-        if(requestCode == REQUEST_DATE){
+        if (requestCode == REQUEST_DATE) {
             Date date = (Date) data.getSerializableExtra(DatePickerFragment.EXTRA_DATE);
             mThing.setDate(date);
             updateDate();
@@ -144,8 +144,7 @@ public class ThingFragment extends Fragment{
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId())
-        {
+        switch (item.getItemId()) {
             case R.id.back_button:
                 goBack();
                 return true;
@@ -158,7 +157,7 @@ public class ThingFragment extends Fragment{
     }
 
     private void saveChanges() {
-        if(mTempThing.isHasChanged()) {
+        if (mTempThing.isHasChanged()) {
 
             //Override items
             if (mTempThing.getWhat() != null)
@@ -174,23 +173,21 @@ public class ThingFragment extends Fragment{
                 mThing.setDescription(mTempThing.getDescription());
 
             //save changes
-            boolean isSaved = ThingsDatabase.getDatabase().update(mThing);
+            boolean isSaved = ((BaseActivity) getActivity()).getDatabase().update(mThing);
 
             //Validate
-            if(isSaved){
+            if (isSaved) {
                 makeToast(R.string.saved);
-            }
-            else
+            } else
                 makeToast(R.string.something_Went_Wrong);
-        }
-        else
+        } else
             makeToast(R.string.no_changes);
 
 
     }
 
-    private void makeToast(int s){
-        Toast.makeText(getActivity().getApplicationContext(),s,Toast.LENGTH_SHORT).show();
+    private void makeToast(int s) {
+        Toast.makeText(getActivity().getApplicationContext(), s, Toast.LENGTH_SHORT).show();
     }
 
     private void goBack() {
@@ -200,10 +197,10 @@ public class ThingFragment extends Fragment{
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.fragment_thing,menu);
+        inflater.inflate(R.menu.fragment_thing, menu);
     }
 
-    private void setButtons(View v){
+    private void setButtons(View v) {
         mDateButton = (Button) v.findViewById(R.id.thing_date_button);
         updateDate();
         mDateButton.setOnClickListener(new View.OnClickListener() {
@@ -211,8 +208,8 @@ public class ThingFragment extends Fragment{
             public void onClick(View v) {
                 FragmentManager manager = getFragmentManager();
                 DatePickerFragment dialog = DatePickerFragment.newInstance(mThing.getDate());
-                dialog.setTargetFragment(ThingFragment.this,REQUEST_DATE);
-                dialog.show(manager,DIALOG_DATE);
+                dialog.setTargetFragment(ThingFragment.this, REQUEST_DATE);
+                dialog.show(manager, DIALOG_DATE);
             }
         });
     }

@@ -15,11 +15,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.List;
+import java.util.UUID;
 
 import itu.mmad.dttn.tingle.R;
-import itu.mmad.dttn.tingle.controller.GenericFragmentActivity;
+import itu.mmad.dttn.tingle.controller.BaseActivity;
 import itu.mmad.dttn.tingle.model.Thing;
-import itu.mmad.dttn.tingle.model.ThingsDatabase;
+import itu.mmad.dttn.tingle.model.database.ThingsDatabase;
 
 /**
  * Fragment of main page.
@@ -48,7 +49,7 @@ public class TingleFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_tingle, container, false);
-        repository = ((GenericFragmentActivity) getActivity()).getDatabase();
+        repository = ((BaseActivity) getActivity()).getDatabase();
 
         setButtons(v);
         setTextFields(v);
@@ -64,7 +65,7 @@ public class TingleFragment extends Fragment {
         //callback interface
         try {
             mCallBack = (TingleFragmentEventListener) context;
-            repository = ((GenericFragmentActivity) getActivity()).getDatabase();
+            repository = ((BaseActivity) getActivity()).getDatabase();
         } catch (ClassCastException e) {
             throw new ClassCastException(context.toString() + " must implement ListFragmentEventListener");
         }
@@ -82,20 +83,16 @@ public class TingleFragment extends Fragment {
 
 
         lookUpThing = (Button) v.findViewById(R.id.lookUp_button);
-        lookUpThing.setOnClickListener(new View.OnClickListener()
-        {
+        lookUpThing.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v)
-            {
-                if (whatField.getText().length() > 0)
-                {
+            public void onClick(View v) {
+                if (whatField.getText().length() > 0) {
                     String result = SearchThing(whatField.getText().toString());
 
                     if (result != null)
                         makeToast(getString(R.string.item_found_toast) + " " + result);
                     else makeToast(getString(R.string.item_NotFound_toast));
-                } else
-                {
+                } else {
                     makeToast(getString(R.string.no_what_specified));
                 }
             }
@@ -117,8 +114,7 @@ public class TingleFragment extends Fragment {
     /**
      * Adds a given item
      */
-    private void addItem()
-    {
+    private void addItem() {
         if ((whatField.getText().length() > 0) && (whereField.getText().length() > 0)) {
             repository.put(makeThing());
             whatField.setText("");
@@ -138,13 +134,11 @@ public class TingleFragment extends Fragment {
         lastAdded = (TextView) v.findViewById(R.id.last_thing);
         whatField = (EditText) v.findViewById(R.id.what_text);
         whereField = (EditText) v.findViewById(R.id.where_text);
-        whereField.setOnEditorActionListener(new TextView.OnEditorActionListener()
-        {
+        whereField.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event)
-            {
-               boolean handled = false;
-                if(actionId == EditorInfo.IME_ACTION_DONE){
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                boolean handled = false;
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
                     addItem();
                     handled = true;
                 }
@@ -170,7 +164,7 @@ public class TingleFragment extends Fragment {
 
     private Thing makeThing() {
         return new Thing(whatField.getText().toString().toLowerCase().trim(),
-                whereField.getText().toString().toLowerCase().trim());
+                whereField.getText().toString().toLowerCase().trim(), UUID.randomUUID());
     }
 
     private void updateUI() {

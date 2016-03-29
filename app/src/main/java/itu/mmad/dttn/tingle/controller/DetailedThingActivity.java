@@ -12,14 +12,14 @@ import itu.mmad.dttn.tingle.controller.Fragments.ThingFragment;
 /**
  * Activity to display detailed things and list
  */
-public class DetailedThingActivity extends GenericFragmentActivity{
+public class DetailedThingActivity extends BaseActivity {
 
     public static final String EXTRA_THING_ID =
             "itu.mmad.dttn.tingle.thing_id";
 
-    public static Intent newIntent(Context packageContext, UUID thingId){
+    public static Intent newIntent(Context packageContext, UUID thingId) {
         Intent intent = new Intent(packageContext, DetailedThingActivity.class);
-        intent.putExtra(EXTRA_THING_ID,thingId);
+        intent.putExtra(EXTRA_THING_ID, thingId);
         return intent;
     }
 
@@ -38,7 +38,8 @@ public class DetailedThingActivity extends GenericFragmentActivity{
         return new SimpleListFragment_Landscape();
     }
 
-    private ThingFragment createThingFragment(){
+
+    private ThingFragment createThingFragment() {
         UUID thingId = (UUID) getIntent().getSerializableExtra(EXTRA_THING_ID);
         return ThingFragment.newInstance(thingId);
     }
@@ -46,11 +47,9 @@ public class DetailedThingActivity extends GenericFragmentActivity{
     /**
      * Updates view when new item is selected
      */
-    public void updateSelectedItemView(UUID id){
+    public void updateSelectedItemView(UUID id) {
         replaceLeftFragmentLandscape(ThingFragment.newInstance(id));
     }
-
-
 
 
 }

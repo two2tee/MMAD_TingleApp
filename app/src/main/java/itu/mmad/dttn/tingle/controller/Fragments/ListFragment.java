@@ -25,10 +25,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import itu.mmad.dttn.tingle.R;
+import itu.mmad.dttn.tingle.controller.BaseActivity;
 import itu.mmad.dttn.tingle.controller.DetailedThingActivity;
-import itu.mmad.dttn.tingle.controller.GenericFragmentActivity;
 import itu.mmad.dttn.tingle.model.Thing;
-import itu.mmad.dttn.tingle.model.ThingsDatabase;
+import itu.mmad.dttn.tingle.model.database.ThingsDatabase;
 
 /**
  * Fragment for the list page
@@ -54,7 +54,7 @@ public class ListFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_list, container, false);
-        repository = ((GenericFragmentActivity) getActivity()).getDatabase();
+        repository = ((BaseActivity) getActivity()).getDatabase();
         selectedItems = new ArrayList<>();
 
         setItemList();
@@ -69,14 +69,16 @@ public class ListFragment extends Fragment {
         updateList();
     }
 
-    private void updateList()
-    {
+
+    private void updateList() {
         List<Thing> things = repository.getAll();
-        if(mAdapter == null){
+        if (mAdapter == null) {
             mAdapter = new ThingAdapter(things);
             itemList.setAdapter(mAdapter);
-        } else
+        } else {
+            mAdapter.setThings(things);
             mAdapter.notifyDataSetChanged();
+        }
     }
 
     @Override
@@ -87,7 +89,7 @@ public class ListFragment extends Fragment {
         //callback interface
         try {
             mCallBack = (ListFragmentEventListener) context;
-            repository = ((GenericFragmentActivity) getActivity()).getDatabase();
+            repository = ((BaseActivity) getActivity()).getDatabase();
 
         } catch (ClassCastException e) {
             throw new ClassCastException(context.toString() + " must implement ListFragmentEventListener");
@@ -121,41 +123,34 @@ public class ListFragment extends Fragment {
         Toast.makeText(context, string, Toast.LENGTH_SHORT).show();
     }
 
-    private void goBack(){
+    private void goBack() {
         //Portrait mode show go to list button
-        if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
             mCallBack.onBackPressed();
         }
     }
 
-    private void deleteItem(){
+    private void deleteItem() {
         if (selectedItems.isEmpty()) {
             makeToast(getString(R.string.no_item_selected));
-        }
-        else
-        {
+        } else {
 
             new AlertDialog.Builder(getActivity())
                     .setIcon(android.R.drawable.ic_dialog_alert)
                     .setTitle(R.string.warning)
                     .setMessage(R.string.delete_question)
-                    .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener()
-                    {
+                    .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                         @Override
-                        public void onClick(DialogInterface dialog, int which)
-                        {
-                            try
-                            {
-                                for (Thing thing : selectedItems)
-                                {
+                        public void onClick(DialogInterface dialog, int which) {
+                            try {
+                                for (Thing thing : selectedItems) {
                                     repository.delete(thing.getId());
                                     mAdapter.mThings.remove(thing);
                                 }
                                 selectedItems.clear();
                                 updateList();
 
-                            } catch (OperationCanceledException e)
-                            {
+                            } catch (OperationCanceledException e) {
                                 makeToast(getString(R.string.something_Went_Wrong));
                             }
 
@@ -179,14 +174,12 @@ public class ListFragment extends Fragment {
 
     //ViewHolder for list
 
-    private class ThingHolder extends RecyclerView.ViewHolder implements View.OnClickListener
-    {
-        private TextView mThingLabel;
-        private CheckBox mSelectedCheckBox;
+    private class ThingHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        private final TextView mThingLabel;
+        private final CheckBox mSelectedCheckBox;
         private Thing mThing;
 
-        public ThingHolder(View itemView)
-        {
+        public ThingHolder(View itemView) {
             super(itemView);
             mThingLabel = (TextView) itemView.findViewById(R.id.list_item_text);
             mSelectedCheckBox = (CheckBox) itemView.findViewById(R.id.list_checkbox);
@@ -196,24 +189,19 @@ public class ListFragment extends Fragment {
 
         }
 
-        public void BindThing(Thing thing){
+        public void BindThing(Thing thing) {
             mThingLabel.setText(thing.toString());
             mSelectedCheckBox.setChecked(false);
             mThing = thing;
         }
 
-        private void setCheckboxes(){
-            mSelectedCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener()
-            {
+        private void setCheckboxes() {
+            mSelectedCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
-                {
-                    if(isChecked)
-                    {
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    if (isChecked) {
                         selectedItems.add(mThing);
-                    }
-                    else
-                    {
+                    } else {
                         selectedItems.remove(mThing);
                     }
                 }
@@ -222,7 +210,7 @@ public class ListFragment extends Fragment {
 
         @Override
         public void onClick(View v) {
-            Intent intent = DetailedThingActivity.newIntent(getActivity(),mThing.getId());
+            Intent intent = DetailedThingActivity.newIntent(getActivity(), mThing.getId());
             startActivity(intent);
 
         }
@@ -231,33 +219,33 @@ public class ListFragment extends Fragment {
     }
 
     //Adapter for list
-    private class ThingAdapter extends RecyclerView.Adapter<ThingHolder>{
+    private class ThingAdapter extends RecyclerView.Adapter<ThingHolder> {
         private List<Thing> mThings;
 
-        public ThingAdapter(List<Thing> things)
-        {
+        public ThingAdapter(List<Thing> things) {
             mThings = things;
         }
 
         @Override
-        public ThingHolder onCreateViewHolder(ViewGroup parent, int viewType)
-        {
+        public ThingHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
-            View view = layoutInflater.inflate(R.layout.list_view_row_item,parent,false);
+            View view = layoutInflater.inflate(R.layout.list_view_row_item, parent, false);
             return new ThingHolder(view);
         }
 
         @Override
-        public void onBindViewHolder(ThingHolder holder, int position)
-        {
+        public void onBindViewHolder(ThingHolder holder, int position) {
             Thing thing = mThings.get(position);
             holder.BindThing(thing);
         }
 
         @Override
-        public int getItemCount()
-        {
+        public int getItemCount() {
             return mThings.size();
+        }
+
+        public void setThings(List<Thing> things) {
+            mThings = things;
         }
     }
 

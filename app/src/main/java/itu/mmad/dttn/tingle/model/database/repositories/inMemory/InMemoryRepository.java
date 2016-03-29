@@ -1,11 +1,15 @@
-package itu.mmad.dttn.tingle.model;
+package itu.mmad.dttn.tingle.model.database.repositories.inMemory;
+
+import android.content.Context;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.UUID;
 
 import itu.mmad.dttn.tingle.model.Interfaces.IRepository;
+import itu.mmad.dttn.tingle.model.database.Entity;
 
 /**
  * This class represents a singleton of a repository.
@@ -16,7 +20,7 @@ public class InMemoryRepository implements IRepository, Serializable {
     private final List<Entity> thingsDB;
 
     //Singleton pattern has been replaced by dagger2 singleton
-    public InMemoryRepository() {
+    public InMemoryRepository(Context context) {
         thingsDB = new ArrayList<>();
     }
 
@@ -27,10 +31,10 @@ public class InMemoryRepository implements IRepository, Serializable {
      * @return Thing
      */
     @Override
-    public Entity get(int id) {
+    public Entity get(UUID id) {
         for (Entity entity: thingsDB)
         {
-            if(entity.getId().hashCode() == id){
+            if(entity.getId() == id){
                 return entity;
             }
 
@@ -51,7 +55,7 @@ public class InMemoryRepository implements IRepository, Serializable {
     /**
      * Adds a given item in the repository
      *
-     * @param entity
+     * @param entity any class that extends entity
      */
     @Override
     public boolean put(Entity entity) {
@@ -65,9 +69,9 @@ public class InMemoryRepository implements IRepository, Serializable {
      */
     @Override
     public boolean update(Entity toStore) {
-        Entity thing = get(toStore.getId().hashCode());
+        Entity thing = get(toStore.getId());
         if(thing == null) return false;
-        delete(thing.getId().hashCode());
+        delete(thing.getId());
         put(toStore);
 
         return true;
@@ -79,7 +83,7 @@ public class InMemoryRepository implements IRepository, Serializable {
      * @param id int
      */
     @Override
-    public boolean delete(int id) {
+    public boolean delete(UUID id) {
 
         Entity toRemove = searchById(id);
         if (toRemove == null)
@@ -89,9 +93,9 @@ public class InMemoryRepository implements IRepository, Serializable {
         return true;
     }
 
-    private Entity searchById(int id) {
+    private Entity searchById(UUID id) {
         for (Entity t : thingsDB) {
-            if (t.getId().hashCode() == id) {
+            if (t.getId() == id) {
                 return t;
             }
         }
