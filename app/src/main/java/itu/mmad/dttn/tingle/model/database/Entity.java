@@ -1,4 +1,4 @@
-package itu.mmad.dttn.tingle.model;
+package itu.mmad.dttn.tingle.model.database;
 
 import android.annotation.TargetApi;
 import android.os.Build;
@@ -15,8 +15,8 @@ public abstract class Entity implements Serializable
 
     private final UUID id;
 
-    public Entity() {
-        id = UUID.randomUUID();
+    public Entity(UUID id) {
+        this.id = id;
     }
 
     /**

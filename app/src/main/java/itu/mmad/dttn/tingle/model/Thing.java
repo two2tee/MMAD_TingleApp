@@ -2,6 +2,9 @@ package itu.mmad.dttn.tingle.model;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.UUID;
+
+import itu.mmad.dttn.tingle.model.database.Entity;
 
 /**
  * This class represents a physical thing and its location
@@ -14,8 +17,8 @@ public class Thing extends Entity implements Serializable {
     private String mDescription;
     private Date mDate;
 
-    public Thing(String what, String where) {
-        super();
+    public Thing(String what, String where, UUID id) {
+        super(id);
         mWhat = what;
         mWhere = where;
         mDate = new Date();

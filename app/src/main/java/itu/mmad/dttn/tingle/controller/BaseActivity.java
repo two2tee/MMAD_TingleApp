@@ -5,20 +5,22 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 
+import javax.inject.Inject;
+
 import itu.mmad.dttn.tingle.R;
-import itu.mmad.dttn.tingle.model.ThingsDatabase;
+import itu.mmad.dttn.tingle.TingleApplication;
+import itu.mmad.dttn.tingle.model.database.ThingsDatabase;
 
 /**
  * Generic fragment activity used to reduce code redundancy
  */
-public abstract class GenericFragmentActivity extends AppCompatActivity {
+public abstract class BaseActivity extends AppCompatActivity {
     //Portrait mode
     protected abstract Fragment createPortraitFragment();
 
     //Landscape mode
     protected abstract Fragment createLeftFragment();
     protected abstract Fragment createRightFragment();
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,7 +84,7 @@ public abstract class GenericFragmentActivity extends AppCompatActivity {
      * Gets the database
      * @return database
      */
-    public ThingsDatabase getDatabase(){
-        return ThingsDatabase.getDatabase();
+    public ThingsDatabase getDatabase() {
+        return ThingsDatabase.getDatabase(getApplicationContext());
     }
 }

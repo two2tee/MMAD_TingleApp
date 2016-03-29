@@ -21,10 +21,10 @@ import java.util.Date;
 import java.util.UUID;
 
 import itu.mmad.dttn.tingle.R;
-import itu.mmad.dttn.tingle.controller.GenericFragmentActivity;
+import itu.mmad.dttn.tingle.controller.BaseActivity;
 import itu.mmad.dttn.tingle.model.TempThingToStore;
 import itu.mmad.dttn.tingle.model.Thing;
-import itu.mmad.dttn.tingle.model.ThingsDatabase;
+import itu.mmad.dttn.tingle.model.database.ThingsDatabase;
 
 /**
  * Represents a detailed view of thing
@@ -56,7 +56,7 @@ public class ThingFragment extends Fragment{
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
         UUID thingId = (UUID) getArguments().getSerializable(ARG_THING_ID);
-        ThingsDatabase database = ((GenericFragmentActivity) getActivity()).getDatabase();
+        ThingsDatabase database = ((BaseActivity) getActivity()).getDatabase();
         mThing = database.get(thingId);
         mTempThing = new TempThingToStore();
     }
@@ -174,7 +174,7 @@ public class ThingFragment extends Fragment{
                 mThing.setDescription(mTempThing.getDescription());
 
             //save changes
-            boolean isSaved = ThingsDatabase.getDatabase().update(mThing);
+            boolean isSaved = ((BaseActivity) getActivity()).getDatabase().update(mThing);
 
             //Validate
             if(isSaved){

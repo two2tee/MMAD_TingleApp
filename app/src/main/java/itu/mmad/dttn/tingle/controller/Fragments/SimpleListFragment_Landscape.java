@@ -15,9 +15,9 @@ import java.util.List;
 
 import itu.mmad.dttn.tingle.R;
 import itu.mmad.dttn.tingle.controller.DetailedThingActivity;
-import itu.mmad.dttn.tingle.controller.GenericFragmentActivity;
+import itu.mmad.dttn.tingle.controller.BaseActivity;
 import itu.mmad.dttn.tingle.model.Thing;
-import itu.mmad.dttn.tingle.model.ThingsDatabase;
+import itu.mmad.dttn.tingle.model.database.ThingsDatabase;
 
 /**
  * Fragment for the list in detailed thing when in landscape
@@ -42,7 +42,7 @@ public class SimpleListFragment_Landscape extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_list_simple_landscape, container, false);
-        repository = ((GenericFragmentActivity) getActivity()).getDatabase();
+        repository = ((BaseActivity) getActivity()).getDatabase();
 
         setItemList();
         updateList();
@@ -56,14 +56,16 @@ public class SimpleListFragment_Landscape extends Fragment {
             mAdapter = new ThingAdapter(things);
             itemList.setAdapter(mAdapter);
         }
-        else
+        else{
+            mAdapter.setThings(things);
             mAdapter.notifyDataSetChanged();
+        }
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        repository = ((GenericFragmentActivity) getActivity()).getDatabase();
+        repository = ((BaseActivity) getActivity()).getDatabase();
     }
 
     private void makeToast(String string) {
@@ -138,6 +140,10 @@ public class SimpleListFragment_Landscape extends Fragment {
             return mThings.size();
         }
 
+        public void setThings(List<Thing> things)
+        {
+            mThings = things;
+        }
 
     }
 

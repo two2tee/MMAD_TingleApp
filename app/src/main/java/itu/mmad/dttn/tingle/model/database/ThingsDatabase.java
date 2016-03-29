@@ -1,5 +1,6 @@
-package itu.mmad.dttn.tingle.model;
+package itu.mmad.dttn.tingle.model.database;
 
+import android.content.Context;
 import android.support.v4.os.OperationCanceledException;
 
 import java.util.ArrayList;
@@ -9,43 +10,43 @@ import java.util.Random;
 import java.util.UUID;
 
 import javax.inject.Inject;
+import javax.inject.Singleton;
 
-import itu.mmad.dttn.tingle.model.Dagger2_DependencyInjection.Components.DaggerRepositoryComponent;
-import itu.mmad.dttn.tingle.model.Dagger2_DependencyInjection.Components.RepositoryComponent;
-import itu.mmad.dttn.tingle.model.Dagger2_DependencyInjection.Modules.RepositoryModule;
+import itu.mmad.dttn.tingle.model.Dagger2_DependencyInjection.Qualifiers.QSQLRepository;
 import itu.mmad.dttn.tingle.model.Interfaces.IRepository;
+import itu.mmad.dttn.tingle.model.Thing;
+import itu.mmad.dttn.tingle.model.database.repositories.inMemory.InMemoryRepository;
+import itu.mmad.dttn.tingle.model.database.repositories.sqlSchema.SQLRepository;
 
 /**
  * Represents a database that contains a repository.
  * This class is used to separate the repository of application logic
  */
 
-
+@Singleton
 public class ThingsDatabase {
 
     //Setup database with injection
     private static ThingsDatabase DATABASE;
     private static boolean isFilled = false;
     final IRepository<Thing> repository;
-    @Inject //annotation to request dependencies in constructor,
+
+    //annotation to request dependencies in constructor,
     public ThingsDatabase(IRepository repository) {
         this.repository = repository;
         fillThingsDB(); //TODO remember to remove
     }
 
-    public static ThingsDatabase getDatabase() {
-        if (DATABASE == null) {
-            //Setting dependency injection for database and apply
-            RepositoryComponent component = DaggerRepositoryComponent.builder()
-                    .repositoryModule(new RepositoryModule()).build();
-
-            DATABASE = component.provideDatabase();
+    public static ThingsDatabase getDatabase(Context context) {
+        if(DATABASE == null) {
+            DATABASE = new ThingsDatabase(new SQLRepository(context));
+            return DATABASE;
         }
-        return DATABASE;
+        else return DATABASE;
     }
 
     public Thing get(UUID id) {
-        return repository.get(id.hashCode());
+        return repository.get(id);
     }
 
     public List<Thing> getAll() {
@@ -83,7 +84,7 @@ public class ThingsDatabase {
      * @throws OperationCanceledException if item can not be found
      */
     public void delete(UUID id) throws OperationCanceledException {
-        boolean isSuccess = repository.delete(id.hashCode());
+        boolean isSuccess = repository.delete(id);
         if (!isSuccess) throw new OperationCanceledException("Deletion failed.");
     }
 
@@ -161,7 +162,11 @@ public class ThingsDatabase {
             };
 
             for(int x =  0; x < 10;x++){
-                repository.put(new Thing(items[random.nextInt(items.length)],locations[random.nextInt(locations.length)]));
+                repository.put(
+                        new Thing(
+                                items[random.nextInt(items.length)]
+                                ,locations[random.nextInt(locations.length)]
+                                ,UUID.randomUUID()));
             }
             ThingsDatabase.isFilled = true;
         }

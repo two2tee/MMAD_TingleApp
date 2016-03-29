@@ -1,14 +1,15 @@
 package itu.mmad.dttn.tingle.model.Interfaces;
 
 import java.util.Iterator;
+import java.util.UUID;
 
-import itu.mmad.dttn.tingle.model.Entity;
+import itu.mmad.dttn.tingle.model.database.Entity;
 
 /**
  * Interface used to create repositories for the app
  */
 public interface IRepository<E extends Entity>{
-    E get(int id);
+    E get(UUID id);
 
     Iterator<E> getAll ();
 
@@ -16,6 +17,6 @@ public interface IRepository<E extends Entity>{
 
     boolean update(E toStore);
 
-    boolean delete(int id);
+    boolean delete(UUID id);
 
 }

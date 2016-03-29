@@ -1,12 +1,16 @@
 package itu.mmad.dttn.tingle.model.Dagger2_DependencyInjection.Modules;
 
+import android.content.Context;
+
 import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
-import itu.mmad.dttn.tingle.model.InMemoryRepository;
+import itu.mmad.dttn.tingle.model.Dagger2_DependencyInjection.Qualifiers.QInMemoryRepository;
+import itu.mmad.dttn.tingle.model.Dagger2_DependencyInjection.Qualifiers.QSQLRepository;
 import itu.mmad.dttn.tingle.model.Interfaces.IRepository;
-import itu.mmad.dttn.tingle.model.ThingsDatabase;
+import itu.mmad.dttn.tingle.model.database.repositories.inMemory.InMemoryRepository;
+import itu.mmad.dttn.tingle.model.database.repositories.sqlSchema.SQLRepository;
 
 /**
  * A module is a class whose methods declares and provides the dependencies of classes
@@ -16,23 +20,23 @@ import itu.mmad.dttn.tingle.model.ThingsDatabase;
  * rs-guide.html
  */
 
-@Module //annotation to provide dependencies
+@Module( includes = ApplicationModule.class) //annotation to provide dependencies
 public class RepositoryModule {
 
 
     @Provides
     @Singleton
+    @QInMemoryRepository
         //Will automatically make sure that the returned object is a singleton
-    IRepository provideInMemRepository() {
-        return new InMemoryRepository();
+    IRepository provideInMemRepository(Context context) {
+        return new InMemoryRepository(context);
     }
-
 
     @Provides
     @Singleton
-    ThingsDatabase provideDatabase(IRepository repository) {
-        return new ThingsDatabase(repository);
+    @QSQLRepository
+    IRepository provideSQLRepository(Context context) {
+        return new SQLRepository(context);
     }
-
 
 }
