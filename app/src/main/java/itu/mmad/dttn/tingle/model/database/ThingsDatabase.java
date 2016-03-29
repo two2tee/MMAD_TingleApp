@@ -34,7 +34,7 @@ public class ThingsDatabase {
     //annotation to request dependencies in constructor,
     public ThingsDatabase(IRepository repository) {
         this.repository = repository;
-        fillThingsDB(); //TODO remember to remove
+        //fillThingsDB(); //TODO remember to remove
     }
 
     public static ThingsDatabase getDatabase(Context context) {
