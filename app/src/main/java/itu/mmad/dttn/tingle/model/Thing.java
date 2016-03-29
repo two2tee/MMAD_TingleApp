@@ -51,7 +51,7 @@ public class Thing extends Entity implements Serializable {
 
     /**
      * Sets the date
-     * @param date
+     * @param date of item
      */
     public void setDate(Date date) {
         mDate = date;

@@ -1,23 +1,17 @@
 package itu.mmad.dttn.tingle.model.database;
 
-import android.content.Context;
 import android.support.v4.os.OperationCanceledException;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Random;
 import java.util.UUID;
 
 import javax.inject.Inject;
-import javax.inject.Named;
 import javax.inject.Singleton;
 
-import itu.mmad.dttn.tingle.model.Dagger2_DependencyInjection.Qualifiers.QSQLRepository;
 import itu.mmad.dttn.tingle.model.Interfaces.IRepository;
 import itu.mmad.dttn.tingle.model.Thing;
-import itu.mmad.dttn.tingle.model.database.repositories.inMemory.InMemoryRepository;
-import itu.mmad.dttn.tingle.model.database.repositories.sqlSchema.SQLRepository;
 
 /**
  * Represents a database that contains a repository.
@@ -64,8 +58,7 @@ public class ThingsDatabase {
      *               not implemented yet
      */
     public boolean update(Thing entity) {
-        boolean result = repository.update(entity);
-        return result;
+        return repository.update(entity);
     }
 
     /**

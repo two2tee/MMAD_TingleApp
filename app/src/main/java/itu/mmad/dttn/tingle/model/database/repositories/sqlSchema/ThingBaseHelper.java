@@ -4,8 +4,6 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import itu.mmad.dttn.tingle.model.database.ThingsDatabase;
-
 /**
  * Created by DennisThinhTan on 24-03-2016.
  */

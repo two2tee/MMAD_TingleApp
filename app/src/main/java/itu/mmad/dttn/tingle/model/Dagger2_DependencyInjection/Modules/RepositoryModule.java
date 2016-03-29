@@ -2,16 +2,12 @@ package itu.mmad.dttn.tingle.model.Dagger2_DependencyInjection.Modules;
 
 import android.content.Context;
 
-import javax.inject.Named;
 import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
-import itu.mmad.dttn.tingle.model.Dagger2_DependencyInjection.Qualifiers.QInMemoryRepository;
-import itu.mmad.dttn.tingle.model.Dagger2_DependencyInjection.Qualifiers.QSQLRepository;
 import itu.mmad.dttn.tingle.model.Interfaces.IRepository;
 import itu.mmad.dttn.tingle.model.database.ThingsDatabase;
-import itu.mmad.dttn.tingle.model.database.repositories.inMemory.InMemoryRepository;
 import itu.mmad.dttn.tingle.model.database.repositories.sqlSchema.SQLRepository;
 
 /**

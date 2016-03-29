@@ -1,5 +1,6 @@
 package itu.mmad.dttn.tingle.model.database.repositories.sqlSchema;
 
+import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -10,7 +11,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
 
-import itu.mmad.dttn.tingle.controller.Fragments.ListFragment;
 import itu.mmad.dttn.tingle.model.Interfaces.IRepository;
 import itu.mmad.dttn.tingle.model.Thing;
 import itu.mmad.dttn.tingle.model.database.Entity;
@@ -20,8 +20,8 @@ import itu.mmad.dttn.tingle.model.database.Entity;
  */
 public class SQLRepository implements IRepository
 {
+    private final SQLiteDatabase mDatabase;
     private Context mContext;
-    private SQLiteDatabase mDatabase;
 
     public SQLRepository(Context context)
     {
@@ -29,6 +29,19 @@ public class SQLRepository implements IRepository
         mDatabase = new ThingBaseHelper(mContext)
                 .getWritableDatabase();
 
+    }
+
+    private static ContentValues getContentValues(Entity thing) {
+        Thing toStore = (Thing) thing;
+        ContentValues values = new ContentValues();
+
+        values.put(ThingTable.Cols.UUID, toStore.getId().toString());
+        values.put(ThingTable.Cols.WHAT, toStore.getWhat());
+        values.put(ThingTable.Cols.WHERE, toStore.getWhere());
+        values.put(ThingTable.Cols.DESCRIPTION, toStore.getDescription());
+        values.put(ThingTable.Cols.DATE, toStore.getDate().getTime());
+
+        return values;
     }
 
     @Override
@@ -74,7 +87,7 @@ public class SQLRepository implements IRepository
     {
         ContentValues values = getContentValues(entity);
         if(values == null) return false;
-        mDatabase.insert(ThingTable.NAME,null,values);
+        mDatabase.insert(ThingTable.NAME, null, values);
         return true;
     }
 
@@ -98,23 +111,9 @@ public class SQLRepository implements IRepository
         return mDatabase.delete(ThingTable.NAME, ThingTable.Cols.UUID+ "=?", new String[]{id.toString()}) > 0;
     }
 
-
-    private static ContentValues getContentValues(Entity thing){
-        Thing toStore = (Thing) thing;
-        ContentValues values = new ContentValues();
-
-        values.put(ThingTable.Cols.UUID,toStore.getId().toString());
-        values.put(ThingTable.Cols.WHAT,toStore.getWhat());
-        values.put(ThingTable.Cols.WHERE,toStore.getWhere());
-        values.put(ThingTable.Cols.DESCRIPTION,toStore.getDescription());
-        values.put(ThingTable.Cols.DATE,toStore.getDate().getTime());
-
-        return values;
-    }
-
     private ThingCursorWrapper queryThings(String whereClause, String[] whereArgs)
     {
-        Cursor cursor = mDatabase.query(
+        @SuppressLint("Already closed later") Cursor cursor = mDatabase.query(
                 ThingTable.NAME,
                 null, //null selects all columns
                 whereClause,

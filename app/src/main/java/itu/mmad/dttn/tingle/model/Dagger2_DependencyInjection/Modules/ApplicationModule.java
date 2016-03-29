@@ -3,10 +3,11 @@ package itu.mmad.dttn.tingle.model.Dagger2_DependencyInjection.Modules;
 import android.content.Context;
 
 import javax.inject.Singleton;
+
 import dagger.Module;
 import dagger.Provides;
-import itu.mmad.dttn.tingle.model.Dagger2_DependencyInjection.Scopes.ApplicationScope;
 import itu.mmad.dttn.tingle.TingleApplication;
+import itu.mmad.dttn.tingle.model.Dagger2_DependencyInjection.Scopes.ApplicationScope;
 
 /**
  * A module for Android-specific dependencies

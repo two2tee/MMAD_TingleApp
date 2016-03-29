@@ -83,20 +83,16 @@ public class TingleFragment extends Fragment {
 
 
         lookUpThing = (Button) v.findViewById(R.id.lookUp_button);
-        lookUpThing.setOnClickListener(new View.OnClickListener()
-        {
+        lookUpThing.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v)
-            {
-                if (whatField.getText().length() > 0)
-                {
+            public void onClick(View v) {
+                if (whatField.getText().length() > 0) {
                     String result = SearchThing(whatField.getText().toString());
 
                     if (result != null)
                         makeToast(getString(R.string.item_found_toast) + " " + result);
                     else makeToast(getString(R.string.item_NotFound_toast));
-                } else
-                {
+                } else {
                     makeToast(getString(R.string.no_what_specified));
                 }
             }
@@ -118,8 +114,7 @@ public class TingleFragment extends Fragment {
     /**
      * Adds a given item
      */
-    private void addItem()
-    {
+    private void addItem() {
         if ((whatField.getText().length() > 0) && (whereField.getText().length() > 0)) {
             repository.put(makeThing());
             whatField.setText("");
@@ -139,13 +134,11 @@ public class TingleFragment extends Fragment {
         lastAdded = (TextView) v.findViewById(R.id.last_thing);
         whatField = (EditText) v.findViewById(R.id.what_text);
         whereField = (EditText) v.findViewById(R.id.where_text);
-        whereField.setOnEditorActionListener(new TextView.OnEditorActionListener()
-        {
+        whereField.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event)
-            {
-               boolean handled = false;
-                if(actionId == EditorInfo.IME_ACTION_DONE){
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                boolean handled = false;
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
                     addItem();
                     handled = true;
                 }

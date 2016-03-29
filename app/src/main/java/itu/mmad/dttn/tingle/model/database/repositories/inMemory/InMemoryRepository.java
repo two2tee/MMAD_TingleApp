@@ -55,7 +55,7 @@ public class InMemoryRepository implements IRepository, Serializable {
     /**
      * Adds a given item in the repository
      *
-     * @param entity
+     * @param entity any class that extends entity
      */
     @Override
     public boolean put(Entity entity) {

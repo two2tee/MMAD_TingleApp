@@ -5,13 +5,12 @@ import android.support.v4.app.Fragment;
 
 import itu.mmad.dttn.tingle.controller.Fragments.ListFragment;
 import itu.mmad.dttn.tingle.controller.Fragments.TingleFragment;
-import itu.mmad.dttn.tingle.model.database.ThingsDatabase;
 
 /**
  * This class represents the launcher activity for tingle
  */
 public class TingleActivity extends BaseActivity
-implements ListFragment.ListFragmentEventListener, TingleFragment.TingleFragmentEventListener {
+        implements ListFragment.ListFragmentEventListener, TingleFragment.TingleFragmentEventListener {
 
     @Override
     protected Fragment createPortraitFragment() {
@@ -49,7 +48,7 @@ implements ListFragment.ListFragmentEventListener, TingleFragment.TingleFragment
     @Override
     public void onItemAdded() {
         //To update list when landscape mode
-        if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
             setFragment();
         }
 

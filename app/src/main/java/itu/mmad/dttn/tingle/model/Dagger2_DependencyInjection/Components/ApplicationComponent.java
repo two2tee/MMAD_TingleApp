@@ -9,7 +9,6 @@ import dagger.Subcomponent;
 import itu.mmad.dttn.tingle.TingleApplication;
 import itu.mmad.dttn.tingle.model.Dagger2_DependencyInjection.Modules.ApplicationModule;
 import itu.mmad.dttn.tingle.model.Dagger2_DependencyInjection.Modules.RepositoryModule;
-import itu.mmad.dttn.tingle.model.Dagger2_DependencyInjection.Qualifiers.QSQLRepository;
 import itu.mmad.dttn.tingle.model.database.ThingsDatabase;
 
 /**
@@ -30,7 +29,7 @@ public interface ApplicationComponent {
 }
 
 /**
- * Subcomponent that handles repository module
+ * Sub-component that handles repository module
  * Since it is a sub-component of ApplicationComponent it will automatically
  * inherent methods from ApplicationComponent. Thus context can be provided to database
  */

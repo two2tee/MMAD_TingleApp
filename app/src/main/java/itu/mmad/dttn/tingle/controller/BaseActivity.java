@@ -5,8 +5,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 
-import javax.inject.Inject;
-
 import itu.mmad.dttn.tingle.R;
 import itu.mmad.dttn.tingle.TingleApplication;
 import itu.mmad.dttn.tingle.model.database.ThingsDatabase;
@@ -20,6 +18,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     //Landscape mode
     protected abstract Fragment createLeftFragment();
+
     protected abstract Fragment createRightFragment();
 
     @Override
@@ -32,24 +31,25 @@ public abstract class BaseActivity extends AppCompatActivity {
     /**
      * Sets the current fragment for portrait mode with a given fragment.
      * NOTE: Support library of fragments are used.
+     *
      * @param fragment Fragment
      */
-    protected void replacePortraitFragment(Fragment fragment){
+    protected void replacePortraitFragment(Fragment fragment) {
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment_container, fragment)
                 .commit();
     }
 
-    protected void replaceLeftFragmentLandscape(Fragment fragment){
-        if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+    protected void replaceLeftFragmentLandscape(Fragment fragment) {
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.fragment_container_left, fragment)
                     .commit();
         }
     }
 
-    protected void replaceRightFragmentLandscape(Fragment fragment){
-        if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+    protected void replaceRightFragmentLandscape(Fragment fragment) {
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.fragment_container_right, fragment)
                     .commit();
@@ -60,18 +60,18 @@ public abstract class BaseActivity extends AppCompatActivity {
 
 
         //Landscape mode
-        if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
             Fragment fragmentLeft = createLeftFragment();
             Fragment fragmentRight = createRightFragment();
 
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.fragment_container_left, fragmentLeft)
-                    .replace(R.id.fragment_container_right,fragmentRight)
+                    .replace(R.id.fragment_container_right, fragmentRight)
                     .commit();
         }
 
         //Portrait mode
-        else if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+        else if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
             Fragment fragment = createPortraitFragment();
 
             getSupportFragmentManager().beginTransaction()
@@ -82,6 +82,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     /**
      * Gets the database
+     *
      * @return database
      */
     public ThingsDatabase getDatabase() {

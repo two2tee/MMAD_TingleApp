@@ -12,6 +12,7 @@ import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.DatePicker;
+import android.widget.Toast;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -24,10 +25,8 @@ import itu.mmad.dttn.tingle.R;
  */
 public class DatePickerFragment extends DialogFragment {
 
-    private static final String ARG_DATE = "date";
     public static final String EXTRA_DATE = "itu.mmad.dttn.tingle.date";
-
-
+    private static final String ARG_DATE = "date";
     private DatePicker mDatePicker;
 
     public static DatePickerFragment newInstance(Date date) {
@@ -48,6 +47,11 @@ public class DatePickerFragment extends DialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         Date date = (Date) getArguments().getSerializable(ARG_DATE);
+
+        if (date == null) {
+            Toast.makeText(getContext(), R.string.something_Went_Wrong, Toast.LENGTH_LONG);
+            return null;
+        }
 
         Calendar calender = Calendar.getInstance();
         calender.setTime(date);
