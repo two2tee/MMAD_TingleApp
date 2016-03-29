@@ -2,6 +2,7 @@ package itu.mmad.dttn.tingle.model.Dagger2_DependencyInjection.Modules;
 
 import android.content.Context;
 
+import javax.inject.Named;
 import javax.inject.Singleton;
 
 import dagger.Module;
@@ -9,6 +10,7 @@ import dagger.Provides;
 import itu.mmad.dttn.tingle.model.Dagger2_DependencyInjection.Qualifiers.QInMemoryRepository;
 import itu.mmad.dttn.tingle.model.Dagger2_DependencyInjection.Qualifiers.QSQLRepository;
 import itu.mmad.dttn.tingle.model.Interfaces.IRepository;
+import itu.mmad.dttn.tingle.model.database.ThingsDatabase;
 import itu.mmad.dttn.tingle.model.database.repositories.inMemory.InMemoryRepository;
 import itu.mmad.dttn.tingle.model.database.repositories.sqlSchema.SQLRepository;
 
@@ -20,23 +22,26 @@ import itu.mmad.dttn.tingle.model.database.repositories.sqlSchema.SQLRepository;
  * rs-guide.html
  */
 
-@Module( includes = ApplicationModule.class) //annotation to provide dependencies
+@Module //annotation to provide dependencies
 public class RepositoryModule {
 
+//    @Provides
+//    @Singleton
+//    @QInMemoryRepository
+//        //Will automatically make sure that the returned object is a singleton
+//    IRepository provideInMemRepository(Context context) {
+//        return new InMemoryRepository(context);
+//    }
 
-    @Provides
-    @Singleton
-    @QInMemoryRepository
-        //Will automatically make sure that the returned object is a singleton
-    IRepository provideInMemRepository(Context context) {
-        return new InMemoryRepository(context);
+    @Provides @Singleton
+    static IRepository provideSQLRepository(Context context) {
+        return new SQLRepository(context);
     }
 
     @Provides
     @Singleton
-    @QSQLRepository
-    IRepository provideSQLRepository(Context context) {
-        return new SQLRepository(context);
+    static ThingsDatabase provideDatabase(IRepository repository){
+        return new ThingsDatabase(repository);
     }
 
 }

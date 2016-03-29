@@ -10,6 +10,7 @@ import java.util.Random;
 import java.util.UUID;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 import javax.inject.Singleton;
 
 import itu.mmad.dttn.tingle.model.Dagger2_DependencyInjection.Qualifiers.QSQLRepository;
@@ -27,22 +28,12 @@ import itu.mmad.dttn.tingle.model.database.repositories.sqlSchema.SQLRepository;
 public class ThingsDatabase {
 
     //Setup database with injection
-    private static ThingsDatabase DATABASE;
-    private static boolean isFilled = false;
-    final IRepository<Thing> repository;
+    private final IRepository<Thing> repository;
 
     //annotation to request dependencies in constructor,
+    @Inject
     public ThingsDatabase(IRepository repository) {
         this.repository = repository;
-        //fillThingsDB(); //TODO remember to remove
-    }
-
-    public static ThingsDatabase getDatabase(Context context) {
-        if(DATABASE == null) {
-            DATABASE = new ThingsDatabase(new SQLRepository(context));
-            return DATABASE;
-        }
-        else return DATABASE;
     }
 
     public Thing get(UUID id) {
@@ -106,69 +97,4 @@ public class ThingsDatabase {
         return size;
     }
 
-    /**
-     * This is only used during development
-     * Todo Remember to remove it when done
-     * todo also remember to remove TingleFragment.isFilled field
-     */
-    private void fillThingsDB() {
-        if (!ThingsDatabase.isFilled) {
-            Random random = new Random();
-
-            String[] locations = new String[]{
-                    "Desk",
-                    "Carport",
-                    "Car",
-                    "Washing machine",
-                    "Uncle johns house",
-                    "Kindergarten",
-                    "Kitchen",
-                    "Bedroom desk",
-                    "Garden",
-                    "Office",
-                    "Bag",
-                    "Grocery store",
-                    "Back pocket",
-                    "Shelves",
-                    "Living room table",
-                    "Vietnam diner",
-                    "Gym changing room"
-
-
-
-            };
-            String[] items = new String[]{
-                    "car keys",
-                    "phone",
-                    "Kids",
-                    "Wallet",
-                    "Laptop",
-                    "Passport",
-                    "Train tickets",
-                    "Milk",
-                    "Shoes",
-                    "Eye liner",
-                    "white out",
-                    "newspaper",
-                    "USB stick",
-                    "charger",
-                    "boombox",
-                    "toys",
-                    "Credit card",
-                    "shovel",
-                    "Pencil",
-                    "Bucket",
-                    "Calculator"
-            };
-
-            for(int x =  0; x < 10;x++){
-                repository.put(
-                        new Thing(
-                                items[random.nextInt(items.length)]
-                                ,locations[random.nextInt(locations.length)]
-                                ,UUID.randomUUID()));
-            }
-            ThingsDatabase.isFilled = true;
-        }
-    }
 }

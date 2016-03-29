@@ -24,9 +24,9 @@ public class ApplicationModule {
      * {@link ApplicationScope @Annotation} to explicitly differentiate it from an activity context.
      */
 
-    @Provides @Singleton @ApplicationScope
+    @Provides @Singleton
     Context provideApplication(){
-        return mApplication;
+        return mApplication.getApplicationContext();
     }
 
 
