@@ -27,11 +27,13 @@ public class ThingCursorWrapper extends CursorWrapper {
         String what = getString(getColumnIndex(ThingTable.Cols.WHAT));
         String where = getString(getColumnIndex(ThingTable.Cols.WHERE));
         String description = getString(getColumnIndex(ThingTable.Cols.DESCRIPTION));
+        String barcode = getString(getColumnIndex(ThingTable.Cols.BARCODE));
         long date = getLong(getColumnIndex(ThingTable.Cols.DATE));
 
         Thing thing = new Thing(what,where, UUID.fromString(uuidString));
         thing.setDescription(description);
         thing.setDate(new Date(date));
+        thing.setBarcode(barcode);
 
         return thing;
 

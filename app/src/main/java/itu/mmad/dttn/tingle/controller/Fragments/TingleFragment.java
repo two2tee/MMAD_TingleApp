@@ -43,7 +43,14 @@ public class TingleFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setHasOptionsMenu(false);
+        setMenu();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        setMenu();
+        updateUI();
     }
 
     @Override
@@ -70,6 +77,15 @@ public class TingleFragment extends Fragment {
             throw new ClassCastException(context.toString() + " must implement ListFragmentEventListener");
         }
     }
+
+
+    private void setMenu() {
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+            setHasOptionsMenu(false);
+        }
+    }
+
+
 
     private void setButtons(View v) {
         addThing = (Button) v.findViewById(R.id.add_button);

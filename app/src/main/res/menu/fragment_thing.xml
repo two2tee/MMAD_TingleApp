@@ -9,6 +9,13 @@
         app:showAsAction="ifRoom|withText"/>
 
     <item
+        android:id="@+id/share_button"
+        android:icon="@drawable/ic_share_button"
+        android:title="@string/share"
+        app:showAsAction="ifRoom"
+        />
+
+    <item
         android:id="@id/save_button"
         android:icon="@drawable/ic_save_button"
         android:title="@string/save"

@@ -35,10 +35,13 @@ public abstract class BaseActivity extends AppCompatActivity {
      * @param fragment Fragment
      */
     protected void replacePortraitFragment(Fragment fragment) {
+        Fragment prevFragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
         getSupportFragmentManager().beginTransaction()
+                .addToBackStack(prevFragment.getTag())
                 .replace(R.id.fragment_container, fragment)
                 .commit();
     }
+
 
     protected void replaceLeftFragmentLandscape(Fragment fragment) {
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {

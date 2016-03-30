@@ -12,6 +12,15 @@
         android:text="@string/basic_info_label"
         android:textAppearance="?android:attr/textAppearanceSmall">
 
+
+        <TextView
+            style="?android:listSeparatorTextViewStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/basic_info_label"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            />
+
         <EditText
             android:id="@+id/what_text"
             android:layout_width="match_parent"
@@ -42,7 +51,7 @@
             style="?android:listSeparatorTextViewStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/details_label"
+            android:text="@string/description"
             android:textAppearance="?android:attr/textAppearanceSmall"
             />
 
@@ -58,6 +67,21 @@
             android:inputType="textMultiLine"
             android:lines="7"
             android:textSize="12dp"/>
+
+
+        <TextView
+            style="?android:listSeparatorTextViewStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="10dp"
+            android:text="@string/details_label"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            />
+
+        <Button
+            android:id="@+id/barcode_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
 
     </LinearLayout>
 
