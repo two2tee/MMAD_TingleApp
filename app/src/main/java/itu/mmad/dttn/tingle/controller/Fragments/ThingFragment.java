@@ -159,6 +159,7 @@ public class ThingFragment extends Fragment {
         String contents = data.getStringExtra("SCAN_RESULT");
         String format = data.getStringExtra("SCAN_RESULT_FORMAT");
         mBarcodeButtom.setText(contents + " " + format);
+        mTempThing.setBarcode(contents);
         makeToast(R.string.scan_success);
     }
 
@@ -200,14 +201,18 @@ public class ThingFragment extends Fragment {
             if (mTempThing.getWhat() != null)
                 mThing.setWhat(mTempThing.getWhat());
 
-            else if (mTempThing.getWhere() != null)
+            if (mTempThing.getWhere() != null)
                 mThing.setWhere(mTempThing.getWhere());
 
-            else if (mTempThing.getDate() != null)
+            if (mTempThing.getDate() != null)
                 mThing.setDate(mTempThing.getDate());
 
-            else if (mTempThing.getDescription() != null)
+            if (mTempThing.getDescription() != null)
                 mThing.setDescription(mTempThing.getDescription());
+
+            if (mTempThing.getBarcode() != null)
+                mThing.setBarcode(mTempThing.getBarcode());
+
 
             //save changes
             boolean isSaved = ((BaseActivity) getActivity()).getDatabase().update(mThing);
