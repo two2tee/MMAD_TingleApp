@@ -42,4 +42,6 @@
     <string name="scan_fail">Scan canceled</string>
     <string name="scan_button_not_scanned">No barcode scanned.</string>
     <string name="exit_question">Are you sure you want to exit?</string>
+    <string name="barcode">Barcode information</string>
+    <string name="photo">Photo</string>
 </resources>

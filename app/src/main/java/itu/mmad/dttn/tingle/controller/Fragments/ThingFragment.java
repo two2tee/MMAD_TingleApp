@@ -17,6 +17,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import java.util.Date;
@@ -45,6 +47,8 @@ public class ThingFragment extends Fragment {
     private EditText mDescriptionField;
     private Button mDateButton;
     private Button mBarcodeButtom;
+    private ImageView mPhotoView;
+    private ImageButton mPhotoButton;
 
 
     public static ThingFragment newInstance(UUID thingId) {
@@ -116,19 +120,23 @@ public class ThingFragment extends Fragment {
 
         mDescriptionField = (EditText) v.findViewById(R.id.description_EditBox);
         mDescriptionField.setText(mThing.getDescription());
-        mDescriptionField.addTextChangedListener(new TextWatcher() {
+        mDescriptionField.addTextChangedListener(new TextWatcher()
+        {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            public void beforeTextChanged(CharSequence s, int start, int count, int after)
+            {
 
             }
 
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            public void onTextChanged(CharSequence s, int start, int before, int count)
+            {
                 mTempThing.setDescription(s.toString());
             }
 
             @Override
-            public void afterTextChanged(Editable s) {
+            public void afterTextChanged(Editable s)
+            {
 
             }
         });
@@ -262,21 +270,32 @@ public class ThingFragment extends Fragment {
         } else {
             mBarcodeButtom.setText(mThing.getBarcode());
         }
-        mBarcodeButtom.setOnClickListener(new View.OnClickListener() {
+        mBarcodeButtom.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View v) {
-                try {
+            public void onClick(View v)
+            {
+                try
+                {
                     Intent intent = new Intent("com.google.zxing.client.android.SCAN");
                     intent.putExtra("SCAN_MODE", "PRODUCT_MODE");
                     startActivityForResult(intent, REQUEST_SCAN);
-                } catch (ActivityNotFoundException e) {
+                } catch (ActivityNotFoundException e)
+                {
                     Log.e("onCreate", "Scanner Not Found", e);
                     makeToast(R.string.no_scanner_found);
                 }
             }
         });
+
+
+        mPhotoButton = (ImageButton) v.findViewById(R.id.camera_button);
     }
 
+    private void setPhotoView(View v)
+    {
+        mPhotoView = (ImageButton) v.findViewById(R.id.thing_photo);
+    }
 
     private void updateDate() {
         mDateButton.setText(mThing.getDate().toString());
@@ -295,4 +314,6 @@ public class ThingFragment extends Fragment {
                 , mThing.getDate().toString()
                 , mThing.getDescription());
     }
+
+
 }
