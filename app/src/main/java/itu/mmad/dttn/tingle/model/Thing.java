@@ -15,6 +15,7 @@ public class Thing extends Entity implements Serializable {
     private String mWhat;
     private String mWhere;
     private String mDescription;
+    private String mBarcode;
     private Date mDate;
 
     public Thing(String what, String where, UUID id) {
@@ -106,5 +107,23 @@ public class Thing extends Entity implements Serializable {
     private String oneLine(String pre, String post) {
         return pre + mWhat + " " + post + mWhere;
 
+    }
+
+    /**
+     * Gets the stored barcode
+     *
+     * @return string barcode
+     */
+    public String getBarcode() {
+        return mBarcode;
+    }
+
+    /**
+     * Sets the stored barcode
+     *
+     * @param barcode string
+     */
+    public void setBarcode(String barcode) {
+        mBarcode = barcode;
     }
 }

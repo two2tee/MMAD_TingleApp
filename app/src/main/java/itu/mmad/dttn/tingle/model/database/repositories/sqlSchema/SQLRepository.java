@@ -39,6 +39,7 @@ public class SQLRepository implements IRepository
         values.put(ThingTable.Cols.WHAT, toStore.getWhat());
         values.put(ThingTable.Cols.WHERE, toStore.getWhere());
         values.put(ThingTable.Cols.DESCRIPTION, toStore.getDescription());
+        values.put(ThingTable.Cols.BARCODE, toStore.getBarcode());
         values.put(ThingTable.Cols.DATE, toStore.getDate().getTime());
 
         return values;

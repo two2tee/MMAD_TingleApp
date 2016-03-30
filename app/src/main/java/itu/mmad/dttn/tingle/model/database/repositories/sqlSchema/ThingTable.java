@@ -14,6 +14,7 @@ public class ThingTable
         public static final String WHAT = "whatItem";
         public static final String WHERE = "whereItem";
         public static final String DESCRIPTION = "description";
+        public static final String BARCODE = "barcode";
         public static final String DATE = "date";
 
    }

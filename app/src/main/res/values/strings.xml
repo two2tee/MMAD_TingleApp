@@ -20,7 +20,7 @@
     <string name="no">No</string>
     <string name="delete_question">Are you sure you want to delete selected elements?</string>
     <string name="warning">Warning</string>
-    <string name="details_label">Details</string>
+    <string name="details_label">Other details</string>
     <string name="basic_info_label">Basic information</string>
     <string name="description_hint">Enter description</string>
     <string name="date_picker_title">Last seen date</string>
@@ -28,4 +28,18 @@
     <string name="no_changes">No changes were made.</string>
     <string name="saved">Saved!</string>
     <string name="save">Save</string>
+    <string name="share">Share</string>
+    <string name="no_scanner_found">No scanner found.</string>
+
+
+    <string name="sharereport_with_description">The %1$s was last located at %2$s on date %3$s with the following
+                                description: %4$s </string>
+    <string name="sharereport_without_description">The %1$s was last located at %2$s on date %3$s. </string>
+
+    <string name="share_thing">Share thing!</string>
+    <string name="description">Description</string>
+    <string name="scan_success">scanned</string>
+    <string name="scan_fail">Scan canceled</string>
+    <string name="scan_button_not_scanned">No barcode scanned.</string>
+    <string name="exit_question">Are you sure you want to exit?</string>
 </resources>

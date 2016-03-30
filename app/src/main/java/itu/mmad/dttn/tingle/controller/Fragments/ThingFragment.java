@@ -1,12 +1,14 @@
 package itu.mmad.dttn.tingle.controller.Fragments;
 
 import android.app.Activity;
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -34,6 +36,7 @@ public class ThingFragment extends Fragment {
     private static final String ARG_THING_ID = "thing_id";
     private static final String DIALOG_DATE = "DialogDate";
     private static final int REQUEST_DATE = -1;
+    private static final int REQUEST_SCAN = 2;
 
     private Thing mThing;
     private TempThingToStore mTempThing;
@@ -41,6 +44,7 @@ public class ThingFragment extends Fragment {
     private EditText mWhereField;
     private EditText mDescriptionField;
     private Button mDateButton;
+    private Button mBarcodeButtom;
 
 
     public static ThingFragment newInstance(UUID thingId) {
@@ -132,14 +136,37 @@ public class ThingFragment extends Fragment {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode != Activity.RESULT_OK) {
-            return;
+        switch (requestCode) {
+
+            case REQUEST_DATE:
+                handleDatepickerResult(data);
+                break;
+            case REQUEST_SCAN:
+                handleScanResult(data);
+                break;
+            case Activity.RESULT_CANCELED:
+                makeToast(R.string.scan_fail);
+                break;
+            default:
+                makeToast(R.string.something_Went_Wrong);
+
         }
-        if (requestCode == REQUEST_DATE) {
-            Date date = (Date) data.getSerializableExtra(DatePickerFragment.EXTRA_DATE);
-            mThing.setDate(date);
-            updateDate();
-        }
+
+
+    }
+
+    private void handleScanResult(Intent data) {
+        String contents = data.getStringExtra("SCAN_RESULT");
+        String format = data.getStringExtra("SCAN_RESULT_FORMAT");
+        mBarcodeButtom.setText(contents + " " + format);
+        makeToast(R.string.scan_success);
+    }
+
+
+    private void handleDatepickerResult(Intent data) {
+        Date date = (Date) data.getSerializableExtra(DatePickerFragment.EXTRA_DATE);
+        mThing.setDate(date);
+        updateDate();
     }
 
     @Override
@@ -151,9 +178,19 @@ public class ThingFragment extends Fragment {
             case R.id.save_button:
                 saveChanges();
                 return true;
+            case R.id.share_button:
+                shareThing();
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    private void shareThing() {
+        Intent i = new Intent(Intent.ACTION_SEND);
+        i.setType("text/plain");
+        i.putExtra(Intent.EXTRA_TEXT, getShareableThingText());
+        i = Intent.createChooser(i, getString(R.string.share_thing));
+        startActivity(i);
     }
 
     private void saveChanges() {
@@ -212,9 +249,45 @@ public class ThingFragment extends Fragment {
                 dialog.show(manager, DIALOG_DATE);
             }
         });
+
+
+        mBarcodeButtom = (Button) v.findViewById(R.id.barcode_button);
+        if (mThing.getBarcode() == null) {
+            mBarcodeButtom.setText(getString(R.string.scan_button_not_scanned));
+        } else {
+            mBarcodeButtom.setText(mThing.getBarcode());
+        }
+        mBarcodeButtom.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    Intent intent = new Intent("com.google.zxing.client.android.SCAN");
+                    intent.putExtra("SCAN_MODE", "PRODUCT_MODE");
+                    startActivityForResult(intent, REQUEST_SCAN);
+                } catch (ActivityNotFoundException e) {
+                    Log.e("onCreate", "Scanner Not Found", e);
+                    makeToast(R.string.no_scanner_found);
+                }
+            }
+        });
     }
+
 
     private void updateDate() {
         mDateButton.setText(mThing.getDate().toString());
+    }
+
+    private String getShareableThingText() {
+
+        if (mThing.getDescription() == null) {
+            return getString(R.string.sharereport_without_description
+                    , mThing.getWhat()
+                    , mThing.getWhere()
+                    , mThing.getDate().toString());
+        } else return getString(R.string.sharereport_with_description
+                , mThing.getWhat()
+                , mThing.getWhere()
+                , mThing.getDate().toString()
+                , mThing.getDescription());
     }
 }

@@ -126,7 +126,7 @@ public class ListFragment extends Fragment {
     private void goBack() {
         //Portrait mode show go to list button
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
-            mCallBack.onBackPressed();
+            mCallBack.goBack();
         }
     }
 
@@ -168,7 +168,7 @@ public class ListFragment extends Fragment {
     }
 
     public interface ListFragmentEventListener {
-        void onBackPressed();
+        void goBack();
     }
 
 
