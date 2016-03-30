@@ -1,6 +1,7 @@
 package itu.mmad.dttn.tingle.controller.Fragments;
 
 import android.content.Context;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -41,12 +42,15 @@ public class SimpleListFragment_Landscape extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_list_simple_landscape, container, false);
-        repository = ((BaseActivity) getActivity()).getDatabase();
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            view = inflater.inflate(R.layout.fragment_list_simple_landscape, container, false);
+            repository = ((BaseActivity) getActivity()).getDatabase();
 
-        setItemList();
-        updateList();
-        return view;
+            setItemList();
+            updateList();
+            return view;
+        }
+        return null;
     }
 
     private void updateList() {

@@ -10,6 +10,7 @@ public class TempThingToStore {
     private String mWhere;
     private String mDescription;
     private Date mDate;
+    private String mBarcode;
     private boolean hasChanged;
 
 
@@ -18,8 +19,19 @@ public class TempThingToStore {
         mWhere = null;
         mDescription = null;
         mDate = null;
+        mBarcode = null;
         hasChanged = false;
 
+    }
+
+
+    public String getBarcode() {
+        return mBarcode;
+    }
+
+    public void setBarcode(String barcode) {
+        mBarcode = barcode;
+        hasChanged = true;
     }
 
     public String getWhat() {
