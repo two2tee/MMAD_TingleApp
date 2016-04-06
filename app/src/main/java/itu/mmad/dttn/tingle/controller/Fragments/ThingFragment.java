@@ -39,6 +39,7 @@ public class ThingFragment extends Fragment {
     private static final String DIALOG_DATE = "DialogDate";
     private static final int REQUEST_DATE = -1;
     private static final int REQUEST_SCAN = 2;
+    private static final int REQUEST_PHOTO = 3;
 
     private Thing mThing;
     private TempThingToStore mTempThing;
@@ -74,6 +75,7 @@ public class ThingFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_thing, parent, false);
         setTextFields(v);
         setButtons(v);
+        setPhotoView(v);
         return v;
 
     }
@@ -290,11 +292,17 @@ public class ThingFragment extends Fragment {
 
 
         mPhotoButton = (ImageButton) v.findViewById(R.id.camera_button);
+
     }
 
+
+    private boolean isCanTakePicture()
+    {
+        //TODO
+    }
     private void setPhotoView(View v)
     {
-        mPhotoView = (ImageButton) v.findViewById(R.id.thing_photo);
+        mPhotoView = (ImageView) v.findViewById(R.id.thing_photo);
     }
 
     private void updateDate() {

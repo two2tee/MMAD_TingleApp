@@ -136,7 +136,6 @@ public class Thing extends Entity implements Serializable
      */
     public String getBarcode()
     {
-        JsonReader
        return mBarcode;
     }
 
@@ -150,7 +149,11 @@ public class Thing extends Entity implements Serializable
         mBarcode = barcode;
     }
 
-    public String getPhotoLocation()
+    /**
+     * Returns the filename. IT is uniquely identified by the thing's ID
+     * @return String
+     */
+    public String getPhotoName()
     {
         return "_IMG" + getId().toString() +  ".jpg";
     }

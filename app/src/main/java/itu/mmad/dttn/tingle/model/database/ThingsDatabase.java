@@ -1,7 +1,10 @@
 package itu.mmad.dttn.tingle.model.database;
 
+import android.content.Context;
+import android.os.Environment;
 import android.support.v4.os.OperationCanceledException;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -23,11 +26,13 @@ public class ThingsDatabase {
 
     //Setup database with injection
     private final IRepository<Thing> repository;
+    private Context mContext;
 
     //annotation to request dependencies in constructor,
     @Inject
-    public ThingsDatabase(IRepository repository) {
+    public ThingsDatabase(IRepository repository, Context context) {
         this.repository = repository;
+        this.mContext = context;
     }
 
     public Thing get(UUID id) {
@@ -88,6 +93,24 @@ public class ThingsDatabase {
         }
 
         return size;
+    }
+
+    /**
+     * This code does not create any files on the filesystem. It only returns File objects that point to the right
+     * locations. It does perform one check: it verifies that there is external storage to save them to. If there is
+     * no external storage, it will return null.
+     * @param entity
+     * @return a file or null
+     */
+    public File getPhotoFile(Thing entity)
+    {
+        File externalDir =  mContext.getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        if(externalDir == null)
+        {
+            return null;
+        }
+
+        return new File(externalDir,entity.getPhotoName());
     }
 
 }
