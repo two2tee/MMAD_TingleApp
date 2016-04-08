@@ -27,7 +27,8 @@ import itu.mmad.dttn.tingle.model.database.ThingsDatabase;
  * NOTE: Support library of fragments are used
  * android.support.v4.app...
  */
-public class TingleFragment extends Fragment {
+public class TingleFragment extends Fragment
+{
 
     //EventHandler
     TingleFragmentEventListener mCallBack;
@@ -41,20 +42,23 @@ public class TingleFragment extends Fragment {
     private ThingsDatabase repository;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setMenu();
     }
 
     @Override
-    public void onResume() {
+    public void onResume()
+    {
         super.onResume();
         setMenu();
         updateUI();
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+    {
         View v = inflater.inflate(R.layout.fragment_tingle, container, false);
         repository = ((BaseActivity) getActivity()).getDatabase();
 
@@ -65,33 +69,40 @@ public class TingleFragment extends Fragment {
     }
 
     @Override
-    public void onAttach(Context context) {
+    public void onAttach(Context context)
+    {
         super.onAttach(context);
 
         //Checks if parent activity has implemented the
         //callback interface
-        try {
+        try
+        {
             mCallBack = (TingleFragmentEventListener) context;
             repository = ((BaseActivity) getActivity()).getDatabase();
-        } catch (ClassCastException e) {
+        } catch (ClassCastException e)
+        {
             throw new ClassCastException(context.toString() + " must implement ListFragmentEventListener");
         }
     }
 
 
-    private void setMenu() {
-        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+    private void setMenu()
+    {
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT)
+        {
             setHasOptionsMenu(false);
         }
     }
 
 
-
-    private void setButtons(View v) {
+    private void setButtons(View v)
+    {
         addThing = (Button) v.findViewById(R.id.add_button);
-        addThing.setOnClickListener(new View.OnClickListener() {
+        addThing.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View v) {
+            public void onClick(View v)
+            {
                 addItem();
             }
 
@@ -99,27 +110,34 @@ public class TingleFragment extends Fragment {
 
 
         lookUpThing = (Button) v.findViewById(R.id.lookUp_button);
-        lookUpThing.setOnClickListener(new View.OnClickListener() {
+        lookUpThing.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View v) {
-                if (whatField.getText().length() > 0) {
+            public void onClick(View v)
+            {
+                if (whatField.getText().length() > 0)
+                {
                     String result = SearchThing(whatField.getText().toString());
 
                     if (result != null)
                         makeToast(getString(R.string.item_found_toast) + " " + result);
                     else makeToast(getString(R.string.item_NotFound_toast));
-                } else {
+                } else
+                {
                     makeToast(getString(R.string.no_what_specified));
                 }
             }
         });
 
         //Portrait mode show go to list button
-        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT)
+        {
             showAll = (Button) v.findViewById(R.id.goTOList_button);
-            showAll.setOnClickListener(new View.OnClickListener() {
+            showAll.setOnClickListener(new View.OnClickListener()
+            {
                 @Override
-                public void onClick(View v) {
+                public void onClick(View v)
+                {
                     mCallBack.onShowAllPressed();
                 }
             });
@@ -130,8 +148,10 @@ public class TingleFragment extends Fragment {
     /**
      * Adds a given item
      */
-    private void addItem() {
-        if ((whatField.getText().length() > 0) && (whereField.getText().length() > 0)) {
+    private void addItem()
+    {
+        if ((whatField.getText().length() > 0) && (whereField.getText().length() > 0))
+        {
             repository.put(makeThing());
             whatField.setText("");
             whereField.setText("");
@@ -141,20 +161,25 @@ public class TingleFragment extends Fragment {
         }
     }
 
-    private void makeToast(String string) {
+    private void makeToast(String string)
+    {
         Context context = getActivity().getApplicationContext();
         Toast.makeText(context, string, Toast.LENGTH_SHORT).show();
     }
 
-    private void setTextFields(View v) {
+    private void setTextFields(View v)
+    {
         lastAdded = (TextView) v.findViewById(R.id.last_thing);
         whatField = (EditText) v.findViewById(R.id.what_text);
         whereField = (EditText) v.findViewById(R.id.where_text);
-        whereField.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+        whereField.setOnEditorActionListener(new TextView.OnEditorActionListener()
+        {
             @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event)
+            {
                 boolean handled = false;
-                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                if (actionId == EditorInfo.IME_ACTION_DONE)
+                {
                     addItem();
                     handled = true;
                 }
@@ -165,12 +190,15 @@ public class TingleFragment extends Fragment {
 
     }
 
-    private String SearchThing(String item) {
+    private String SearchThing(String item)
+    {
         String searchItem = item.toLowerCase().trim();
         List<Thing> things = repository.getAll();
 
-        for (Thing t : things) {
-            if (t.getWhat().equals(searchItem)) {
+        for (Thing t : things)
+        {
+            if (t.getWhat().equals(searchItem))
+            {
                 return t.getWhere();
             }
         }
@@ -178,21 +206,25 @@ public class TingleFragment extends Fragment {
         return null;
     }
 
-    private Thing makeThing() {
-        return new Thing(whatField.getText().toString().toLowerCase().trim(),
-                whereField.getText().toString().toLowerCase().trim(), UUID.randomUUID());
+    private Thing makeThing()
+    {
+        return new Thing(whatField.getText().toString().toLowerCase().trim(), whereField.getText().toString().toLowerCase().trim(), UUID.randomUUID());
     }
 
-    private void updateUI() {
+    private void updateUI()
+    {
         List<Thing> Things = repository.getAll();
-        if (Things.size() > 0) {
+        if (Things.size() > 0)
+        {
             this.lastAdded.setText(Things.get(Things.size() - 1).toString());
-        } else {
+        } else
+        {
             this.lastAdded.setText(getString(R.string.item_NotFound_toast));
         }
     }
 
-    public interface TingleFragmentEventListener {
+    public interface TingleFragmentEventListener
+    {
         void onShowAllPressed();
 
         void onItemAdded();

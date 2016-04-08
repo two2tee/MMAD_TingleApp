@@ -19,8 +19,10 @@ import itu.mmad.dttn.tingle.model.database.ThingsDatabase;
  */
 @Singleton
 @Component(modules = {ApplicationModule.class, RepositoryModule.class})
-public interface ApplicationComponent {
+public interface ApplicationComponent
+{
     DataComponent DataComponent(RepositoryModule repositoryModule);
+
     Context getContext();
 
     void inject(TingleApplication application);
@@ -35,6 +37,7 @@ public interface ApplicationComponent {
  */
 @Singleton
 @Subcomponent(modules = {RepositoryModule.class})
-interface DataComponent {
+interface DataComponent
+{
     ThingsDatabase getDatabase();
 }

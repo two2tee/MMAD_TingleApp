@@ -26,12 +26,12 @@ public class SQLRepository implements IRepository
     public SQLRepository(Context context)
     {
         mContext = context.getApplicationContext();
-        mDatabase = new ThingBaseHelper(mContext)
-                .getWritableDatabase();
+        mDatabase = new ThingBaseHelper(mContext).getWritableDatabase();
 
     }
 
-    private static ContentValues getContentValues(Entity thing) {
+    private static ContentValues getContentValues(Entity thing)
+    {
         Thing toStore = (Thing) thing;
         ContentValues values = new ContentValues();
 
@@ -48,17 +48,15 @@ public class SQLRepository implements IRepository
     @Override
     public Entity get(UUID id)
     {
-        ThingCursorWrapper cursor = queryThings(
-                ThingTable.Cols.UUID + "= ?",
-                new String[]{id.toString()}
-        );
+        ThingCursorWrapper cursor = queryThings(ThingTable.Cols.UUID + "= ?", new String[]{id.toString()});
 
-        try {
-            if(cursor.getColumnCount() == 0) return null;
+        try
+        {
+            if (cursor.getColumnCount() == 0) return null;
             cursor.moveToFirst();
             return cursor.getThing();
-        }
-        finally {
+        } finally
+        {
             cursor.close(); // closing cursor to release all resources
         }
     }
@@ -67,16 +65,18 @@ public class SQLRepository implements IRepository
     public Iterator getAll()
     {
         List<Entity> items = new ArrayList<>();
-        ThingCursorWrapper cursor = queryThings(null,null);
+        ThingCursorWrapper cursor = queryThings(null, null);
 
-        try {
+        try
+        {
             cursor.moveToFirst();
-            while (!cursor.isAfterLast()) {
+            while (!cursor.isAfterLast())
+            {
                 items.add(cursor.getThing());
                 cursor.moveToNext();
             }
-        }
-        finally {
+        } finally
+        {
             cursor.close();
         }
 
@@ -87,7 +87,7 @@ public class SQLRepository implements IRepository
     public boolean put(Entity entity)
     {
         ContentValues values = getContentValues(entity);
-        if(values == null) return false;
+        if (values == null) return false;
         mDatabase.insert(ThingTable.NAME, null, values);
         return true;
     }
@@ -98,10 +98,8 @@ public class SQLRepository implements IRepository
         ContentValues values = getContentValues(toStore);
         String UUID = toStore.getId().toString();
 
-        if(values == null) return false;
-        mDatabase.update(ThingTable.NAME, values,
-                ThingTable.Cols.UUID + " = ?",
-                new String[]{UUID});
+        if (values == null) return false;
+        mDatabase.update(ThingTable.NAME, values, ThingTable.Cols.UUID + " = ?", new String[]{UUID});
 
         return true;
     }
@@ -109,17 +107,13 @@ public class SQLRepository implements IRepository
     @Override
     public boolean delete(UUID id)
     {
-        return mDatabase.delete(ThingTable.NAME, ThingTable.Cols.UUID+ "=?", new String[]{id.toString()}) > 0;
+        return mDatabase.delete(ThingTable.NAME, ThingTable.Cols.UUID + "=?", new String[]{id.toString()}) > 0;
     }
 
     private ThingCursorWrapper queryThings(String whereClause, String[] whereArgs)
     {
-        @SuppressLint("Already closed later") Cursor cursor = mDatabase.query(
-                ThingTable.NAME,
-                null, //null selects all columns
-                whereClause,
-                whereArgs,
-                null, // groupBy
+        @SuppressLint("Already closed later") Cursor cursor = mDatabase.query(ThingTable.NAME, null, //null selects all columns
+                whereClause, whereArgs, null, // groupBy
                 null, // having
                 null // orderBy
         );

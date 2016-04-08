@@ -1,9 +1,5 @@
 package itu.mmad.dttn.tingle.model;
 
-import android.util.JsonReader;
-
-import org.json.JSONObject;
-
 import java.io.Serializable;
 import java.util.Date;
 import java.util.UUID;
@@ -136,7 +132,7 @@ public class Thing extends Entity implements Serializable
      */
     public String getBarcode()
     {
-       return mBarcode;
+        return mBarcode;
     }
 
     /**
@@ -151,10 +147,11 @@ public class Thing extends Entity implements Serializable
 
     /**
      * Returns the filename. IT is uniquely identified by the thing's ID
+     *
      * @return String
      */
     public String getPhotoName()
     {
-        return "_IMG" + getId().toString() +  ".jpg";
+        return "_IMG" + getId().toString() + ".jpg";
     }
 }

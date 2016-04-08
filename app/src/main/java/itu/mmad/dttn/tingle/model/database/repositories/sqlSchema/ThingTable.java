@@ -9,7 +9,8 @@ public class ThingTable
 {
     public static final String NAME = "Things";
 
-    public static final class Cols{
+    public static final class Cols
+    {
         public static final String UUID = "uuid";
         public static final String WHAT = "whatItem";
         public static final String WHERE = "whereItem";
@@ -17,5 +18,5 @@ public class ThingTable
         public static final String BARCODE = "barcode";
         public static final String DATE = "date";
 
-   }
+    }
 }
