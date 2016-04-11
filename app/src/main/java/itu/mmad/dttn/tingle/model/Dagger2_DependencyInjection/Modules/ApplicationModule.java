@@ -13,10 +13,12 @@ import itu.mmad.dttn.tingle.model.Dagger2_DependencyInjection.Scopes.Application
  * A module for Android-specific dependencies
  */
 @Module
-public class ApplicationModule {
+public class ApplicationModule
+{
     private final TingleApplication mApplication;
 
-    public ApplicationModule(TingleApplication application) {
+    public ApplicationModule(TingleApplication application)
+    {
         mApplication = application;
     }
 
@@ -25,13 +27,12 @@ public class ApplicationModule {
      * {@link ApplicationScope @Annotation} to explicitly differentiate it from an activity context.
      */
 
-    @Provides @Singleton
-    Context provideApplication(){
+    @Provides
+    @Singleton
+    Context provideApplication()
+    {
         return mApplication.getApplicationContext();
     }
-
-
-
 
 
 }

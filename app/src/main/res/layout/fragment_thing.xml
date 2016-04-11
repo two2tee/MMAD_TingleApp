@@ -69,12 +69,15 @@
             android:textSize="12dp"/>
 
 
+
+        <!-- Barcode -->
+
         <TextView
             style="?android:listSeparatorTextViewStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingTop="10dp"
-            android:text="@string/details_label"
+            android:text="@string/barcode"
             android:textAppearance="?android:attr/textAppearanceSmall"
             />
 
@@ -82,6 +85,34 @@
             android:id="@+id/barcode_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
+
+
+        <!-- Picture -->
+
+
+        <TextView
+            style="?android:listSeparatorTextViewStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="10dp"
+            android:text="@string/photo"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            />
+
+        <ImageView
+            android:id="@+id/thing_photo"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_margin="10dp"
+            android:scaleType="centerInside"
+            android:background="@color/colorDarkGray"/>
+
+        <ImageButton
+            android:id="@+id/camera_button"
+            android:src="@drawable/ic_camera_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            />
 
     </LinearLayout>
 

@@ -19,7 +19,8 @@ import itu.mmad.dttn.tingle.model.database.repositories.sqlSchema.SQLRepository;
  */
 
 @Module //annotation to provide dependencies
-public class RepositoryModule {
+public class RepositoryModule
+{
 
 //    @Provides
 //    @Singleton
@@ -29,15 +30,18 @@ public class RepositoryModule {
 //        return new InMemoryRepository(context);
 //    }
 
-    @Provides @Singleton
-    static IRepository provideSQLRepository(Context context) {
+    @Provides
+    @Singleton
+    static IRepository provideSQLRepository(Context context)
+    {
         return new SQLRepository(context);
     }
 
     @Provides
     @Singleton
-    static ThingsDatabase provideDatabase(IRepository repository){
-        return new ThingsDatabase(repository);
+    static ThingsDatabase provideDatabase(IRepository repository, Context context)
+    {
+        return new ThingsDatabase(repository, context);
     }
 
 }

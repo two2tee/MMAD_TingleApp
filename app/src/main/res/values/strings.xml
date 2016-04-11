@@ -12,6 +12,7 @@
     <string name="no_item_selected">No item selected</string>
     <string name="no_what_specified">Please specify what item.</string>
     <string name="something_Went_Wrong">Something went wrong</string>
+    <string name="wrong_resultCode">No result code matches the returned code</string>
     <string name="delete">Delete</string>
     <string name="back">Back</string>
     <string name="what_hint">Enter name of item.</string>
@@ -42,4 +43,6 @@
     <string name="scan_fail">Scan canceled</string>
     <string name="scan_button_not_scanned">No barcode scanned.</string>
     <string name="exit_question">Are you sure you want to exit?</string>
+    <string name="barcode">Barcode information</string>
+    <string name="photo">Photo</string>
 </resources>

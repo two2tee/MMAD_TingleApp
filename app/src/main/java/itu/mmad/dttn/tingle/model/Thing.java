@@ -10,7 +10,8 @@ import itu.mmad.dttn.tingle.model.database.Entity;
  * This class represents a physical thing and its location
  * It contains information and location of the item + a unique ID
  */
-public class Thing extends Entity implements Serializable {
+public class Thing extends Entity implements Serializable
+{
 
     private String mWhat;
     private String mWhere;
@@ -18,7 +19,8 @@ public class Thing extends Entity implements Serializable {
     private String mBarcode;
     private Date mDate;
 
-    public Thing(String what, String where, UUID id) {
+    public Thing(String what, String where, UUID id)
+    {
         super(id);
         mWhat = what;
         mWhere = where;
@@ -28,33 +30,41 @@ public class Thing extends Entity implements Serializable {
 
     /**
      * Gets description of thing
+     *
      * @return description
      */
-    public String getDescription() {
+    public String getDescription()
+    {
         return mDescription;
     }
 
     /**
      * Sets description of thing
+     *
      * @return description
      */
-    public void setDescription(String description) {
+    public void setDescription(String description)
+    {
         mDescription = description;
     }
 
     /**
      * Returns the date
+     *
      * @return date
      */
-    public Date getDate() {
+    public Date getDate()
+    {
         return mDate;
     }
 
     /**
      * Sets the date
+     *
      * @param date of item
      */
-    public void setDate(Date date) {
+    public void setDate(Date date)
+    {
         mDate = date;
     }
 
@@ -64,7 +74,8 @@ public class Thing extends Entity implements Serializable {
      * @return String
      */
     @Override
-    public String toString() {
+    public String toString()
+    {
         return oneLine("Item: ", "\nLocation: ");
     }
 
@@ -73,7 +84,8 @@ public class Thing extends Entity implements Serializable {
      *
      * @return String
      */
-    public String getWhat() {
+    public String getWhat()
+    {
         return mWhat;
     }
 
@@ -82,7 +94,8 @@ public class Thing extends Entity implements Serializable {
      *
      * @param what string
      */
-    public void setWhat(String what) {
+    public void setWhat(String what)
+    {
         mWhat = what;
     }
 
@@ -91,7 +104,8 @@ public class Thing extends Entity implements Serializable {
      *
      * @return string
      */
-    public String getWhere() {
+    public String getWhere()
+    {
         return mWhere;
     }
 
@@ -100,11 +114,13 @@ public class Thing extends Entity implements Serializable {
      *
      * @param where string
      */
-    public void setWhere(String where) {
+    public void setWhere(String where)
+    {
         mWhere = where;
     }
 
-    private String oneLine(String pre, String post) {
+    private String oneLine(String pre, String post)
+    {
         return pre + mWhat + " " + post + mWhere;
 
     }
@@ -114,7 +130,8 @@ public class Thing extends Entity implements Serializable {
      *
      * @return string barcode
      */
-    public String getBarcode() {
+    public String getBarcode()
+    {
         return mBarcode;
     }
 
@@ -123,7 +140,18 @@ public class Thing extends Entity implements Serializable {
      *
      * @param barcode string
      */
-    public void setBarcode(String barcode) {
+    public void setBarcode(String barcode)
+    {
         mBarcode = barcode;
+    }
+
+    /**
+     * Returns the filename. IT is uniquely identified by the thing's ID
+     *
+     * @return String
+     */
+    public String getPhotoName()
+    {
+        return "_IMG" + getId().toString() + ".jpg";
     }
 }
