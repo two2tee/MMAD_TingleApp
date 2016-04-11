@@ -12,16 +12,11 @@ import java.net.URL;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
-import javax.inject.Inject;
-
 /**
  * This class is responsible for managing network related tasks
  */
 public class NetworkManager {
     private static final String LOG_TAG = "NetworkManager";
-
-    @Inject
-    ConnectivityManager mConnectivityManager;
 
     public FetchBarcodeInfoTask getBarcodeTask() {
         return new FetchBarcodeInfoTask();
