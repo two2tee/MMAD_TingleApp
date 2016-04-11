@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 
 import itu.mmad.dttn.tingle.R;
 import itu.mmad.dttn.tingle.TingleApplication;
+import itu.mmad.dttn.tingle.model.Networking.NetworkManager;
 import itu.mmad.dttn.tingle.model.database.ThingsDatabase;
 
 /**
@@ -89,5 +90,9 @@ public abstract class BaseActivity extends AppCompatActivity
     public ThingsDatabase getDatabase()
     {
         return TingleApplication.getDatabase();
+    }
+
+    public NetworkManager getNetworkManager() {
+        return TingleApplication.getNetworkManager();
     }
 }

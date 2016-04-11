@@ -8,7 +8,9 @@ import javax.inject.Inject;
 import itu.mmad.dttn.tingle.model.Dagger2_DependencyInjection.Components.ApplicationComponent;
 import itu.mmad.dttn.tingle.model.Dagger2_DependencyInjection.Components.DaggerApplicationComponent;
 import itu.mmad.dttn.tingle.model.Dagger2_DependencyInjection.Modules.ApplicationModule;
+import itu.mmad.dttn.tingle.model.Dagger2_DependencyInjection.Modules.NetworkModule;
 import itu.mmad.dttn.tingle.model.Dagger2_DependencyInjection.Modules.RepositoryModule;
+import itu.mmad.dttn.tingle.model.Networking.NetworkManager;
 import itu.mmad.dttn.tingle.model.database.ThingsDatabase;
 
 
@@ -20,11 +22,19 @@ public class TingleApplication extends Application
 
     @Inject
     static ThingsDatabase DATABASE;
+
+    @Inject
+    static NetworkManager NETWORKMANAGER;
+
     private ApplicationComponent mApplicationComponent;
 
     public static ThingsDatabase getDatabase()
     {
         return DATABASE;
+    }
+
+    public static NetworkManager getNetworkManager() {
+        return NETWORKMANAGER;
     }
 
     public static TingleApplication getApplication(Context context)
@@ -41,7 +51,11 @@ public class TingleApplication extends Application
     public void onCreate()
     {
         super.onCreate();
-        mApplicationComponent = DaggerApplicationComponent.builder().applicationModule(new ApplicationModule(this)).repositoryModule(new RepositoryModule()).build();
+        mApplicationComponent = DaggerApplicationComponent.builder()
+                .applicationModule(new ApplicationModule(this))
+                .repositoryModule(new RepositoryModule())
+                .networkModule(new NetworkModule())
+                .build();
 
         getComponent(this).inject(this);
     }

@@ -1,7 +1,8 @@
 <resources>
     <string name="app_name">Tingle</string>
     <string name="headline">Last thing added:</string>
-    <string name="heading_create">Add new thing</string>
+    <string name="heading_create">Add thing</string>
+    <string name="heading_create_barcode">Add thing with barcode</string>
     <string name="what_thing">What thing?</string>
     <string name="where">Where?</string>
     <string name="heading_lookUp">Look Up</string>
@@ -45,4 +46,6 @@
     <string name="exit_question">Are you sure you want to exit?</string>
     <string name="barcode">Barcode information</string>
     <string name="photo">Photo</string>
+    <string name="where_is_empty">Please specify location</string>
+    <string name="no_network">No internet connection found.</string>
 </resources>
