@@ -13,5 +13,6 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Qualifier
 @Documented
 @Retention(RUNTIME)
-public @interface QSQLRepository {
+public @interface QSQLRepository
+{
 }

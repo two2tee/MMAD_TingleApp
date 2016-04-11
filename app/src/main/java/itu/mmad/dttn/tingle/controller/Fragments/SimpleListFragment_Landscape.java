@@ -1,6 +1,7 @@
 package itu.mmad.dttn.tingle.controller.Fragments;
 
 import android.content.Context;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -22,7 +23,8 @@ import itu.mmad.dttn.tingle.model.database.ThingsDatabase;
 /**
  * Fragment for the list in detailed thing when in landscape
  */
-public class SimpleListFragment_Landscape extends Fragment {
+public class SimpleListFragment_Landscape extends Fragment
+{
 
 
     //Database
@@ -34,44 +36,56 @@ public class SimpleListFragment_Landscape extends Fragment {
     private ThingAdapter mAdapter;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
 
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_list_simple_landscape, container, false);
-        repository = ((BaseActivity) getActivity()).getDatabase();
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+    {
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE)
+        {
+            view = inflater.inflate(R.layout.fragment_list_simple_landscape, container, false);
+            repository = ((BaseActivity) getActivity()).getDatabase();
 
-        setItemList();
-        updateList();
-        return view;
+            setItemList();
+            updateList();
+            return view;
+        }
+        return null;
     }
 
-    private void updateList() {
+    private void updateList()
+    {
         List<Thing> things = repository.getAll();
-        if (mAdapter == null) {
+        if (mAdapter == null)
+        {
             mAdapter = new ThingAdapter(things);
             itemList.setAdapter(mAdapter);
-        } else {
+        } else
+        {
             mAdapter.setThings(things);
             mAdapter.notifyDataSetChanged();
         }
     }
 
     @Override
-    public void onAttach(Context context) {
+    public void onAttach(Context context)
+    {
         super.onAttach(context);
         repository = ((BaseActivity) getActivity()).getDatabase();
     }
 
-    private void makeToast(String string) {
+    private void makeToast(String string)
+    {
         Context context = getActivity().getApplicationContext();
         Toast.makeText(context, string, Toast.LENGTH_SHORT).show();
     }
 
-    private void setItemList() {
+    private void setItemList()
+    {
         itemList = (RecyclerView) view.findViewById(R.id.item_list);
         itemList.setLayoutManager(new LinearLayoutManager(getActivity()));
     }
@@ -79,11 +93,13 @@ public class SimpleListFragment_Landscape extends Fragment {
 
     //ViewHolder for list
 
-    private class ThingHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    private class ThingHolder extends RecyclerView.ViewHolder implements View.OnClickListener
+    {
         private final TextView mThingLabel;
         private Thing mThing;
 
-        public ThingHolder(View itemView) {
+        public ThingHolder(View itemView)
+        {
             super(itemView);
             mThingLabel = (TextView) itemView.findViewById(R.id.list_item_text);
             itemView.setClickable(true);
@@ -92,35 +108,41 @@ public class SimpleListFragment_Landscape extends Fragment {
 
         }
 
-        public void BindThing(Thing thing) {
+        public void BindThing(Thing thing)
+        {
             mThingLabel.setText(thing.toString());
             mThing = thing;
         }
 
         @Override
-        public void onClick(View v) {
+        public void onClick(View v)
+        {
             ((DetailedThingActivity) getActivity()).updateSelectedItemView(mThing.getId());
         }
     }
 
 
     //Adapter for list
-    private class ThingAdapter extends RecyclerView.Adapter<ThingHolder> {
+    private class ThingAdapter extends RecyclerView.Adapter<ThingHolder>
+    {
         private List<Thing> mThings;
 
-        public ThingAdapter(List<Thing> things) {
+        public ThingAdapter(List<Thing> things)
+        {
             mThings = things;
         }
 
         @Override
-        public ThingHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        public ThingHolder onCreateViewHolder(ViewGroup parent, int viewType)
+        {
             LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
             View view = layoutInflater.inflate(R.layout.list_view_row_item_simple, parent, false);
             return new ThingHolder(view);
         }
 
         @Override
-        public void onBindViewHolder(ThingHolder holder, int position) {
+        public void onBindViewHolder(ThingHolder holder, int position)
+        {
             Thing thing = mThings.get(position);
             holder.BindThing(thing);
 
@@ -128,11 +150,13 @@ public class SimpleListFragment_Landscape extends Fragment {
         }
 
         @Override
-        public int getItemCount() {
+        public int getItemCount()
+        {
             return mThings.size();
         }
 
-        public void setThings(List<Thing> things) {
+        public void setThings(List<Thing> things)
+        {
             mThings = things;
         }
 

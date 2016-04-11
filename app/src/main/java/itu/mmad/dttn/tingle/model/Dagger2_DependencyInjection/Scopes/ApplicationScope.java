@@ -9,7 +9,9 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 /**
  * Used as a custom scope annotation.
  */
-@Qualifier @Retention(RUNTIME)
-public @interface  ApplicationScope {
+@Qualifier
+@Retention(RUNTIME)
+public @interface ApplicationScope
+{
 
 }

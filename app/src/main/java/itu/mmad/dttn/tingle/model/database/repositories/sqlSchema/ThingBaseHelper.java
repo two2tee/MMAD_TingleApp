@@ -29,6 +29,7 @@ public class ThingBaseHelper extends SQLiteOpenHelper
                 ThingTable.Cols.WHAT + ", " +
                 ThingTable.Cols.WHERE + ", " +
                 ThingTable.Cols.DESCRIPTION + ", " +
+                ThingTable.Cols.BARCODE + ", " +
                 ThingTable.Cols.DATE +
                 ")");
     }

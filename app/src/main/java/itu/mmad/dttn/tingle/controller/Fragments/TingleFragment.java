@@ -1,9 +1,13 @@
 package itu.mmad.dttn.tingle.controller.Fragments;
 
+import android.app.Activity;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,10 +19,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
+import java.util.concurrent.ExecutionException;
 
 import itu.mmad.dttn.tingle.R;
 import itu.mmad.dttn.tingle.controller.BaseActivity;
+import itu.mmad.dttn.tingle.model.Networking.NetworkManager;
 import itu.mmad.dttn.tingle.model.Thing;
 import itu.mmad.dttn.tingle.model.database.ThingsDatabase;
 
@@ -29,10 +36,13 @@ import itu.mmad.dttn.tingle.model.database.ThingsDatabase;
  */
 public class TingleFragment extends Fragment {
 
+    private static final int REQUEST_SCAN = 1;
+
     //EventHandler
     TingleFragmentEventListener mCallBack;
     // GUI variables
     private Button addThing;
+    private Button addBarcodeThing;
     private Button lookUpThing;
     private Button showAll;
     private TextView lastAdded;
@@ -43,7 +53,14 @@ public class TingleFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setHasOptionsMenu(false);
+        setMenu();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        setMenu();
+        updateUI();
     }
 
     @Override
@@ -71,6 +88,62 @@ public class TingleFragment extends Fragment {
         }
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode) {
+
+            case REQUEST_SCAN:
+                handleScanResult(data);
+                break;
+            case Activity.RESULT_CANCELED:
+                makeToast(getString(R.string.scan_fail));
+                break;
+            case Activity.RESULT_OK:
+                makeToast(getString(R.string.ok));
+
+            default:
+                makeToast(getString(R.string.wrong_resultCode));
+
+        }
+
+
+    }
+
+    private void handleScanResult(Intent data) {
+        String barcode = data.getStringExtra("SCAN_RESULT");
+        NetworkManager manager = ((BaseActivity) getActivity()).getNetworkManager();
+        try {
+
+            Map<String, String> result = manager.getBarcodeTask().execute(barcode).get(); //returns map of data fetched from the internet
+            if (result.get("name").equals("null")) {
+                makeToast(getString(R.string.item_NotFound_toast));
+                return;
+            } else if (result == null) {
+                makeToast(getString(R.string.something_Went_Wrong));
+            }
+
+            //Creating a thing
+            Thing toAdd = makeThing(result.get("name").toString(), whereField.getText().toString());
+            toAdd.setBarcode(result.get("barcode"));
+
+            repository.put(toAdd);
+
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+
+    private void setMenu() {
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+            setHasOptionsMenu(false);
+        }
+    }
+
+
     private void setButtons(View v) {
         addThing = (Button) v.findViewById(R.id.add_button);
         addThing.setOnClickListener(new View.OnClickListener() {
@@ -81,6 +154,29 @@ public class TingleFragment extends Fragment {
 
         });
 
+        addBarcodeThing = (Button) v.findViewById(R.id.add_button_barcode);
+        addBarcodeThing.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (whereField.getText().length() == 0) {
+                    makeToast(getString(R.string.where_is_empty));
+                    return;
+                } else if (((BaseActivity) getActivity())
+                        .getNetworkManager().hasActiveInternetConnection(getActivity()) == false) {
+                    makeToast(getString(R.string.no_network));
+                    return;
+                }
+
+                try {
+                    Intent intent = new Intent("com.google.zxing.client.android.SCAN");
+                    intent.putExtra("SCAN_MODE", "PRODUCT_MODE");
+                    startActivityForResult(intent, REQUEST_SCAN);
+                } catch (ActivityNotFoundException e) {
+                    Log.e("onCreate", "Scanner Not Found", e);
+                    makeToast(getString(R.string.no_scanner_found));
+                }
+            }
+        });
 
         lookUpThing = (Button) v.findViewById(R.id.lookUp_button);
         lookUpThing.setOnClickListener(new View.OnClickListener() {
@@ -112,7 +208,7 @@ public class TingleFragment extends Fragment {
     }
 
     /**
-     * Adds a given item
+     * Adds a given item from entered data
      */
     private void addItem() {
         if ((whatField.getText().length() > 0) && (whereField.getText().length() > 0)) {
@@ -124,6 +220,7 @@ public class TingleFragment extends Fragment {
             mCallBack.onItemAdded();
         }
     }
+
 
     private void makeToast(String string) {
         Context context = getActivity().getApplicationContext();
@@ -163,8 +260,11 @@ public class TingleFragment extends Fragment {
     }
 
     private Thing makeThing() {
-        return new Thing(whatField.getText().toString().toLowerCase().trim(),
-                whereField.getText().toString().toLowerCase().trim(), UUID.randomUUID());
+        return new Thing(whatField.getText().toString().toLowerCase().trim(), whereField.getText().toString().toLowerCase().trim(), UUID.randomUUID());
+    }
+
+    private Thing makeThing(String what, String where) {
+        return new Thing(what.toLowerCase().trim(), where.toLowerCase().trim(), UUID.randomUUID());
     }
 
     private void updateUI() {

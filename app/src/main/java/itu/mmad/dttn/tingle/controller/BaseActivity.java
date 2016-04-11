@@ -7,12 +7,14 @@ import android.support.v7.app.AppCompatActivity;
 
 import itu.mmad.dttn.tingle.R;
 import itu.mmad.dttn.tingle.TingleApplication;
+import itu.mmad.dttn.tingle.model.Networking.NetworkManager;
 import itu.mmad.dttn.tingle.model.database.ThingsDatabase;
 
 /**
  * Generic fragment activity used to reduce code redundancy
  */
-public abstract class BaseActivity extends AppCompatActivity {
+public abstract class BaseActivity extends AppCompatActivity
+{
     //Portrait mode
     protected abstract Fragment createPortraitFragment();
 
@@ -22,7 +24,8 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected abstract Fragment createRightFragment();
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tingle);
         setFragment();
@@ -34,49 +37,48 @@ public abstract class BaseActivity extends AppCompatActivity {
      *
      * @param fragment Fragment
      */
-    protected void replacePortraitFragment(Fragment fragment) {
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fragment_container, fragment)
-                .commit();
+    protected void replacePortraitFragment(Fragment fragment)
+    {
+        Fragment prevFragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+        getSupportFragmentManager().beginTransaction().addToBackStack(prevFragment.getTag()).replace(R.id.fragment_container, fragment).commit();
     }
 
-    protected void replaceLeftFragmentLandscape(Fragment fragment) {
-        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.fragment_container_left, fragment)
-                    .commit();
+
+    protected void replaceLeftFragmentLandscape(Fragment fragment)
+    {
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE)
+        {
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_left, fragment).commit();
         }
     }
 
-    protected void replaceRightFragmentLandscape(Fragment fragment) {
-        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.fragment_container_right, fragment)
-                    .commit();
+    protected void replaceRightFragmentLandscape(Fragment fragment)
+    {
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE)
+        {
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_right, fragment).commit();
         }
     }
 
-    protected void setFragment() {
+    protected void setFragment()
+    {
 
 
         //Landscape mode
-        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE)
+        {
             Fragment fragmentLeft = createLeftFragment();
             Fragment fragmentRight = createRightFragment();
 
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.fragment_container_left, fragmentLeft)
-                    .replace(R.id.fragment_container_right, fragmentRight)
-                    .commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_left, fragmentLeft).replace(R.id.fragment_container_right, fragmentRight).commit();
         }
 
         //Portrait mode
-        else if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+        else if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT)
+        {
             Fragment fragment = createPortraitFragment();
 
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.fragment_container, fragment)
-                    .commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment).commit();
         }
     }
 
@@ -85,7 +87,12 @@ public abstract class BaseActivity extends AppCompatActivity {
      *
      * @return database
      */
-    public ThingsDatabase getDatabase() {
+    public ThingsDatabase getDatabase()
+    {
         return TingleApplication.getDatabase();
+    }
+
+    public NetworkManager getNetworkManager() {
+        return TingleApplication.getNetworkManager();
     }
 }

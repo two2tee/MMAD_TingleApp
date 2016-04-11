@@ -8,7 +8,9 @@ import dagger.Component;
 import dagger.Subcomponent;
 import itu.mmad.dttn.tingle.TingleApplication;
 import itu.mmad.dttn.tingle.model.Dagger2_DependencyInjection.Modules.ApplicationModule;
+import itu.mmad.dttn.tingle.model.Dagger2_DependencyInjection.Modules.NetworkModule;
 import itu.mmad.dttn.tingle.model.Dagger2_DependencyInjection.Modules.RepositoryModule;
+import itu.mmad.dttn.tingle.model.Networking.NetworkManager;
 import itu.mmad.dttn.tingle.model.database.ThingsDatabase;
 
 /**
@@ -18,10 +20,14 @@ import itu.mmad.dttn.tingle.model.database.ThingsDatabase;
  * http://google.github.io/dagger/users-guide.html
  */
 @Singleton
-@Component(modules = {ApplicationModule.class, RepositoryModule.class})
-public interface ApplicationComponent {
+@Component(modules = {ApplicationModule.class, RepositoryModule.class, NetworkModule.class})
+public interface ApplicationComponent
+{
     DataComponent DataComponent(RepositoryModule repositoryModule);
+
     Context getContext();
+
+    NetworkManager getNetworkManager();
 
     void inject(TingleApplication application);
 
@@ -35,6 +41,7 @@ public interface ApplicationComponent {
  */
 @Singleton
 @Subcomponent(modules = {RepositoryModule.class})
-interface DataComponent {
+interface DataComponent
+{
     ThingsDatabase getDatabase();
 }
