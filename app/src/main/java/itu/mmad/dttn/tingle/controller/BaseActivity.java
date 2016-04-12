@@ -15,6 +15,13 @@ import itu.mmad.dttn.tingle.model.database.ThingsDatabase;
  */
 public abstract class BaseActivity extends AppCompatActivity
 {
+    //Tags
+    protected static final String TAG_LEFTFRAGMENT = "leftFragment";
+    protected static final String TAG_RIGHTFRAGMENT = "rightFragment";
+    protected static final String TAG_PORTRAITFRAGMENT = "leftFragment";
+
+
+
     //Portrait mode
     protected abstract Fragment createPortraitFragment();
 
@@ -40,7 +47,10 @@ public abstract class BaseActivity extends AppCompatActivity
     protected void replacePortraitFragment(Fragment fragment)
     {
         Fragment prevFragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
-        getSupportFragmentManager().beginTransaction().addToBackStack(prevFragment.getTag()).replace(R.id.fragment_container, fragment).commit();
+        getSupportFragmentManager().beginTransaction()
+                .addToBackStack(prevFragment.getTag())
+                .replace(R.id.fragment_container, fragment, TAG_PORTRAITFRAGMENT)
+                .commit();
     }
 
 
@@ -48,7 +58,9 @@ public abstract class BaseActivity extends AppCompatActivity
     {
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE)
         {
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_left, fragment).commit();
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.fragment_container_left, fragment, TAG_LEFTFRAGMENT)
+                    .commit();
         }
     }
 
@@ -56,13 +68,14 @@ public abstract class BaseActivity extends AppCompatActivity
     {
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE)
         {
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_right, fragment).commit();
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.fragment_container_right, fragment, TAG_RIGHTFRAGMENT)
+                    .commit();
         }
     }
 
     protected void setFragment()
     {
-
 
         //Landscape mode
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE)
@@ -70,7 +83,10 @@ public abstract class BaseActivity extends AppCompatActivity
             Fragment fragmentLeft = createLeftFragment();
             Fragment fragmentRight = createRightFragment();
 
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_left, fragmentLeft).replace(R.id.fragment_container_right, fragmentRight).commit();
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.fragment_container_left, fragmentLeft, TAG_LEFTFRAGMENT)
+                    .replace(R.id.fragment_container_right, fragmentRight, TAG_RIGHTFRAGMENT)
+                    .commit();
         }
 
         //Portrait mode
@@ -78,7 +94,9 @@ public abstract class BaseActivity extends AppCompatActivity
         {
             Fragment fragment = createPortraitFragment();
 
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment).commit();
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.fragment_container, fragment, TAG_PORTRAITFRAGMENT)
+                    .commit();
         }
     }
 
@@ -92,6 +110,11 @@ public abstract class BaseActivity extends AppCompatActivity
         return TingleApplication.getDatabase();
     }
 
+    /**
+     * Returns the network manager
+     *
+     * @return Network Manager
+     */
     public NetworkManager getNetworkManager() {
         return TingleApplication.getNetworkManager();
     }

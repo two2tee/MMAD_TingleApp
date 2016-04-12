@@ -11,6 +11,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -39,6 +40,12 @@ import itu.mmad.dttn.tingle.model.utils.PictureUtils;
  * Represents a detailed view of thing
  */
 public class ThingFragment extends Fragment {
+
+    private static final String TAG_ThingFragment = "ThingFragment";
+
+    private static final String KEY_CHANGED_SETTINGS = "changedSettings";
+    private static final String KEY_RETAIN_THING = "ThingRetain"; //To avoid accessing database if rotating screen
+
 
     private static final String ARG_THING_ID = "thing_id";
     private static final String DIALOG_DATE = "DialogDate";
@@ -70,10 +77,16 @@ public class ThingFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
-        UUID thingId = (UUID) getArguments().getSerializable(ARG_THING_ID);
         ThingsDatabase database = ((BaseActivity) getActivity()).getDatabase();
-        mThing = database.get(thingId);
-        mTempThing = new TempThingToStore();
+        if (savedInstanceState != null) {
+            mThing = (Thing) savedInstanceState.getSerializable(KEY_RETAIN_THING);
+            mTempThing = (TempThingToStore) savedInstanceState.getSerializable(KEY_CHANGED_SETTINGS);
+
+        } else {
+            UUID thingId = (UUID) getArguments().getSerializable(ARG_THING_ID);
+            mThing = database.get(thingId);
+            mTempThing = new TempThingToStore();
+        }
         mPhotoFile = ((BaseActivity) getActivity()).getDatabase().getPhotoFile(mThing);
     }
 
@@ -84,12 +97,29 @@ public class ThingFragment extends Fragment {
         setButtons(v);
         setPhotoView(v);
         return v;
+    }
 
+
+    /**
+     * This method retains user changed settings when rotating screen.
+     *
+     * @param outState saved state
+     */
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        Log.i(TAG_ThingFragment, "onSaveInstanceState called!");
+        outState.putSerializable(KEY_CHANGED_SETTINGS, mTempThing);
+        outState.putSerializable(KEY_RETAIN_THING, mThing);
     }
 
     private void setTextFields(View v) {
         mWhatField = (EditText) v.findViewById(R.id.what_text);
-        mWhatField.setText(mThing.getWhat());
+
+        if (mTempThing.getWhat() != null)
+            mWhatField.setText(mTempThing.getWhat());
+        else
+            mWhatField.setText(mThing.getWhat());
         mWhatField.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -108,7 +138,10 @@ public class ThingFragment extends Fragment {
         });
 
         mWhereField = (EditText) v.findViewById(R.id.where_text);
-        mWhereField.setText(mThing.getWhere());
+        if (mTempThing.getWhere() != null)
+            mWhereField.setText(mTempThing.getWhere());
+        else
+            mWhereField.setText(mThing.getWhere());
         mWhereField.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -128,7 +161,10 @@ public class ThingFragment extends Fragment {
 
 
         mDescriptionField = (EditText) v.findViewById(R.id.description_EditBox);
-        mDescriptionField.setText(mThing.getDescription());
+        if (mTempThing.getDescription() != null)
+            mDescriptionField.setText(mTempThing.getDescription());
+        else
+            mDescriptionField.setText(mThing.getDescription());
         mDescriptionField.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -185,7 +221,7 @@ public class ThingFragment extends Fragment {
 
     private void handleDatepickerResult(Intent data) {
         Date date = (Date) data.getSerializableExtra(DatePickerFragment.EXTRA_DATE);
-        mThing.setDate(date);
+        mTempThing.setDate(date);
         updateDate();
     }
 
@@ -270,6 +306,10 @@ public class ThingFragment extends Fragment {
 
 
         mBarcodeButton = (Button) v.findViewById(R.id.barcode_button);
+        if (mThing.getBarcode() != null || mThing.getBarcode().equals(""))
+            mBarcodeButton.setText(mThing.getBarcode());
+        else
+            mBarcodeButton.setText(R.string.no_barcode);
         mBarcodeButton.setEnabled(false);
 
         mPhotoButton = (ImageButton) v.findViewById(R.id.camera_button);
@@ -301,7 +341,10 @@ public class ThingFragment extends Fragment {
     }
 
     private void updateDate() {
-        mDateButton.setText(mThing.getDate().toString());
+        if (mTempThing.getDate() != null)
+            mDateButton.setText(mTempThing.getDate().toString());
+        else
+            mDateButton.setText(mThing.getDate().toString());
     }
 
     private String getShareableThingText() {
