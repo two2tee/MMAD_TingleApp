@@ -2,6 +2,7 @@ package itu.mmad.dttn.tingle.controller;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.support.v4.app.Fragment;
 
 import java.util.UUID;
@@ -46,7 +47,22 @@ public class DetailedThingActivity extends BaseActivity
     private ThingFragment createThingFragment()
     {
         UUID thingId = (UUID) getIntent().getSerializableExtra(EXTRA_THING_ID);
-        return ThingFragment.newInstance(thingId);
+
+        //Used to restore savedStates
+        ThingFragment currentFragment;
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+            currentFragment = (ThingFragment) getSupportFragmentManager().findFragmentByTag(TAG_PORTRAITFRAGMENT);
+        } else {
+            currentFragment = (ThingFragment) getSupportFragmentManager().findFragmentByTag(TAG_LEFTFRAGMENT);
+        }
+
+
+        //Returns either existing fragment or new
+        if (currentFragment != null) {
+            getSupportFragmentManager().beginTransaction().remove(currentFragment);
+            return (ThingFragment) recreateFragment(currentFragment);
+        } else
+            return ThingFragment.newInstance(thingId);
     }
 
     /**
@@ -57,5 +73,25 @@ public class DetailedThingActivity extends BaseActivity
         replaceLeftFragmentLandscape(ThingFragment.newInstance(id));
     }
 
+
+    /**
+     * This method is used to retain fragment state
+     *
+     * @param f fragment
+     * @return retained fragment
+     */
+    private Fragment recreateFragment(Fragment f) {
+        try {
+            Fragment.SavedState savedState = getSupportFragmentManager().saveFragmentInstanceState(f);
+
+            Fragment newInstance = f.getClass().newInstance();
+            newInstance.setInitialSavedState(savedState);
+
+            return newInstance;
+        } catch (Exception e) // InstantiationException, IllegalAccessException
+        {
+            throw new RuntimeException("Cannot reinstantiate fragment " + f.getClass().getName(), e);
+        }
+    }
 
 }

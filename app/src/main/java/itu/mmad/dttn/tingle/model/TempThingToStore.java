@@ -1,11 +1,12 @@
 package itu.mmad.dttn.tingle.model;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  * Used to store uncommitted changes
  */
-public class TempThingToStore
+public class TempThingToStore implements Serializable
 {
     private String mWhat;
     private String mWhere;
