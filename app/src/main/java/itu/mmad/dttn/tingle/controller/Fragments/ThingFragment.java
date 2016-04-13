@@ -25,6 +25,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.UUID;
 
@@ -343,9 +344,21 @@ public class ThingFragment extends Fragment {
 
     private void updateDate() {
         if (mTempThing.getDate() != null)
-            mDateButton.setText(mTempThing.getDate().toString());
+            mDateButton.setText(formatDate(mTempThing.getDate()));
         else
-            mDateButton.setText(mThing.getDate().toString());
+            mDateButton.setText(formatDate(mThing.getDate()));
+    }
+
+    /**
+     * Simplify a given date
+     *
+     * @param input date
+     * @return simplifued
+     */
+    private String formatDate(Date input) {
+        SimpleDateFormat formatter;
+        formatter = new SimpleDateFormat("EEE-d-MMM-yy");
+        return formatter.format(input);
     }
 
     private String getShareableThingText() {

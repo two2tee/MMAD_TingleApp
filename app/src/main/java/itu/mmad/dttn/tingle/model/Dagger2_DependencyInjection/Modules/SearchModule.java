@@ -5,8 +5,8 @@ import javax.inject.Singleton;
 import dagger.Module;
 import dagger.Provides;
 import itu.mmad.dttn.tingle.model.Interfaces.ISort;
-import itu.mmad.dttn.tingle.model.Searching.MergeSort;
 import itu.mmad.dttn.tingle.model.Searching.SearchHandler;
+import itu.mmad.dttn.tingle.model.Searching.SelectionSort;
 
 /**
  * Search module
@@ -14,11 +14,18 @@ import itu.mmad.dttn.tingle.model.Searching.SearchHandler;
 @Module //annotation to provide dependencies
 public class SearchModule {
 
+//    @Provides
+//    @Singleton
+//    static ISort provideMergeSort() {
+//        return new MergeSort();
+//    }
+
     @Provides
     @Singleton
-    static ISort provideMergeSort() {
-        return new MergeSort();
+    static ISort provideSelectionSort() {
+        return new SelectionSort();
     }
+
 
     @Provides
     @Singleton

@@ -8,9 +8,7 @@ import itu.mmad.dttn.tingle.model.Thing;
  * Taken from: Algorithms Fourth edition - Robert Sedgewick | Kevin Wayne
  * Created by new on 13-Apr-16.
  */
-public class MergeSort implements ISort {
-
-    private type sortType;
+public class MergeSort extends GenericSort implements ISort {
 
     /**
      * Sort a list based on sort variable type (eg date, where or what)
@@ -59,31 +57,13 @@ public class MergeSort implements ISort {
             if (i > mid) {
                 items[k] = temp[j++];
                 continue;
-            }
-            if (j > hi) {
+            } else if (j > hi) {
                 items[k] = temp[i++];
-                continue;
+            } else if (less(temp[j], temp[i])) {
+                items[k] = temp[j++];
+            } else {
+                items[k] = temp[i++];
             }
-
-            switch (sortType) {
-                case SORT_WHAT:
-                    if (temp[j].getWhat().toLowerCase().trim().compareTo(temp[i].getWhat().toLowerCase().trim()) < 0)
-                        items[k] = temp[j++];
-                    continue;
-
-                case SORT_WHERE:
-                    if (temp[j].getWhere().toLowerCase().trim().compareTo(temp[i].getWhere().toLowerCase().trim()) < 0)
-                        items[k] = temp[j++];
-                    continue;
-
-                case SORT_DATE:
-                    if (temp[j].getDate().before(temp[i].getDate()))
-                        items[k] = temp[j++];
-                    continue;
-            }
-
-            //Else
-            items[k] = temp[i++];
         }
 
     }
