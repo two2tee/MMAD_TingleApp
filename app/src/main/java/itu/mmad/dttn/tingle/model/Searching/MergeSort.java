@@ -12,6 +12,13 @@ public class MergeSort implements ISort {
 
     private type sortType;
 
+    /**
+     * Sort a list based on sort variable type (eg date, where or what)
+     * List is sorted with merge sort algorithm
+     *
+     * @param items list
+     * @param t     what sorting is based on
+     */
     public void sort(Thing[] items, type t) {
 
         sortType = t;

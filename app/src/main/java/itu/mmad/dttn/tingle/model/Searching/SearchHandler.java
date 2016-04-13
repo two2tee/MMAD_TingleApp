@@ -11,6 +11,12 @@ import itu.mmad.dttn.tingle.model.Thing;
 
 /**
  * This class is responsible for searching for things
+ * What must be known is searching method is based on a combination of
+ * binary search and linear search.
+ *
+ * One can specify which sorting method are to be used as SearchHandler is taking an interface
+ * called ISort. Thus, one can inject another sort method if required. Use Dagger to
+ * dependency inject it.
  */
 public class SearchHandler {
 
@@ -26,10 +32,20 @@ public class SearchHandler {
 
     }
 
+    /**
+     * Returns current search type
+     *
+     * @return current search type
+     */
     public searchType getCurrentSearchType() {
         return currentSearchType;
     }
 
+    /**
+     * Sets the current search type. That is what search is based on.
+     * eg What or where etc.
+     * @param currentSearchType search type
+     */
     public void setCurrentSearchType(searchType currentSearchType) {
         this.currentSearchType = currentSearchType;
     }
