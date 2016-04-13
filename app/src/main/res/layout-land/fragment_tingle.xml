@@ -122,13 +122,6 @@
                 android:layout_height="wrap_content"
                 android:text="@string/heading_create_barcode"/>
 
-            <Button
-                android:id="@+id/lookUp_button"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/heading_lookUp"/>
-
-
         </LinearLayout>
     </LinearLayout>
 

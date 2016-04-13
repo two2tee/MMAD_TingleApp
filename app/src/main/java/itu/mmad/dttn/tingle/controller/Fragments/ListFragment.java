@@ -10,6 +10,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.os.OperationCanceledException;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -25,18 +26,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 import itu.mmad.dttn.tingle.R;
+import itu.mmad.dttn.tingle.TingleApplication;
 import itu.mmad.dttn.tingle.controller.BaseActivity;
 import itu.mmad.dttn.tingle.controller.DetailedThingActivity;
+import itu.mmad.dttn.tingle.model.Interfaces.ISort;
+import itu.mmad.dttn.tingle.model.Searching.SearchHandler;
 import itu.mmad.dttn.tingle.model.Thing;
 import itu.mmad.dttn.tingle.model.database.ThingsDatabase;
 
 /**
  * Fragment for the list page
  */
-public class ListFragment extends Fragment
-{
+public class ListFragment extends Fragment {
 
     ListFragmentEventListener mCallBack;
+    //Search sort handler
+    private SearchHandler mSearchHandler;
+
     //Database
     private ThingsDatabase repository;
     //GUI
@@ -45,17 +51,17 @@ public class ListFragment extends Fragment
     private ThingAdapter mAdapter;
     private List<Thing> selectedItems;
 
+
     @Override
-    public void onCreate(Bundle savedInstanceState)
-    {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+        mSearchHandler = TingleApplication.getSearchHandler();
 
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
-    {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_list, container, false);
         repository = ((BaseActivity) getActivity()).getDatabase();
         selectedItems = new ArrayList<>();
@@ -67,62 +73,116 @@ public class ListFragment extends Fragment
     }
 
     @Override
-    public void onResume()
-    {
+    public void onResume() {
         super.onResume();
         updateList();
     }
 
 
-    private void updateList()
-    {
+    private void updateList() {
         List<Thing> things = repository.getAll();
-        if (mAdapter == null)
-        {
+        mSearchHandler.sortDefault(things);
+        if (mAdapter == null) {
             mAdapter = new ThingAdapter(things);
             itemList.setAdapter(mAdapter);
-        } else
-        {
+        } else {
             mAdapter.setThings(things);
             mAdapter.notifyDataSetChanged();
         }
     }
 
     @Override
-    public void onAttach(Context context)
-    {
+    public void onAttach(Context context) {
         super.onAttach(context);
 
         //Checks if parent activity has implemented the
         //callback interface
-        try
-        {
+        try {
             mCallBack = (ListFragmentEventListener) context;
             repository = ((BaseActivity) getActivity()).getDatabase();
 
-        } catch (ClassCastException e)
-        {
+        } catch (ClassCastException e) {
             throw new ClassCastException(context.toString() + " must implement ListFragmentEventListener");
         }
     }
 
     @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater)
-    {
-        super.onCreateOptionsMenu(menu, inflater);
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        menu.clear();
+
         inflater.inflate(R.menu.fragment_list, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+
+        //Set groups
+        MenuItem defaultSearchItem = menu.findItem(R.id.search_what);
+        defaultSearchItem.setChecked(true);
+
+        //Set search view
+        final MenuItem searchItem = menu.findItem(R.id.menu_item_search);
+        final SearchView searchView = (SearchView) searchItem.getActionView();
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                List<Thing> result = mSearchHandler.search(query.toLowerCase().trim(), repository.getAll());
+                if (result == null) {
+                    makeToast(getString(R.string.item_NotFound_toast));
+                    return false;
+                }
+                mAdapter.setThings(result);
+                mAdapter.notifyDataSetChanged();
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                if (newText.length() == 0) {
+                    updateList(); //reset list
+                } else {
+                    List<Thing> result = mSearchHandler.search(newText.toLowerCase().trim(), repository.getAll());
+                    if (result == null) {
+                        return false;
+                    }
+                    mAdapter.setThings(result);
+                    mAdapter.notifyDataSetChanged();
+                }
+                return true;
+            }
+        });
+
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item)
-    {
-        switch (item.getItemId())
-        {
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
             case R.id.delete_Button:
                 deleteItem();
                 return true;
+
             case R.id.back_button:
                 goBack();
+                return true;
+
+            case R.id.search_what:
+                item.setChecked(true);
+                mSearchHandler.setCurrentSearchType(SearchHandler.searchType.SEARCH_WHAT);
+                return true;
+
+            case R.id.search_where:
+                item.setChecked(true);
+                mSearchHandler.setCurrentSearchType(SearchHandler.searchType.SEARCH_WHERE);
+                return true;
+
+            case R.id.sortWhat:
+                setSortedList(ISort.type.SORT_WHAT);
+                return true;
+
+            case R.id.sortWhere:
+                setSortedList(ISort.type.SORT_WHERE);
+                return true;
+
+            case R.id.sortDate:
+                setSortedList(ISort.type.SORT_DATE);
                 return true;
 
             default:
@@ -131,46 +191,48 @@ public class ListFragment extends Fragment
 
     }
 
-    private void makeToast(String string)
-    {
+    /**
+     * Sorts list and update view
+     *
+     * @param sortType type of sort
+     */
+    private void setSortedList(ISort.type sortType) {
+        if (mAdapter.mThings.size() == 0) return;
+        List<Thing> result = mSearchHandler.sort(mAdapter.mThings, sortType);
+        mAdapter.setThings(result);
+        mAdapter.notifyDataSetChanged();
+    }
+
+
+    private void makeToast(String string) {
         Context context = getActivity().getApplicationContext();
         Toast.makeText(context, string, Toast.LENGTH_SHORT).show();
     }
 
-    private void goBack()
-    {
+    private void goBack() {
         //Portrait mode show go to list button
-        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT)
-        {
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
             mCallBack.goBack();
         }
     }
 
-    private void deleteItem()
-    {
-        if (selectedItems.isEmpty())
-        {
+    private void deleteItem() {
+        if (selectedItems.isEmpty()) {
             makeToast(getString(R.string.no_item_selected));
-        } else
-        {
+        } else {
 
-            new AlertDialog.Builder(getActivity()).setIcon(android.R.drawable.ic_dialog_alert).setTitle(R.string.warning).setMessage(R.string.delete_question).setPositiveButton(R.string.yes, new DialogInterface.OnClickListener()
-            {
+            new AlertDialog.Builder(getActivity()).setIcon(android.R.drawable.ic_dialog_alert).setTitle(R.string.warning).setMessage(R.string.delete_question).setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                 @Override
-                public void onClick(DialogInterface dialog, int which)
-                {
-                    try
-                    {
-                        for (Thing thing : selectedItems)
-                        {
+                public void onClick(DialogInterface dialog, int which) {
+                    try {
+                        for (Thing thing : selectedItems) {
                             repository.delete(thing.getId());
                             mAdapter.mThings.remove(thing);
                         }
                         selectedItems.clear();
                         updateList();
 
-                    } catch (OperationCanceledException e)
-                    {
+                    } catch (OperationCanceledException e) {
                         makeToast(getString(R.string.something_Went_Wrong));
                     }
 
@@ -180,28 +242,24 @@ public class ListFragment extends Fragment
         }
     }
 
-    private void setItemList()
-    {
+    private void setItemList() {
         itemList = (RecyclerView) view.findViewById(R.id.item_list);
         itemList.setLayoutManager(new LinearLayoutManager(getActivity()));
     }
 
-    public interface ListFragmentEventListener
-    {
+    public interface ListFragmentEventListener {
         void goBack();
     }
 
 
     //ViewHolder for list
 
-    private class ThingHolder extends RecyclerView.ViewHolder implements View.OnClickListener
-    {
+    private class ThingHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private final TextView mThingLabel;
         private final CheckBox mSelectedCheckBox;
         private Thing mThing;
 
-        public ThingHolder(View itemView)
-        {
+        public ThingHolder(View itemView) {
             super(itemView);
             mThingLabel = (TextView) itemView.findViewById(R.id.list_item_text);
             mSelectedCheckBox = (CheckBox) itemView.findViewById(R.id.list_checkbox);
@@ -211,25 +269,19 @@ public class ListFragment extends Fragment
 
         }
 
-        public void BindThing(Thing thing)
-        {
+        public void BindThing(Thing thing) {
             mThingLabel.setText(thing.toString());
             mSelectedCheckBox.setChecked(false);
             mThing = thing;
         }
 
-        private void setCheckboxes()
-        {
-            mSelectedCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener()
-            {
+        private void setCheckboxes() {
+            mSelectedCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
-                {
-                    if (isChecked)
-                    {
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    if (isChecked) {
                         selectedItems.add(mThing);
-                    } else
-                    {
+                    } else {
                         selectedItems.remove(mThing);
                     }
                 }
@@ -237,8 +289,7 @@ public class ListFragment extends Fragment
         }
 
         @Override
-        public void onClick(View v)
-        {
+        public void onClick(View v) {
             Intent intent = DetailedThingActivity.newIntent(getActivity(), mThing.getId());
             startActivity(intent);
 
@@ -248,38 +299,32 @@ public class ListFragment extends Fragment
     }
 
     //Adapter for list
-    private class ThingAdapter extends RecyclerView.Adapter<ThingHolder>
-    {
+    private class ThingAdapter extends RecyclerView.Adapter<ThingHolder> {
         private List<Thing> mThings;
 
-        public ThingAdapter(List<Thing> things)
-        {
+        public ThingAdapter(List<Thing> things) {
             mThings = things;
         }
 
         @Override
-        public ThingHolder onCreateViewHolder(ViewGroup parent, int viewType)
-        {
+        public ThingHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
             View view = layoutInflater.inflate(R.layout.list_view_row_item, parent, false);
             return new ThingHolder(view);
         }
 
         @Override
-        public void onBindViewHolder(ThingHolder holder, int position)
-        {
+        public void onBindViewHolder(ThingHolder holder, int position) {
             Thing thing = mThings.get(position);
             holder.BindThing(thing);
         }
 
         @Override
-        public int getItemCount()
-        {
+        public int getItemCount() {
             return mThings.size();
         }
 
-        public void setThings(List<Thing> things)
-        {
+        public void setThings(List<Thing> things) {
             mThings = things;
         }
     }

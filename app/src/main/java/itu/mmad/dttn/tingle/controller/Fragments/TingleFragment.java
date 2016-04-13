@@ -10,6 +10,8 @@ import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
@@ -43,7 +45,6 @@ public class TingleFragment extends Fragment {
     // GUI variables
     private Button addThing;
     private Button addBarcodeThing;
-    private Button lookUpThing;
     private Button showAll;
     private TextView lastAdded;
     private EditText whatField, whereField;
@@ -53,13 +54,12 @@ public class TingleFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setMenu();
+        setHasOptionsMenu(true);
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        setMenu();
         updateUI();
     }
 
@@ -73,6 +73,8 @@ public class TingleFragment extends Fragment {
         updateUI();
         return v;
     }
+
+
 
     @Override
     public void onAttach(Context context) {
@@ -109,6 +111,9 @@ public class TingleFragment extends Fragment {
 
     }
 
+
+
+
     private void handleScanResult(Intent data) {
         String barcode = data.getStringExtra("SCAN_RESULT");
         NetworkManager manager = ((BaseActivity) getActivity()).getNetworkManager();
@@ -137,10 +142,13 @@ public class TingleFragment extends Fragment {
     }
 
 
-    private void setMenu() {
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+            menu.clear();
             setHasOptionsMenu(false);
         }
+        super.onCreateOptionsMenu(menu, inflater);
     }
 
 
@@ -178,21 +186,6 @@ public class TingleFragment extends Fragment {
             }
         });
 
-        lookUpThing = (Button) v.findViewById(R.id.lookUp_button);
-        lookUpThing.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (whatField.getText().length() > 0) {
-                    String result = SearchThing(whatField.getText().toString());
-
-                    if (result != null)
-                        makeToast(getString(R.string.item_found_toast) + " " + result);
-                    else makeToast(getString(R.string.item_NotFound_toast));
-                } else {
-                    makeToast(getString(R.string.no_what_specified));
-                }
-            }
-        });
 
         //Portrait mode show go to list button
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
@@ -244,19 +237,6 @@ public class TingleFragment extends Fragment {
             }
         });
 
-    }
-
-    private String SearchThing(String item) {
-        String searchItem = item.toLowerCase().trim();
-        List<Thing> things = repository.getAll();
-
-        for (Thing t : things) {
-            if (t.getWhat().equals(searchItem)) {
-                return t.getWhere();
-            }
-        }
-
-        return null;
     }
 
     private Thing makeThing() {
