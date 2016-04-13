@@ -10,6 +10,8 @@ import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
@@ -53,13 +55,12 @@ public class TingleFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setMenu();
+        setHasOptionsMenu(true);
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        setMenu();
         updateUI();
     }
 
@@ -73,6 +74,8 @@ public class TingleFragment extends Fragment {
         updateUI();
         return v;
     }
+
+
 
     @Override
     public void onAttach(Context context) {
@@ -109,6 +112,9 @@ public class TingleFragment extends Fragment {
 
     }
 
+
+
+
     private void handleScanResult(Intent data) {
         String barcode = data.getStringExtra("SCAN_RESULT");
         NetworkManager manager = ((BaseActivity) getActivity()).getNetworkManager();
@@ -137,10 +143,13 @@ public class TingleFragment extends Fragment {
     }
 
 
-    private void setMenu() {
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+            menu.clear();
             setHasOptionsMenu(false);
         }
+        super.onCreateOptionsMenu(menu, inflater);
     }
 
 

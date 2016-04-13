@@ -10,6 +10,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.os.OperationCanceledException;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -25,8 +26,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import itu.mmad.dttn.tingle.R;
+import itu.mmad.dttn.tingle.TingleApplication;
 import itu.mmad.dttn.tingle.controller.BaseActivity;
 import itu.mmad.dttn.tingle.controller.DetailedThingActivity;
+import itu.mmad.dttn.tingle.model.Interfaces.ISort;
+import itu.mmad.dttn.tingle.model.Searching.SearchHandler;
 import itu.mmad.dttn.tingle.model.Thing;
 import itu.mmad.dttn.tingle.model.database.ThingsDatabase;
 
@@ -37,6 +41,9 @@ public class ListFragment extends Fragment
 {
 
     ListFragmentEventListener mCallBack;
+    //Search sort handler
+    private SearchHandler mSearchHandler;
+
     //Database
     private ThingsDatabase repository;
     //GUI
@@ -45,11 +52,13 @@ public class ListFragment extends Fragment
     private ThingAdapter mAdapter;
     private List<Thing> selectedItems;
 
+
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+        mSearchHandler = TingleApplication.getSearchHandler();
 
     }
 
@@ -77,6 +86,7 @@ public class ListFragment extends Fragment
     private void updateList()
     {
         List<Thing> things = repository.getAll();
+        mSearchHandler.sortDefault(things);
         if (mAdapter == null)
         {
             mAdapter = new ThingAdapter(things);
@@ -109,8 +119,50 @@ public class ListFragment extends Fragment
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater)
     {
-        super.onCreateOptionsMenu(menu, inflater);
+        menu.clear();
+
         inflater.inflate(R.menu.fragment_list, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+
+        //Set groups
+        MenuItem defaultSearchItem = menu.findItem(R.id.search_what);
+        defaultSearchItem.setChecked(true);
+
+        //Set search view
+        final MenuItem searchItem = menu.findItem(R.id.menu_item_search);
+        final SearchView searchView = (SearchView) searchItem.getActionView();
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                List<Thing> result = mSearchHandler.search(query.toLowerCase().trim(), repository.getAll());
+                if(result == null) {
+                    makeToast(getString(R.string.item_NotFound_toast));
+                    return false;
+                }
+                mAdapter.setThings(result);
+                mAdapter.notifyDataSetChanged();
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                if(newText.length() == 0) {
+                    updateList(); //reset list
+                }
+                else
+                {
+                    List<Thing> result = mSearchHandler.search(newText.toLowerCase().trim(), repository.getAll());
+                    if(result == null) {
+                        return false;
+                    }
+                    mAdapter.setThings(result);
+                    mAdapter.notifyDataSetChanged();
+                }
+                return true;
+            }
+        });
+
     }
 
     @Override
@@ -121,8 +173,31 @@ public class ListFragment extends Fragment
             case R.id.delete_Button:
                 deleteItem();
                 return true;
+
             case R.id.back_button:
                 goBack();
+                return true;
+
+            case R.id.search_what:
+                item.setChecked(true);
+                mSearchHandler.setCurrentSearchType(SearchHandler.searchType.SEARCH_WHAT);
+                return true;
+
+            case R.id.search_where:
+                item.setChecked(true);
+                mSearchHandler.setCurrentSearchType(SearchHandler.searchType.SEARCH_WHERE);
+                return true;
+
+            case R.id.sortWhat:
+                setSortedList(ISort.type.SORT_WHAT);
+                return true;
+
+            case R.id.sortWhere:
+                setSortedList(ISort.type.SORT_WHERE);
+                return true;
+
+            case R.id.sortDate:
+                setSortedList(ISort.type.SORT_DATE);
                 return true;
 
             default:
@@ -130,6 +205,19 @@ public class ListFragment extends Fragment
         }
 
     }
+
+    /**Sorts list and update view
+     *
+     * @param sortType type of sort
+     */
+    private void setSortedList(ISort.type sortType){
+        if(mAdapter.mThings.size() == 0) return;
+        List<Thing> result = mSearchHandler.sort(mAdapter.mThings, sortType);
+        mAdapter.setThings(result);
+        mAdapter.notifyDataSetChanged();
+    }
+
+
 
     private void makeToast(String string)
     {

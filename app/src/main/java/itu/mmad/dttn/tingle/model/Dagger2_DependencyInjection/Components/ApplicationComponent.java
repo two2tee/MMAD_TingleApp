@@ -10,7 +10,9 @@ import itu.mmad.dttn.tingle.TingleApplication;
 import itu.mmad.dttn.tingle.model.Dagger2_DependencyInjection.Modules.ApplicationModule;
 import itu.mmad.dttn.tingle.model.Dagger2_DependencyInjection.Modules.NetworkModule;
 import itu.mmad.dttn.tingle.model.Dagger2_DependencyInjection.Modules.RepositoryModule;
+import itu.mmad.dttn.tingle.model.Dagger2_DependencyInjection.Modules.SearchModule;
 import itu.mmad.dttn.tingle.model.Networking.NetworkManager;
+import itu.mmad.dttn.tingle.model.Searching.SearchHandler;
 import itu.mmad.dttn.tingle.model.database.ThingsDatabase;
 
 /**
@@ -20,10 +22,12 @@ import itu.mmad.dttn.tingle.model.database.ThingsDatabase;
  * http://google.github.io/dagger/users-guide.html
  */
 @Singleton
-@Component(modules = {ApplicationModule.class, RepositoryModule.class, NetworkModule.class})
+@Component(modules = {ApplicationModule.class, RepositoryModule.class, NetworkModule.class,SearchModule.class})
 public interface ApplicationComponent
 {
-    DataComponent DataComponent(RepositoryModule repositoryModule);
+    DataComponent dataComponent(RepositoryModule repositoryModule);
+
+    SearchComponent searchComponent(SearchModule searchModule);
 
     Context getContext();
 
@@ -44,4 +48,13 @@ public interface ApplicationComponent
 interface DataComponent
 {
     ThingsDatabase getDatabase();
+}
+
+/**
+ * Sub-component that handles search modules
+ */
+@Singleton
+@Subcomponent(modules = {SearchModule.class})
+interface SearchComponent{
+    SearchHandler getSearchHandler();
 }

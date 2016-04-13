@@ -7,4 +7,5 @@
     <color name="colorLine">#595959</color>
     <color name="colorBlack">#000000</color>
     <color name="colorDarkGray">#b8b8b8</color>
+    <color name="colorLightGrey">#e6e6e6</color>
 </resources>
