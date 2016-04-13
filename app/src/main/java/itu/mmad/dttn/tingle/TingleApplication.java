@@ -10,7 +10,9 @@ import itu.mmad.dttn.tingle.model.Dagger2_DependencyInjection.Components.DaggerA
 import itu.mmad.dttn.tingle.model.Dagger2_DependencyInjection.Modules.ApplicationModule;
 import itu.mmad.dttn.tingle.model.Dagger2_DependencyInjection.Modules.NetworkModule;
 import itu.mmad.dttn.tingle.model.Dagger2_DependencyInjection.Modules.RepositoryModule;
+import itu.mmad.dttn.tingle.model.Dagger2_DependencyInjection.Modules.SearchModule;
 import itu.mmad.dttn.tingle.model.Networking.NetworkManager;
+import itu.mmad.dttn.tingle.model.Searching.SearchHandler;
 import itu.mmad.dttn.tingle.model.database.ThingsDatabase;
 
 
@@ -26,6 +28,9 @@ public class TingleApplication extends Application
     @Inject
     static NetworkManager NETWORKMANAGER;
 
+    @Inject
+    static SearchHandler SEARCHHANDLER;
+
     private ApplicationComponent mApplicationComponent;
 
     public static ThingsDatabase getDatabase()
@@ -35,6 +40,10 @@ public class TingleApplication extends Application
 
     public static NetworkManager getNetworkManager() {
         return NETWORKMANAGER;
+    }
+
+    public static SearchHandler getSearchHandler(){
+        return SEARCHHANDLER;
     }
 
     public static TingleApplication getApplication(Context context)
@@ -55,6 +64,7 @@ public class TingleApplication extends Application
                 .applicationModule(new ApplicationModule(this))
                 .repositoryModule(new RepositoryModule())
                 .networkModule(new NetworkModule())
+                .searchModule(new SearchModule())
                 .build();
 
         getComponent(this).inject(this);

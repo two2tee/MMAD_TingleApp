@@ -287,8 +287,9 @@ public class ThingFragment extends Fragment {
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
+        menu.clear();
         inflater.inflate(R.menu.fragment_thing, menu);
+        super.onCreateOptionsMenu(menu, inflater);
     }
 
     private void setButtons(View v) {
@@ -306,7 +307,7 @@ public class ThingFragment extends Fragment {
 
 
         mBarcodeButton = (Button) v.findViewById(R.id.barcode_button);
-        if (mThing.getBarcode() != null || mThing.getBarcode().equals(""))
+        if (mThing.getBarcode() != null)
             mBarcodeButton.setText(mThing.getBarcode());
         else
             mBarcodeButton.setText(R.string.no_barcode);

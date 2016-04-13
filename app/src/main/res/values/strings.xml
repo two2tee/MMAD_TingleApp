@@ -49,4 +49,12 @@
     <string name="where_is_empty">Please specify location</string>
     <string name="no_network">No internet connection found.</string>
     <string name="no_barcode">No barcode scanned.</string>
+    <string name="search">Search</string>
+    <string name="sort_what">Sort what</string>
+    <string name="sort_date">Sort Date</string>
+    <string name="sort_where">Sort where</string>
+    <string name="openDrawer"> &lt; </string>
+    <string name="search_what">search for \'what\'</string>
+    <string name="search_where">Search for \'where\'</string>
 </resources>
+
