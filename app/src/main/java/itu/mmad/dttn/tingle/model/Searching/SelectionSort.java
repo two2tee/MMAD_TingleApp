@@ -20,6 +20,8 @@ public class SelectionSort extends GenericSort implements ISort {
 
     @Override
     public void sort(Thing[] items, type t) {
+        if(items.length == 0) return;
+
         sortType = t;
 
         int N = items.length;
@@ -30,8 +32,8 @@ public class SelectionSort extends GenericSort implements ISort {
                 if (less(items[j], items[min])) {
                     min = j;
                 }
-                exch(items, i, min);
             }
+            exch(items, i, min);
         }
 
     }

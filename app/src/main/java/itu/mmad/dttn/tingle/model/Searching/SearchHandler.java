@@ -58,6 +58,8 @@ public class SearchHandler {
      * @return sorted list
      */
     public List sort(List<Thing> things, ISort.type t) {
+        if(things.size() == 0 ) return things;
+
         Thing[] thingArr = things.toArray(new Thing[things.size()]); //convert list to array
         sortHandler.sort(thingArr, t);
         return Arrays.asList(thingArr);
@@ -158,7 +160,7 @@ public class SearchHandler {
      * @param input - String eg. address
      */
     public List<Thing> search(String input, List<Thing> things) {
-        if (input.length() == 0) return new ArrayList<>(); //No input
+        if (input.length() == 0|| things.size() == 0) return things; //No input
         input = input.toLowerCase().trim();
 
         List<Thing> auxThings = new ArrayList<>();
