@@ -6,8 +6,9 @@ import itu.mmad.dttn.tingle.model.Thing;
 /**
  * Algorithm mergesort used to sort items.
  * Taken from: Algorithms Fourth edition - Robert Sedgewick | Kevin Wayne
- * Created by new on 13-Apr-16.
+ * Selection sort is used instead
  */
+@Deprecated
 public class MergeSort extends GenericSort implements ISort {
 
     /**
