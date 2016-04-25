@@ -8,8 +8,7 @@ import itu.mmad.dttn.tingle.model.database.Entity;
 /**
  * Interface used to create repositories for the app
  */
-public interface IRepository<E extends Entity>
-{
+public interface IRepository<E extends Entity> {
     E get(UUID id);
 
     Iterator<E> getAll();

@@ -14,12 +14,6 @@ import itu.mmad.dttn.tingle.model.Searching.SelectionSort;
 @Module //annotation to provide dependencies
 public class SearchModule {
 
-//    @Provides
-//    @Singleton
-//    static ISort provideMergeSort() {
-//        return new MergeSort();
-//    }
-
     @Provides
     @Singleton
     static ISort provideSelectionSort() {

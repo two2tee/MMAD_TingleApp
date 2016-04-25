@@ -1,7 +1,5 @@
 package itu.mmad.dttn.tingle.model.Searching;
 
-import java.util.List;
-
 import itu.mmad.dttn.tingle.model.Interfaces.ISort;
 import itu.mmad.dttn.tingle.model.Thing;
 
@@ -36,9 +34,16 @@ public abstract class GenericSort {
     }
 
 
-    public boolean isSorted(List<Thing> list) {
-        for (int i = 1; i < list.size(); i++) {
-            if (less(list.get(i), list.get(i - 1))) return false;
+    /**
+     * Mainly used for testing
+     *
+     * @param list
+     * @return boolean if items has been sorted
+     */
+    public boolean isSorted(Thing[] list) {
+        if (list.length == 0) return true;
+        for (int i = 1; i < list.length; i++) {
+            if (less(list[i], list[i - 1])) return false;
         }
         return true;
     }

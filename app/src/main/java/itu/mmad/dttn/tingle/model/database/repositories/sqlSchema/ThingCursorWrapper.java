@@ -12,21 +12,18 @@ import itu.mmad.dttn.tingle.model.Thing;
  * ThingCursorWrapper lets you wrap a Cursor you received from another place and
  * add new methods on top of it.
  */
-public class ThingCursorWrapper extends CursorWrapper
-{
+class ThingCursorWrapper extends CursorWrapper {
 
     /**
      * Creates a cursor wrapper.
      *
      * @param cursor The underlying cursor to wrap.
      */
-    public ThingCursorWrapper(Cursor cursor)
-    {
+    public ThingCursorWrapper(Cursor cursor) {
         super(cursor);
     }
 
-    public Thing getThing()
-    {
+    public Thing getThing() {
         String uuidString = getString(getColumnIndex(ThingTable.Cols.UUID));
         String what = getString(getColumnIndex(ThingTable.Cols.WHAT));
         String where = getString(getColumnIndex(ThingTable.Cols.WHERE));

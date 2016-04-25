@@ -4,7 +4,7 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
-import itu.mmad.dttn.tingle.model.Networking.NetworkManager;
+import itu.mmad.dttn.tingle.model.Networking.NetworkHandler;
 
 /**
  * Module for networking
@@ -14,7 +14,7 @@ public class NetworkModule {
 
     @Provides
     @Singleton
-    static NetworkManager provideNetworkManager() {
-        return new NetworkManager();
+    static NetworkHandler provideNetworkManager() {
+        return new NetworkHandler();
     }
 }

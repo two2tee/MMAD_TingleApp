@@ -22,8 +22,7 @@ import itu.mmad.dttn.tingle.model.Thing;
  */
 
 @Singleton
-public class ThingsDatabase
-{
+public class ThingsDatabase {
 
     //Setup database with injection
     private final IRepository<Thing> repository;
@@ -31,32 +30,27 @@ public class ThingsDatabase
 
     //annotation to request dependencies in constructor,
     @Inject
-    public ThingsDatabase(IRepository repository, Context context)
-    {
+    public ThingsDatabase(IRepository repository, Context context) {
         this.repository = repository;
         this.mContext = context;
     }
 
-    public Thing get(UUID id)
-    {
+    public Thing get(UUID id) {
         return repository.get(id);
     }
 
-    public List<Thing> getAll()
-    {
+    public List<Thing> getAll() {
 
         ArrayList things = new ArrayList();
         Iterator<Thing> items = repository.getAll();
-        while (items.hasNext())
-        {
+        while (items.hasNext()) {
             things.add(items.next());
         }
 
         return things;
     }
 
-    public void put(Thing entity)
-    {
+    public void put(Thing entity) {
         if (entity == null) return;
         repository.put(entity);
     }
@@ -68,8 +62,7 @@ public class ThingsDatabase
      *               <p/>
      *               not implemented yet
      */
-    public boolean update(Thing entity)
-    {
+    public boolean update(Thing entity) {
         return repository.update(entity);
     }
 
@@ -79,8 +72,7 @@ public class ThingsDatabase
      * @param id of thing
      * @throws OperationCanceledException if item can not be found
      */
-    public void delete(UUID id) throws OperationCanceledException
-    {
+    public void delete(UUID id) throws OperationCanceledException {
         boolean isSuccess = repository.delete(id);
         if (!isSuccess) throw new OperationCanceledException("Deletion failed.");
     }
@@ -90,14 +82,12 @@ public class ThingsDatabase
      *
      * @return int
      */
-    public int getTotalSize()
-    {
+    public int getTotalSize() {
 
         int size = 0;
 
         Iterator<Thing> items = repository.getAll();
-        while (items.hasNext())
-        {
+        while (items.hasNext()) {
             size++;
             items.next();
         }
@@ -113,11 +103,9 @@ public class ThingsDatabase
      * @param entity
      * @return a file or null
      */
-    public File getPhotoFile(Thing entity)
-    {
+    public File getPhotoFile(Thing entity) {
         File externalDir = mContext.getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-        if (externalDir == null)
-        {
+        if (externalDir == null) {
             return null;
         }
 

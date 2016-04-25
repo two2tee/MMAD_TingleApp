@@ -38,7 +38,7 @@ import itu.mmad.dttn.tingle.model.database.ThingsDatabase;
 import itu.mmad.dttn.tingle.model.utils.PictureUtils;
 
 /**
- * Represents a detailed view of thing
+ * Represents a detailed view of a thing
  */
 public class ThingFragment extends Fragment {
 
@@ -74,11 +74,18 @@ public class ThingFragment extends Fragment {
         return fragment;
     }
 
+    /**
+     * Sets up the fragment and restore changed settings if user has made some changes but has
+     * rotated the screen.
+     *
+     * @param savedInstanceState
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
         ThingsDatabase database = ((BaseActivity) getActivity()).getDatabase();
+        //Restore changes if exist.
         if (savedInstanceState != null) {
             mThing = (Thing) savedInstanceState.getSerializable(KEY_RETAIN_THING);
             mTempThing = (TempThingToStore) savedInstanceState.getSerializable(KEY_CHANGED_SETTINGS);
@@ -91,6 +98,14 @@ public class ThingFragment extends Fragment {
         mPhotoFile = ((BaseActivity) getActivity()).getDatabase().getPhotoFile(mThing);
     }
 
+    /**
+     * Inflate the fragment
+     *
+     * @param inflater           inflater
+     * @param parent             group
+     * @param savedInstanceState bundle
+     * @return View
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_thing, parent, false);
