@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:tools="http://schemas.android.com/tools"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="@dimen/activity_horizontal_margin"
-               >
+    >
 
     <CheckBox
         android:id="@+id/list_checkbox"
@@ -12,16 +11,15 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         />
+
     <TextView
         android:id="@+id/list_item_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:textColor="@color/colorBlack"
-        android:textSize="15sp"
         android:layout_toLeftOf="@id/list_checkbox"
-        android:text="Test\nTest"/>
-
+        android:textColor="@color/colorBlack"
+        android:textSize="15sp"/>
 
 
 </RelativeLayout>

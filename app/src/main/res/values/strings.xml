@@ -56,5 +56,7 @@
     <string name="openDrawer"> &lt; </string>
     <string name="search_what">search for \'what\'</string>
     <string name="search_where">Search for \'where\'</string>
+    <string name="photo_Hint">Photo of thing</string>
+    <string name="camera_button_hint">Take Picture</string>
 </resources>
 

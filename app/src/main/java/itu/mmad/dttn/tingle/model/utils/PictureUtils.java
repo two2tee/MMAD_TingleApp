@@ -8,8 +8,7 @@ import android.graphics.Point;
 /**
  * This class provide utility methods for handling pictures
  */
-public class PictureUtils
-{
+public class PictureUtils {
     /**
      * This method returns a scaled bitmap image to reduce memory use of the loaded image
      *
@@ -18,8 +17,7 @@ public class PictureUtils
      * @param destHeight height of area of placement
      * @return bitmap image
      */
-    public static Bitmap getScaledBitmap(String path, int destWidth, int destHeight)
-    {
+    public static Bitmap getScaledBitmap(String path, int destWidth, int destHeight) {
         // Read image dimensions from disk
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inJustDecodeBounds = true;
@@ -30,13 +28,10 @@ public class PictureUtils
 
         //Compute scale
         int inSampleSize = 1; //Determines how big each sample should be for each pixel
-        if (srcHeight > destHeight || srcWidth > destWidth)
-        {
-            if (srcWidth > srcHeight)
-            {
+        if (srcHeight > destHeight || srcWidth > destWidth) {
+            if (srcWidth > srcHeight) {
                 inSampleSize = Math.round(srcHeight / destHeight);
-            } else
-            {
+            } else {
                 inSampleSize = Math.round(srcWidth / destWidth);
             }
         }
@@ -60,8 +55,7 @@ public class PictureUtils
      * @param activity activity
      * @return bitmap image
      */
-    public static Bitmap getScaledBitmap(String path, Activity activity)
-    {
+    public static Bitmap getScaledBitmap(String path, Activity activity) {
         Point size = new Point();
         activity.getWindowManager().getDefaultDisplay().getSize(size);
 

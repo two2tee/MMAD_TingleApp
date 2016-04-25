@@ -18,8 +18,8 @@ import itu.mmad.dttn.tingle.model.Thing;
  * SearchHandler Tests
  */
 public class SearchHandlerTests {
-    SearchHandler SUT;
-    ISort mockSort;
+    private SearchHandler SUT;
+    private ISort mockSort;
 
     @Before
     public void setup() {
@@ -53,7 +53,7 @@ public class SearchHandlerTests {
         List<Thing> actual = SUT.search(expected, list);
 
         Assert.assertTrue(actual.size() == 1);
-        Assert.assertTrue(actual.get(0).getWhat().toString().equals(expected));
+        Assert.assertTrue(actual.get(0).getWhat().equals(expected));
     }
 
     @Test
@@ -84,8 +84,8 @@ public class SearchHandlerTests {
         List<Thing> actual = SUT.search(expected, list);
 
         Assert.assertTrue(actual.size() == 2);
-        Assert.assertTrue(actual.get(0).getWhat().toString().equals(expected));
-        Assert.assertTrue(actual.get(1).getWhat().toString().equals(expected));
+        Assert.assertTrue(actual.get(0).getWhat().equals(expected));
+        Assert.assertTrue(actual.get(1).getWhat().equals(expected));
     }
 
     @Test
@@ -103,8 +103,8 @@ public class SearchHandlerTests {
         List<Thing> actual = SUT.search(expected1, list);
 
         Assert.assertTrue(actual.size() == 2);
-        Assert.assertTrue(actual.get(0).getWhat().toString().equals(expected1));
-        Assert.assertTrue(actual.get(1).getWhat().toString().equals(expected2));
+        Assert.assertTrue(actual.get(0).getWhat().equals(expected1));
+        Assert.assertTrue(actual.get(1).getWhat().equals(expected2));
     }
 
 
@@ -121,7 +121,7 @@ public class SearchHandlerTests {
         List<Thing> actual = SUT.search(expected, list);
 
         Assert.assertTrue(actual.size() == 1);
-        Assert.assertTrue(actual.get(0).getWhere().toString().equals(expected));
+        Assert.assertTrue(actual.get(0).getWhere().equals(expected));
     }
 
 
@@ -140,8 +140,8 @@ public class SearchHandlerTests {
         List<Thing> actual = SUT.search(expected, list);
 
         Assert.assertTrue(actual.size() == 2);
-        Assert.assertTrue(actual.get(0).getWhere().toString().equals(expected));
-        Assert.assertTrue(actual.get(1).getWhere().toString().equals(expected));
+        Assert.assertTrue(actual.get(0).getWhere().equals(expected));
+        Assert.assertTrue(actual.get(1).getWhere().equals(expected));
     }
 
     @Test
@@ -160,8 +160,8 @@ public class SearchHandlerTests {
         List<Thing> actual = SUT.search(expected1, list);
 
         Assert.assertTrue(actual.size() == 2);
-        Assert.assertTrue(actual.get(0).getWhere().toString().equals(expected1));
-        Assert.assertTrue(actual.get(1).getWhere().toString().equals(expected2));
+        Assert.assertTrue(actual.get(0).getWhere().equals(expected1));
+        Assert.assertTrue(actual.get(1).getWhere().equals(expected2));
     }
 
 }

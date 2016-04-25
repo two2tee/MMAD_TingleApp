@@ -7,7 +7,6 @@ import javax.inject.Singleton;
 import dagger.Module;
 import dagger.Provides;
 import itu.mmad.dttn.tingle.TingleApplication;
-import itu.mmad.dttn.tingle.model.Dagger2_DependencyInjection.Scopes.ApplicationScope;
 
 /**
  * A module for Android-specific dependencies
@@ -21,10 +20,8 @@ public class ApplicationModule {
     }
 
     /**
-     * Allow the application context to be injected but require that it be annotated with
-     * {@link ApplicationScope @Annotation} to explicitly differentiate it from an activity context.
+     * Allow the application context to be injected
      */
-
     @Provides
     @Singleton
     Context provideApplication() {

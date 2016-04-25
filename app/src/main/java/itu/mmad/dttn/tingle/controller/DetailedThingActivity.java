@@ -13,39 +13,33 @@ import itu.mmad.dttn.tingle.controller.Fragments.ThingFragment;
 /**
  * Activity to display detailed things and list
  */
-public class DetailedThingActivity extends BaseActivity
-{
+public class DetailedThingActivity extends BaseActivity {
 
     public static final String EXTRA_THING_ID = "itu.mmad.dttn.tingle.thing_id";
 
-    public static Intent newIntent(Context packageContext, UUID thingId)
-    {
+    public static Intent newIntent(Context packageContext, UUID thingId) {
         Intent intent = new Intent(packageContext, DetailedThingActivity.class);
         intent.putExtra(EXTRA_THING_ID, thingId);
         return intent;
     }
 
     @Override
-    protected Fragment createPortraitFragment()
-    {
+    protected Fragment createPortraitFragment() {
         return createThingFragment();
     }
 
     @Override
-    protected Fragment createLeftFragment()
-    {
+    protected Fragment createLeftFragment() {
         return createThingFragment();
     }
 
     @Override
-    protected Fragment createRightFragment()
-    {
+    protected Fragment createRightFragment() {
         return new SimpleListFragment_Landscape();
     }
 
 
-    private ThingFragment createThingFragment()
-    {
+    private ThingFragment createThingFragment() {
         UUID thingId = (UUID) getIntent().getSerializableExtra(EXTRA_THING_ID);
 
         //Used to restore savedStates
@@ -68,8 +62,7 @@ public class DetailedThingActivity extends BaseActivity
     /**
      * Updates view when new item is selected
      */
-    public void updateSelectedItemView(UUID id)
-    {
+    public void updateSelectedItemView(UUID id) {
         replaceLeftFragmentLandscape(ThingFragment.newInstance(id));
     }
 

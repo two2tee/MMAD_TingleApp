@@ -15,8 +15,8 @@ import java.util.concurrent.ExecutionException;
 /**
  * This class is responsible for managing network related tasks
  */
-public class NetworkManager {
-    private static final String LOG_TAG = "NetworkManager";
+public class NetworkHandler {
+    private static final String LOG_TAG = "NetworkHandler";
 
     public FetchBarcodeInfoTask getBarcodeTask() {
         return new FetchBarcodeInfoTask();

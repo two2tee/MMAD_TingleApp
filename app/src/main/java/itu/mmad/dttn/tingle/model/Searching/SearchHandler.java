@@ -13,16 +13,16 @@ import itu.mmad.dttn.tingle.model.Thing;
  * This class is responsible for searching for things
  * What must be known is searching method is based on a combination of
  * binary search and linear search.
- *
+ * <p/>
  * One can specify which sorting method are to be used as SearchHandler is taking an interface
  * called ISort. Thus, one can inject another sort method if required. Use Dagger to
  * dependency inject it.
  */
 public class SearchHandler {
 
-    ISort sortHandler;
+    private final ISort sortHandler;
 
-    searchType currentSearchType;
+    private searchType currentSearchType;
 
 
     @Inject
@@ -44,6 +44,7 @@ public class SearchHandler {
     /**
      * Sets the current search type. That is what search is based on.
      * eg What or where etc.
+     *
      * @param currentSearchType search type
      */
     public void setCurrentSearchType(searchType currentSearchType) {
@@ -58,7 +59,7 @@ public class SearchHandler {
      * @return sorted list
      */
     public List sort(List<Thing> things, ISort.type t) {
-        if(things.size() == 0 ) return things;
+        if (things.size() == 0) return things;
 
         Thing[] thingArr = things.toArray(new Thing[things.size()]); //convert list to array
         sortHandler.sort(thingArr, t);
@@ -160,7 +161,7 @@ public class SearchHandler {
      * @param input - String eg. address
      */
     public List<Thing> search(String input, List<Thing> things) {
-        if (input.length() == 0|| things.size() == 0) return things; //No input
+        if (input.length() == 0 || things.size() == 0) return things; //No input
         input = input.toLowerCase().trim();
 
         List<Thing> auxThings = new ArrayList<>();
@@ -194,12 +195,12 @@ public class SearchHandler {
 
 
         //Compare and insert
-        while (toCompare.charAt(0) <= input.charAt(0) && i < auxThings.size()) //Don't compare Strings greater than input
+        while (toCompare != null ? toCompare.charAt(0) <= input.charAt(0) && i < auxThings.size() : false) //Don't compare Strings greater than input
         {
             thing = auxThings.get(i);
             toCompare = getCurrentSearchString(thing);
 
-            if (toCompare.startsWith(input)) {
+            if (toCompare != null ? toCompare.startsWith(input) : false) {
                 //Add to suggestion list
                 result.add(thing);
             }

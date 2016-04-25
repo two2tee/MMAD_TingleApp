@@ -23,7 +23,6 @@ public class RepositoryModule {
 
 //    @Provides
 //    @Singleton
-//    @QInMemoryRepository
 //        //Will automatically make sure that the returned object is a singleton
 //    IRepository provideInMemRepository(Context context) {
 //        return new InMemoryRepository(context);
