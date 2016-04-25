@@ -13,24 +13,20 @@ import itu.mmad.dttn.tingle.controller.Fragments.TingleFragment;
 /**
  * This class represents the launcher activity for tingle
  */
-public class TingleActivity extends BaseActivity implements ListFragment.ListFragmentEventListener, TingleFragment.TingleFragmentEventListener
-{
+public class TingleActivity extends BaseActivity implements ListFragment.ListFragmentEventListener, TingleFragment.TingleFragmentEventListener {
 
     @Override
-    protected Fragment createPortraitFragment()
-    {
+    protected Fragment createPortraitFragment() {
         return new TingleFragment();
     }
 
     @Override
-    protected Fragment createLeftFragment()
-    {
+    protected Fragment createLeftFragment() {
         return new TingleFragment();
     }
 
     @Override
-    protected Fragment createRightFragment()
-    {
+    protected Fragment createRightFragment() {
         return new ListFragment();
     }
 
@@ -38,16 +34,14 @@ public class TingleActivity extends BaseActivity implements ListFragment.ListFra
     /**
      * Returns to tingle main page.
      */
-    public void goBack()
-    {
+    public void goBack() {
         replacePortraitFragment(new TingleFragment());
     }
 
     /**
      * Goes to list page
      */
-    public void onShowAllPressed()
-    {
+    public void onShowAllPressed() {
         replacePortraitFragment(new ListFragment());
     }
 
@@ -55,32 +49,25 @@ public class TingleActivity extends BaseActivity implements ListFragment.ListFra
      * When add is pressed update list
      */
     @Override
-    public void onItemAdded()
-    {
+    public void onItemAdded() {
         //To update list when landscape mode
-        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE)
-        {
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
             setFragment();
         }
 
     }
 
     @Override
-    public void onBackPressed()
-    {
-        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT)
-        {
+    public void onBackPressed() {
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
 
             //Check if there is no item left in back stack (used to exit app if back stack is empty)
             int backStackEntryCount = getSupportFragmentManager().getBackStackEntryCount();
-            if (backStackEntryCount == 0)
-            {
+            if (backStackEntryCount == 0) {
                 //Exit dialog
-                new AlertDialog.Builder(this).setIcon(android.R.drawable.ic_dialog_alert).setTitle(R.string.warning).setMessage(R.string.exit_question).setPositiveButton(R.string.yes, new DialogInterface.OnClickListener()
-                {
+                new AlertDialog.Builder(this).setIcon(android.R.drawable.ic_dialog_alert).setTitle(R.string.warning).setMessage(R.string.exit_question).setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                     @Override
-                    public void onClick(DialogInterface dialog, int which)
-                    {
+                    public void onClick(DialogInterface dialog, int which) {
                         finish();
                     }
 

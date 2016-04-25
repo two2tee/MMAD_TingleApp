@@ -40,7 +40,7 @@ public class ThingsDatabaseTests {
 
         Mockito.when(mockRepository.getAll()).thenReturn(toReturn.iterator());
 
-        SUT = new ThingsDatabase(mockRepository,mockContext);
+        SUT = new ThingsDatabase(mockRepository, mockContext);
 
         List items = SUT.getAll();
         boolean isEmpty = items.isEmpty();
@@ -59,7 +59,7 @@ public class ThingsDatabaseTests {
 
         Mockito.when(mockRepository.get(dummyId)).thenReturn(toReturn);
 
-        SUT = new ThingsDatabase(mockRepository,mockContext);
+        SUT = new ThingsDatabase(mockRepository, mockContext);
         Thing actual = SUT.get(dummyId);
 
         Assert.assertTrue("Returned null, but should return a thing", actual != null);
@@ -73,7 +73,7 @@ public class ThingsDatabaseTests {
 
         Mockito.when(mockRepository.getAll()).thenReturn(toReturn.iterator());
 
-        SUT = new ThingsDatabase(mockRepository,mockContext);
+        SUT = new ThingsDatabase(mockRepository, mockContext);
 
         int expected = 2;
         int actual = SUT.getTotalSize();
@@ -87,7 +87,7 @@ public class ThingsDatabaseTests {
 
         Mockito.when(mockRepository.getAll()).thenReturn(toReturn.iterator());
 
-        SUT = new ThingsDatabase(mockRepository,mockContext);
+        SUT = new ThingsDatabase(mockRepository, mockContext);
 
         int expected = 0;
         int actual = SUT.getTotalSize();
@@ -101,7 +101,7 @@ public class ThingsDatabaseTests {
         Mockito.when(mockRepository.delete(dummyId)).thenReturn(true);
         boolean exceptionThrown = false;
 
-        SUT = new ThingsDatabase(mockRepository,mockContext);
+        SUT = new ThingsDatabase(mockRepository, mockContext);
 
 
         try {
@@ -120,7 +120,7 @@ public class ThingsDatabaseTests {
         Mockito.when(mockRepository.delete(dummyId)).thenReturn(false);
         boolean exceptionThrown = false;
 
-        SUT = new ThingsDatabase(mockRepository,mockContext);
+        SUT = new ThingsDatabase(mockRepository, mockContext);
 
 
         try {
@@ -138,7 +138,7 @@ public class ThingsDatabaseTests {
         Thing toUpdateDummy = new Thing("", "", UUID.randomUUID());
         Mockito.when(mockRepository.update(toUpdateDummy)).thenReturn(true);
 
-        SUT = new ThingsDatabase(mockRepository,mockContext);
+        SUT = new ThingsDatabase(mockRepository, mockContext);
         boolean expected = SUT.update(toUpdateDummy);
 
         Assert.assertTrue(expected);
@@ -149,7 +149,7 @@ public class ThingsDatabaseTests {
         Thing toUpdateDummy = new Thing("", "", UUID.randomUUID());
         Mockito.when(mockRepository.update(toUpdateDummy)).thenReturn(false);
 
-        SUT = new ThingsDatabase(mockRepository,mockContext);
+        SUT = new ThingsDatabase(mockRepository, mockContext);
         boolean expected = SUT.update(toUpdateDummy);
 
         Assert.assertFalse(expected);

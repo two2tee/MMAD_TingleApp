@@ -36,12 +36,13 @@ public abstract class GenericSort {
 
     /**
      * Mainly used for testing
+     *
      * @param list
      * @return boolean if items has been sorted
      */
     public boolean isSorted(Thing[] list) {
-        if(list.length == 0) return true;
-        for (int i = 1; i < list.length ; i++) {
+        if (list.length == 0) return true;
+        for (int i = 1; i < list.length; i++) {
             if (less(list[i], list[i - 1])) return false;
         }
         return true;

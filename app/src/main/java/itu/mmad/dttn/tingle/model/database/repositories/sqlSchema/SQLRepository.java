@@ -18,20 +18,17 @@ import itu.mmad.dttn.tingle.model.database.Entity;
 /**
  * This class represents a SQL repository
  */
-public class SQLRepository implements IRepository
-{
+public class SQLRepository implements IRepository {
     private final SQLiteDatabase mDatabase;
     private Context mContext;
 
-    public SQLRepository(Context context)
-    {
+    public SQLRepository(Context context) {
         mContext = context.getApplicationContext();
         mDatabase = new ThingBaseHelper(mContext).getWritableDatabase();
 
     }
 
-    private static ContentValues getContentValues(Entity thing)
-    {
+    private static ContentValues getContentValues(Entity thing) {
         Thing toStore = (Thing) thing;
         ContentValues values = new ContentValues();
 
@@ -46,37 +43,30 @@ public class SQLRepository implements IRepository
     }
 
     @Override
-    public Entity get(UUID id)
-    {
+    public Entity get(UUID id) {
         ThingCursorWrapper cursor = queryThings(ThingTable.Cols.UUID + "= ?", new String[]{id.toString()});
 
-        try
-        {
+        try {
             if (cursor.getColumnCount() == 0) return null;
             cursor.moveToFirst();
             return cursor.getThing();
-        } finally
-        {
+        } finally {
             cursor.close(); // closing cursor to release all resources
         }
     }
 
     @Override
-    public Iterator getAll()
-    {
+    public Iterator getAll() {
         List<Entity> items = new ArrayList<>();
         ThingCursorWrapper cursor = queryThings(null, null);
 
-        try
-        {
+        try {
             cursor.moveToFirst();
-            while (!cursor.isAfterLast())
-            {
+            while (!cursor.isAfterLast()) {
                 items.add(cursor.getThing());
                 cursor.moveToNext();
             }
-        } finally
-        {
+        } finally {
             cursor.close();
         }
 
@@ -84,8 +74,7 @@ public class SQLRepository implements IRepository
     }
 
     @Override
-    public boolean put(Entity entity)
-    {
+    public boolean put(Entity entity) {
         ContentValues values = getContentValues(entity);
         if (values == null) return false;
         mDatabase.insert(ThingTable.NAME, null, values);
@@ -93,8 +82,7 @@ public class SQLRepository implements IRepository
     }
 
     @Override
-    public boolean update(Entity toStore)
-    {
+    public boolean update(Entity toStore) {
         ContentValues values = getContentValues(toStore);
         String UUID = toStore.getId().toString();
 
@@ -105,13 +93,11 @@ public class SQLRepository implements IRepository
     }
 
     @Override
-    public boolean delete(UUID id)
-    {
+    public boolean delete(UUID id) {
         return mDatabase.delete(ThingTable.NAME, ThingTable.Cols.UUID + "=?", new String[]{id.toString()}) > 0;
     }
 
-    private ThingCursorWrapper queryThings(String whereClause, String[] whereArgs)
-    {
+    private ThingCursorWrapper queryThings(String whereClause, String[] whereArgs) {
         @SuppressLint("Already closed later") Cursor cursor = mDatabase.query(ThingTable.NAME, null, //null selects all columns
                 whereClause, whereArgs, null, // groupBy
                 null, // having

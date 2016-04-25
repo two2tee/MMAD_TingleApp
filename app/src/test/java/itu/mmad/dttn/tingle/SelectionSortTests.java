@@ -7,6 +7,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import java.util.Arrays;
 import java.util.Random;
 import java.util.UUID;
 
@@ -60,7 +61,7 @@ public class SelectionSortTests {
         for (Thing s : toSortList) {
             System.out.println(s.getWhere());
         }
-        Assert.assertTrue(toSortList.toString(), SUT.isSorted(toSortList));
+        Assert.assertTrue(Arrays.toString(toSortList), SUT.isSorted(toSortList));
 
     }
 
@@ -70,7 +71,7 @@ public class SelectionSortTests {
         for (Thing s : toSortList) {
             System.out.println(s.getWhere());
         }
-        Assert.assertTrue(toSortList.toString(), SUT.isSorted(toSortList));
+        Assert.assertTrue(Arrays.toString(toSortList), SUT.isSorted(toSortList));
 
     }
 
@@ -80,7 +81,7 @@ public class SelectionSortTests {
         for (Thing s : toSortList) {
             System.out.println(s.getDate());
         }
-        Assert.assertTrue(toSortList.toString(), SUT.isSorted(toSortList));
+        Assert.assertTrue(Arrays.toString(toSortList), SUT.isSorted(toSortList));
     }
 
     @Test

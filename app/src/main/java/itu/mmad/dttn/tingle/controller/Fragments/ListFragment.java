@@ -39,7 +39,7 @@ import itu.mmad.dttn.tingle.model.database.ThingsDatabase;
  */
 public class ListFragment extends Fragment {
 
-    ListFragmentEventListener mCallBack;
+    private ListFragmentEventListener mCallBack;
     //Search sort handler
     private SearchHandler mSearchHandler;
 
@@ -52,6 +52,11 @@ public class ListFragment extends Fragment {
     private List<Thing> selectedItems;
 
 
+    /**
+     * Retrieve search handler and enable menu
+     *
+     * @param savedInstanceState
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,6 +65,14 @@ public class ListFragment extends Fragment {
 
     }
 
+    /**
+     * inflates all widgets and retrieves database
+     *
+     * @param inflater           inflater
+     * @param container          viewgroup
+     * @param savedInstanceState bundle
+     * @return View
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_list, container, false);
@@ -72,6 +85,9 @@ public class ListFragment extends Fragment {
         return view;
     }
 
+    /**
+     * Updates list when app is resumed
+     */
     @Override
     public void onResume() {
         super.onResume();
@@ -91,6 +107,11 @@ public class ListFragment extends Fragment {
         }
     }
 
+    /**
+     * Check if event listeners has been implemented and retrieve database
+     *
+     * @param context context
+     */
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -106,6 +127,12 @@ public class ListFragment extends Fragment {
         }
     }
 
+    /**
+     * Sets the menu
+     *
+     * @param menu
+     * @param inflater
+     */
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         menu.clear();
@@ -152,6 +179,12 @@ public class ListFragment extends Fragment {
 
     }
 
+    /**
+     * Perform action based on item selected in menu
+     *
+     * @param item selected item
+     * @return boolean
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -247,6 +280,9 @@ public class ListFragment extends Fragment {
         itemList.setLayoutManager(new LinearLayoutManager(getActivity()));
     }
 
+    /**
+     * Event listeners for listFragment
+     */
     public interface ListFragmentEventListener {
         void goBack();
     }
@@ -254,6 +290,9 @@ public class ListFragment extends Fragment {
 
     //ViewHolder for list
 
+    /**
+     * ViewHolder that is responsible for setting up elements in recycleView
+     */
     private class ThingHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private final TextView mThingLabel;
         private final CheckBox mSelectedCheckBox;
@@ -299,6 +338,10 @@ public class ListFragment extends Fragment {
     }
 
     //Adapter for list
+
+    /**
+     * ViewAdapter that sets up the recycleView and thing holder based on a list of things
+     */
     private class ThingAdapter extends RecyclerView.Adapter<ThingHolder> {
         private List<Thing> mThings;
 

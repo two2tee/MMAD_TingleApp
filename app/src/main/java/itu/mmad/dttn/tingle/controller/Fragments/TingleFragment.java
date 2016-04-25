@@ -27,7 +27,7 @@ import java.util.concurrent.ExecutionException;
 
 import itu.mmad.dttn.tingle.R;
 import itu.mmad.dttn.tingle.controller.BaseActivity;
-import itu.mmad.dttn.tingle.model.Networking.NetworkManager;
+import itu.mmad.dttn.tingle.model.Networking.NetworkHandler;
 import itu.mmad.dttn.tingle.model.Thing;
 import itu.mmad.dttn.tingle.model.database.ThingsDatabase;
 
@@ -75,7 +75,6 @@ public class TingleFragment extends Fragment {
     }
 
 
-
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -112,11 +111,9 @@ public class TingleFragment extends Fragment {
     }
 
 
-
-
     private void handleScanResult(Intent data) {
         String barcode = data.getStringExtra("SCAN_RESULT");
-        NetworkManager manager = ((BaseActivity) getActivity()).getNetworkManager();
+        NetworkHandler manager = ((BaseActivity) getActivity()).getNetworkHandler();
         try {
 
             Map<String, String> result = manager.getBarcodeTask().execute(barcode).get(); //returns map of data fetched from the internet
@@ -128,14 +125,12 @@ public class TingleFragment extends Fragment {
             }
 
             //Creating a thing
-            Thing toAdd = makeThing(result.get("name").toString(), whereField.getText().toString());
+            Thing toAdd = makeThing(result.get("name"), whereField.getText().toString());
             toAdd.setBarcode(result.get("barcode"));
 
             repository.put(toAdd);
 
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
+        } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
         }
 
@@ -170,7 +165,7 @@ public class TingleFragment extends Fragment {
                     makeToast(getString(R.string.where_is_empty));
                     return;
                 } else if (((BaseActivity) getActivity())
-                        .getNetworkManager().hasActiveInternetConnection(getActivity()) == false) {
+                        .getNetworkHandler().hasActiveInternetConnection(getActivity()) == false) {
                     makeToast(getString(R.string.no_network));
                     return;
                 }

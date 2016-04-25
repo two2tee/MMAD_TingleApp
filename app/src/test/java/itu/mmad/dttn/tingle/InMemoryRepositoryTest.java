@@ -18,7 +18,7 @@ import itu.mmad.dttn.tingle.model.database.repositories.inMemory.InMemoryReposit
  */
 public class InMemoryRepositoryTest {
 
-    InMemoryRepository SUT;
+    private InMemoryRepository SUT;
 
     @Before
     public void setup() {

@@ -19,7 +19,7 @@ import javax.net.ssl.HttpsURLConnection;
  * This class is responsible for fecthing data from outpan given a
  * barcode
  */
-public class OutpanFetcher {
+class OutpanFetcher {
 
 
     /**
@@ -41,7 +41,7 @@ public class OutpanFetcher {
             if (connection.getResponseCode() != HttpURLConnection.HTTP_OK) {
                 throw new IOException(connection.getResponseMessage() + ": with" + urlSpec);
             }
-            int bytesRead = 0;
+            int bytesRead;
             byte[] buffer = new byte[1024];
             while ((bytesRead = in.read(buffer)) > 0) {
                 out.write(buffer, 0, bytesRead);
@@ -57,7 +57,6 @@ public class OutpanFetcher {
     private String getUrlString(String urlSpec) throws IOException {
         return new String(getUrlBytes(urlSpec));
     }
-
 
     /**
      * Returns a map containing fetched data

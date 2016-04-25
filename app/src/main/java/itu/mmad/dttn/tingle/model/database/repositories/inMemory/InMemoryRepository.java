@@ -15,14 +15,12 @@ import itu.mmad.dttn.tingle.model.database.Entity;
  * This class represents a singleton of a repository.
  * This repository will only store the items in memory and not as persistent data
  */
-public class InMemoryRepository implements IRepository, Serializable
-{
+public class InMemoryRepository implements IRepository, Serializable {
 
     private final List<Entity> thingsDB;
 
     //Singleton pattern has been replaced by dagger2 singleton
-    public InMemoryRepository(Context context)
-    {
+    public InMemoryRepository(Context context) {
         thingsDB = new ArrayList<>();
     }
 
@@ -33,12 +31,9 @@ public class InMemoryRepository implements IRepository, Serializable
      * @return Thing
      */
     @Override
-    public Entity get(UUID id)
-    {
-        for (Entity entity : thingsDB)
-        {
-            if (entity.getId() == id)
-            {
+    public Entity get(UUID id) {
+        for (Entity entity : thingsDB) {
+            if (entity.getId() == id) {
                 return entity;
             }
 
@@ -52,8 +47,7 @@ public class InMemoryRepository implements IRepository, Serializable
      * @return Iterator
      */
     @Override
-    public Iterator<Entity> getAll()
-    {
+    public Iterator<Entity> getAll() {
         return thingsDB.iterator();
     }
 
@@ -63,8 +57,7 @@ public class InMemoryRepository implements IRepository, Serializable
      * @param entity any class that extends entity
      */
     @Override
-    public boolean put(Entity entity)
-    {
+    public boolean put(Entity entity) {
         if (entity == null) return false;
         thingsDB.add(entity);
         return true;
@@ -74,8 +67,7 @@ public class InMemoryRepository implements IRepository, Serializable
      * Used to modify existing items
      */
     @Override
-    public boolean update(Entity toStore)
-    {
+    public boolean update(Entity toStore) {
         Entity thing = get(toStore.getId());
         if (thing == null) return false;
         delete(thing.getId());
@@ -90,8 +82,7 @@ public class InMemoryRepository implements IRepository, Serializable
      * @param id int
      */
     @Override
-    public boolean delete(UUID id)
-    {
+    public boolean delete(UUID id) {
 
         Entity toRemove = searchById(id);
         if (toRemove == null) return false;
@@ -100,12 +91,9 @@ public class InMemoryRepository implements IRepository, Serializable
         return true;
     }
 
-    private Entity searchById(UUID id)
-    {
-        for (Entity t : thingsDB)
-        {
-            if (t.getId() == id)
-            {
+    private Entity searchById(UUID id) {
+        for (Entity t : thingsDB) {
+            if (t.getId() == id) {
                 return t;
             }
         }

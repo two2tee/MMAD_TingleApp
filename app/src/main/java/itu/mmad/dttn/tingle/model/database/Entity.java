@@ -10,13 +10,11 @@ import java.util.UUID;
 /**
  * Abstract entity class that represents some given item in a database.
  */
-public abstract class Entity implements Serializable
-{
+public abstract class Entity implements Serializable {
 
     private final UUID id;
 
-    public Entity(UUID id)
-    {
+    protected Entity(UUID id) {
         this.id = id;
     }
 
@@ -25,8 +23,7 @@ public abstract class Entity implements Serializable
      *
      * @return it of a thing
      */
-    public UUID getId()
-    {
+    public UUID getId() {
         return id;
     }
 
@@ -38,8 +35,7 @@ public abstract class Entity implements Serializable
      */
     @TargetApi(Build.VERSION_CODES.KITKAT) //requires API 19 or higher
     @Override
-    public boolean equals(Object o)
-    {
+    public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Entity entity = (Entity) o;
@@ -53,8 +49,7 @@ public abstract class Entity implements Serializable
      */
     @TargetApi(Build.VERSION_CODES.KITKAT)
     @Override
-    public int hashCode()
-    {
+    public int hashCode() {
         return Objects.hashCode(id);
     }
 
